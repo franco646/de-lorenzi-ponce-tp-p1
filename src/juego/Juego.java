@@ -13,7 +13,7 @@ public class Juego extends InterfaceJuego
 	
 	// Variables y métodos propios de cada grupo
 	// ...
-	// asdasd
+	// asdasdasdas
 	Juego()
 	{
 		// Inicializa el objeto entorno
