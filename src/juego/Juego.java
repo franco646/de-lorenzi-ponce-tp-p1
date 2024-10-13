@@ -2,8 +2,10 @@ package juego;
 
 
 import java.awt.Color;
+import java.awt.Image;
 
 import entorno.Entorno;
+import entorno.Herramientas;
 import entorno.InterfaceJuego;
 
 public class Juego extends InterfaceJuego
@@ -12,26 +14,41 @@ public class Juego extends InterfaceJuego
 	private Entorno entorno;
 	private Personaje personaje;
 	private Isla[] islas;
+	private Image fondo;
+	private int anchoPantalla;
+	private int altoPantalla;
 	
 	// Variables y métodos propios de cada grupo
 	// ...
 	Juego()
 	{
-		
+ 	
+    	this.anchoPantalla = 1366;
+    	this.altoPantalla = 768;
+    	
 		int qFilas = 5;
 		int qIslas = 0;
 		for (int i = 1; i <= qFilas; i++) {
 			qIslas = qIslas + i;
 		}
 		
-		this.entorno = new Entorno(this, "Proyecto para TP", 1366, 768);
+		this.entorno = new Entorno(this, "Proyecto para TP", this.anchoPantalla, this.altoPantalla);
 		this.personaje = new Personaje(100, 100);
 		this.islas = new Isla[qIslas];
+		this.fondo = Herramientas.cargarImagen("imagenes/fondo/download (1).jpeg");
+		
 		
 		int index = 0;
 		for (int i = 1; i <= qFilas; i++) {
-            for (int j = 1; j <= i; j++) {
-            	this.islas[index] = new Isla((1366 / (i + 1)) * j, (768 / 5) * i - 50);
+            for (int j = 1; j <= i; j++) {            	
+            	
+            	int tamanioSeccionHorizontal = this.anchoPantalla / i;
+            	int medioSeccionHorizontal = (tamanioSeccionHorizontal * j) - (tamanioSeccionHorizontal / 2);
+            	
+            	int tamanioSeccionVertical = this.altoPantalla / qFilas;
+            	int medioSeccionVertical = (tamanioSeccionVertical * i) - (tamanioSeccionVertical / 2); 
+            	
+            	this.islas[index] = new Isla(medioSeccionHorizontal, medioSeccionVertical);
             	index = index + 1;
             }
         }
@@ -51,6 +68,7 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick()
 	{
+		this.entorno.dibujarImagen(this.fondo, this.anchoPantalla / 2, this.altoPantalla / 2, 0, 1);
 		boolean enIsla = false;
 		
 		for(Isla isla : this.islas) {
