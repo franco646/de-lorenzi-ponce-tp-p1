@@ -16,6 +16,8 @@ public class Personaje {
 	int frame;
 	long tiempoAnterior;
 	
+	Boolean derecha = true; ///comprobar si esta a la derecha == true
+	
 	public Personaje(double x, double y) {
 		this.x = x;
 		this.y = y;
@@ -55,11 +57,17 @@ public class Personaje {
 	}
 	
 	public void caer() {
-		this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/caer.png");
+		if(this.derecha) {
+			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/caer.png");
+		}
+		else {
+			
+		}
 		this.y = this.y + 3;
 	}
 	
 	public void moverDer(){
+		this.derecha = true;
 		if (this.x < 1366 - (this.width * this.escala) / 2) {
 			long tiempoActual = System.currentTimeMillis();
 			if (tiempoActual - this.tiempoAnterior > 150) {
@@ -74,6 +82,7 @@ public class Personaje {
 	}
 	
 	public void moverIzq(){
+		this.derecha = false;
 		if (this.x > 0 + (this.width * this.escala) / 2) {
 			long tiempoActual = System.currentTimeMillis();
 			if (tiempoActual - this.tiempoAnterior > 150) {

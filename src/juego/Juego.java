@@ -33,7 +33,7 @@ public class Juego extends InterfaceJuego
 		}
 		
 		this.entorno = new Entorno(this, "Proyecto para TP", this.anchoPantalla, this.altoPantalla);
-		this.personaje = new Personaje(100, 100);
+		this.personaje = new Personaje(660, 0);
 		this.islas = new Isla[qIslas];
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo/download (1).jpeg");
 		
