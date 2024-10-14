@@ -7,7 +7,7 @@ import java.awt.Image;
 import entorno.Entorno;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
-
+//hola
 public class Juego extends InterfaceJuego
 {
 	// El objeto Entorno que controla el tiempo y otros
