@@ -61,7 +61,7 @@ public class Personaje {
 			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/caer.png");
 		}
 		else {
-			
+			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/caer_izq.png");
 		}
 		this.y = this.y + 3;
 	}
