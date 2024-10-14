@@ -39,14 +39,14 @@ public class Juego extends InterfaceJuego
 		
 		
 		int index = 0;
-		for (int i = 1; i <= qFilas; i++) {
-            for (int j = 1; j <= i; j++) {            	
+		for (int fila = 1; fila <= qFilas; fila++) {
+            for (int isla = 1; isla <= fila; isla++) {            	
             	
-            	int tamanioSeccionHorizontal = this.anchoPantalla / i;
-            	int medioSeccionHorizontal = (tamanioSeccionHorizontal * j) - (tamanioSeccionHorizontal / 2);
+            	int tamanioSeccionHorizontal = this.anchoPantalla / fila;
+            	int medioSeccionHorizontal = (tamanioSeccionHorizontal * isla) - (tamanioSeccionHorizontal / 2);
             	
             	int tamanioSeccionVertical = this.altoPantalla / qFilas;
-            	int medioSeccionVertical = (tamanioSeccionVertical * i) - (tamanioSeccionVertical / 2); 
+            	int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2); 
             	
             	this.islas[index] = new Isla(medioSeccionHorizontal, medioSeccionVertical);
             	index = index + 1;
