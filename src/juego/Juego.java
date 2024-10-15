@@ -7,12 +7,13 @@ import java.awt.Image;
 import entorno.Entorno;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
-//hola
+
 public class Juego extends InterfaceJuego
 {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private Personaje personaje;
+	private Enemigo enemigo;
 	private Isla[] islas;
 	private Image fondo;
 	private int anchoPantalla;
@@ -34,6 +35,7 @@ public class Juego extends InterfaceJuego
 		
 		this.entorno = new Entorno(this, "Proyecto para TP", this.anchoPantalla, this.altoPantalla);
 		this.personaje = new Personaje(660, 0);
+		this.enemigo = new Enemigo(660,200);
 		this.islas = new Isla[qIslas];
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo/download (1).jpeg");
 		
@@ -68,8 +70,13 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick()
 	{
+		
 		this.entorno.dibujarImagen(this.fondo, this.anchoPantalla / 2, this.altoPantalla / 2, 0, 1);
 		boolean enIsla = false;
+		
+		enemigo.enisla = false;//enemigo en isla PROVICIONAL
+		
+		
 		
 		for(Isla isla : this.islas) {
 			isla.dibujar(entorno);
@@ -82,13 +89,30 @@ public class Juego extends InterfaceJuego
 				{
 					enIsla = true;
 				}
+			if (
+				    (this.enemigo.x > isla.x - isla.width / 2
+				    && this.enemigo.x < isla.x + isla.width / 2
+				    && Math.abs(this.enemigo.y - (isla.y - isla.height / 2)) <= 5)
+				) 
+				{
+					enemigo.enisla = true;
+				}
+			
 		}
 		
 		if (!enIsla) {
 			this.personaje.caer();
 		}
 		
+		if(!enemigo.enisla) {///PROVICIONAL
+			enemigo.caer();
+		}
+		
 		this.personaje.dibujar(this.entorno);
+		
+		this.enemigo.dibujar(this.entorno);
+		///PROVICIONAL ENEMIGO DIBUJAR , MOVER
+		this.enemigo.mover();
 		
 		if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)) {
 			this.personaje.moverDer();

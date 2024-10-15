@@ -16,6 +16,7 @@ public class Personaje {
 	int frame;
 	long tiempoAnterior;
 	
+	public static int LAYER = 1; ///Capa de COLISION
 	Boolean derecha = true; ///comprobar si esta a la derecha == true
 	
 	public Personaje(double x, double y) {
@@ -64,6 +65,11 @@ public class Personaje {
 			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/caer_izq.png");
 		}
 		this.y = this.y + 3;
+		
+		if(this.y == 768) {
+			this.x =660;
+			this.y = 0;
+		}
 	}
 	
 	public void moverDer(){
@@ -97,6 +103,17 @@ public class Personaje {
 	}
 	
 	public void quieto() {
+		this.frame = 0;
 		this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/quieto.png");
 	}
+	
+	public void colisione(int capa) {
+		
+		if(capa == 2) {//capa 2 enemigo
+			System.out.println("COLISIONASTE CON UN ENEMIGO :(");///Nose si hacemos asi las 
+																///colisiones pero podria ser
+		}
+		
+	}
+	
 }
