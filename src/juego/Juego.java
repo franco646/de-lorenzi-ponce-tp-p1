@@ -138,7 +138,9 @@ public class Juego extends InterfaceJuego
 		} else if(this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)) {
 			this.personaje.moverIzq();
 		} else {
-			this.personaje.quieto();
+			if (!this.personaje.isJumping) {
+				this.personaje.quieto();
+			}	
 		}
 		
 		

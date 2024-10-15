@@ -86,7 +86,7 @@ public class Personaje {
 		this.derecha = true;
 		if (this.x < 1366 - (this.width * this.escala) / 2) {
 			long tiempoActual = System.currentTimeMillis();
-			if (tiempoActual - this.tiempoAnterior > 150) {
+			if (tiempoActual - this.tiempoAnterior > 150 && !this.isJumping) {
 				this.tiempoAnterior = tiempoActual;
 				this.imagen = this.imagenesDer[frame];
 				this.frame = (frame + 1) % this.imagenesDer.length;
@@ -101,7 +101,7 @@ public class Personaje {
 		this.derecha = false;
 		if (this.x > 0 + (this.width * this.escala) / 2) {
 			long tiempoActual = System.currentTimeMillis();
-			if (tiempoActual - this.tiempoAnterior > 150) {
+			if (tiempoActual - this.tiempoAnterior > 150 && !this.isJumping) {
 				this.tiempoAnterior = tiempoActual;
 				this.imagen = this.imagenesIzq[frame];
 				this.frame = (frame + 1) % this.imagenesIzq.length;
@@ -120,6 +120,11 @@ public class Personaje {
 	
 	public void salto() {
 		if (this.currentjump < this.limitjump) {
+			if (this.derecha) {
+				this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/saltar.png");
+			} else {
+				this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/saltar.png");
+			}
 				this.isJumping = true;
 				this.y -=3;//si currentjump llega al limite deja de saltar, es basicamente un limite
 		}
