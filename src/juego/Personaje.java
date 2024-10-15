@@ -12,10 +12,18 @@ public class Personaje {
 	double escala;
 	double width;
 	double height;
-	Image[] imagenesDer;
-	Image[] imagenesIzq;
+	
 	int frame;
 	long tiempoAnterior;
+	
+	Image[] imagenesDer;
+	Image[] imagenesIzq;
+	Image imagenQuietoDer;
+	Image imagenQuietoIzq;
+	Image imagenCaerDer;
+	Image imagenCaerIzq;
+	Image imagenSaltarDer;
+	Image imagenSaltarIzq;
 	
 	
 	
@@ -39,6 +47,9 @@ public class Personaje {
 		this.height = imagen.getHeight(null);
 		this.frame = 0;
 		
+		
+		// Carga las imagenes de los distintos movimientos del personaje
+		
 		this.imagenesDer = new Image[]{
 	            entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/correr-2.png"),
 	            entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/correr-3.png"),
@@ -61,6 +72,13 @@ public class Personaje {
 	            entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/correr-8.png"),
 	        };
 		
+		this.imagenQuietoDer = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/quieto.png");
+		this.imagenQuietoIzq = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/quieto.png");
+		this.imagenCaerDer = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/caer.png");
+		this.imagenCaerIzq = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/caer_izq.png");
+		this.imagenSaltarDer = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/saltar.png");
+		this.imagenSaltarIzq = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/saltar.png");
+		
 		this.tiempoAnterior = System.currentTimeMillis();
 	}
 		
@@ -70,10 +88,11 @@ public class Personaje {
 	
 	public void caer() {
 		if (this.derecha) {
-			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/caer.png");
+			this.imagen = this.imagenCaerDer;
 		} else {
-			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/caer_izq.png");
+			this.imagen = this.imagenCaerIzq;
 		}
+		
 		this.y = this.y + 3 * this.grav_mult;
 
 		this.grav_mult += 0.01;
@@ -116,17 +135,17 @@ public class Personaje {
 	
 	public void quieto() {	
 		if (this.derecha) {
-			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/quieto.png");
+			this.imagen = this.imagenQuietoDer;
 		} else {
-			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/quieto.png");
+			this.imagen = this.imagenQuietoIzq;
 		}
 	}
 	
 	public void comenzarSalto() {
 		if (this.derecha) {
-			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/saltar.png");
+			this.imagen = this.imagenSaltarDer;
 		} else {
-			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/saltar.png");
+			this.imagen = this.imagenSaltarIzq;
 		}
 		this.isJumping = true;
 		this.alturaAlComenzarSalto = this.y;
