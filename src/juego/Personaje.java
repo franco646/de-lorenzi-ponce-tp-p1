@@ -16,6 +16,8 @@ public class Personaje {
 	Image[] imagenesIzq;
 	int frame;
 	long tiempoAnterior;
+	double alturaInicialSalto;
+	
 	
 	public static int LAYER = 1; ///Capa de COLISION
 	Boolean derecha = true; ///comprobar si esta a la derecha == true
@@ -25,6 +27,7 @@ public class Personaje {
 	public boolean isJumping = false;
 	public int limitjump =60;
 	public int currentjump = 0;
+	
 	
 	
 	public Personaje(double x, double y) {
@@ -60,13 +63,12 @@ public class Personaje {
 		
 		this.tiempoAnterior = System.currentTimeMillis();
 	}
-	
+		
 	public void dibujar(Entorno e) {
 		e.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
 	}
 	
 	public void caer() {
-
 		if (this.derecha) {
 			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/caer.png");
 		} else {
@@ -112,24 +114,29 @@ public class Personaje {
 		}
 	}
 	
-	public void quieto() {
-		
-		this.frame = 0;
-		this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/quieto.png");
+	public void quieto() {	
+		if (this.derecha) {
+			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/quieto.png");
+		} else {
+			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/quieto.png");
+		}
 	}
 	
-	public void salto() {
-		if (this.currentjump < this.limitjump) {
-			if (this.derecha) {
-				this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/saltar.png");
-			} else {
-				this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/saltar.png");
-			}
-				this.isJumping = true;
-				this.y -=3;//si currentjump llega al limite deja de saltar, es basicamente un limite
+	public void comenzarSalto() {
+		if (this.derecha) {
+			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/saltar.png");
+		} else {
+			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/saltar.png");
 		}
-		else {
+		this.isJumping = true;
+		this.alturaInicialSalto = this.y;
+	}
+	
+	public void subir() {
+		this.y = y - 5;
+		if (this.alturaInicialSalto > this.y + 170) {
 			this.isJumping = false;
+			this.caer();
 		}
 	}
 		

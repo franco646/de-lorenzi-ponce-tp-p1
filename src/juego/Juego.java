@@ -120,17 +120,14 @@ public class Juego extends InterfaceJuego
 		this.enemigo.mover();
 		
 		
-		if (this.entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
-			this.personaje.salto();
-			if (!enIsla) {
-				this.personaje.currentjump += 1;
-				this.personaje.grav_mult = 1; // si el boton de salto es precionado el contador del salto se suma
-			} else if (!this.personaje.isJumping) {
-				this.personaje.currentjump = 0;
-			}
+		if (this.personaje.isJumping) {
+			this.personaje.subir();
 		}
-		if (this.entorno.seLevanto(entorno.TECLA_ARRIBA)) {
-			this.personaje.isJumping = false;
+		
+		if (this.entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
+			if (enIsla && !this.personaje.isJumping) {
+				this.personaje.comenzarSalto();
+			}
 		}
 		
 		if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)) {
