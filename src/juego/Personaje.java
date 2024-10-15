@@ -16,7 +16,7 @@ public class Personaje {
 	Image[] imagenesIzq;
 	int frame;
 	long tiempoAnterior;
-	double alturaInicialSalto;
+	
 	
 	
 	public static int LAYER = 1; ///Capa de COLISION
@@ -25,8 +25,8 @@ public class Personaje {
 								//de la gravedad mientas mas pase el tiempo
 	
 	public boolean isJumping = false;
-	public int limitjump =60;
-	public int currentjump = 0;
+	double alturaAlComenzarSalto; // coordenada en el eje y del personaje al comenzar el salto
+	public int alturaDelSalto = 170; // altura en pixeles del salto
 	
 	
 	
@@ -129,12 +129,12 @@ public class Personaje {
 			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/saltar.png");
 		}
 		this.isJumping = true;
-		this.alturaInicialSalto = this.y;
+		this.alturaAlComenzarSalto = this.y;
 	}
 	
 	public void subir() {
 		this.y = y - 5;
-		if (this.alturaInicialSalto > this.y + 170) {
+		if (this.alturaAlComenzarSalto > this.y + this.alturaDelSalto) {
 			this.isJumping = false;
 			this.caer();
 		}
