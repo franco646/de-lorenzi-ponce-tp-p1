@@ -3,6 +3,7 @@ package juego;
 import java.awt.Image;
 
 import entorno.Entorno;
+import entorno.InterfaceJuego;
 
 public class Personaje {
 	double x;
@@ -18,6 +19,13 @@ public class Personaje {
 	
 	public static int LAYER = 1; ///Capa de COLISION
 	Boolean derecha = true; ///comprobar si esta a la derecha == true
+	public float grav_mult = 1;// esta variable es para ir aumentando el valor 
+								//de la gravedad mientas mas pase el tiempo
+	
+	public boolean isJumping = false;
+	public int limitjump =60;
+	public int currentjump = 0;
+	
 	
 	public Personaje(double x, double y) {
 		this.x = x;
@@ -58,16 +66,18 @@ public class Personaje {
 	}
 	
 	public void caer() {
-		if(this.derecha) {
+
+		if (this.derecha) {
 			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/caer.png");
-		}
-		else {
+		} else {
 			this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/izquierda/caer_izq.png");
 		}
-		this.y = this.y + 3;
-		
-		if(this.y == 768) {
-			this.x =660;
+		this.y = this.y + 3 * this.grav_mult;
+
+		this.grav_mult += 0.01;
+
+		if (this.y >= 768) {
+			this.x = 660;
 			this.y = 0;
 		}
 	}
@@ -103,9 +113,22 @@ public class Personaje {
 	}
 	
 	public void quieto() {
+		
 		this.frame = 0;
 		this.imagen = entorno.Herramientas.cargarImagen("imagenes/personaje/derecha/quieto.png");
 	}
+	
+	public void salto() {
+		if (this.currentjump < this.limitjump) {
+				this.isJumping = true;
+				this.y -=3;//si currentjump llega al limite deja de saltar, es basicamente un limite
+		}
+		else {
+			this.isJumping = false;
+		}
+	}
+		
+		
 	
 	public void colisione(int capa) {
 		

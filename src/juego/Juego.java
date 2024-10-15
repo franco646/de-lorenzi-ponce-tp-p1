@@ -19,6 +19,7 @@ public class Juego extends InterfaceJuego
 	private int anchoPantalla;
 	private int altoPantalla;
 	
+	
 	// Variables y métodos propios de cada grupo
 	// ...
 	Juego()
@@ -72,11 +73,10 @@ public class Juego extends InterfaceJuego
 	{
 		
 		this.entorno.dibujarImagen(this.fondo, this.anchoPantalla / 2, this.altoPantalla / 2, 0, 1);
+		
 		boolean enIsla = false;
 		
 		enemigo.enisla = false;//enemigo en isla PROVICIONAL
-		
-		
 		
 		for(Isla isla : this.islas) {
 			isla.dibujar(entorno);
@@ -86,9 +86,11 @@ public class Juego extends InterfaceJuego
 				    && this.personaje.x < isla.x + isla.width / 2
 				    && Math.abs(this.personaje.y - (isla.y - isla.height / 2)) <= 5)
 				) 
-				{
+				{	
 					enIsla = true;
 				}
+			
+			
 			if (
 				    (this.enemigo.x > isla.x - isla.width / 2
 				    && this.enemigo.x < isla.x + isla.width / 2
@@ -100,8 +102,11 @@ public class Juego extends InterfaceJuego
 			
 		}
 		
-		if (!enIsla) {
+		if (!enIsla && !this.personaje.isJumping) {
 			this.personaje.caer();
+		}
+		else {
+			this.personaje.grav_mult = 1;
 		}
 		
 		if(!enemigo.enisla) {///PROVICIONAL
@@ -113,6 +118,20 @@ public class Juego extends InterfaceJuego
 		this.enemigo.dibujar(this.entorno);
 		///PROVICIONAL ENEMIGO DIBUJAR , MOVER
 		this.enemigo.mover();
+		
+		
+		if (this.entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
+			this.personaje.salto();
+			if (!enIsla) {
+				this.personaje.currentjump += 1;
+				this.personaje.grav_mult = 1; // si el boton de salto es precionado el contador del salto se suma
+			} else if (!this.personaje.isJumping) {
+				this.personaje.currentjump = 0;
+			}
+		}
+		if (this.entorno.seLevanto(entorno.TECLA_ARRIBA)) {
+			this.personaje.isJumping = false;
+		}
 		
 		if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)) {
 			this.personaje.moverDer();

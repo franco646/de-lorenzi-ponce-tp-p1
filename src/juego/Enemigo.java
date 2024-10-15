@@ -51,7 +51,6 @@ public class Enemigo {
 		this.y = this.y + 3;
 		
 		if(this.y >= 768) {
-			System.out.println("EEE");
 			this.x =660;
 			this.y = 0;
 			if(this.derecha) {this.derecha = false;}
