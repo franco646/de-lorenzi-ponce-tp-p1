@@ -2,7 +2,7 @@ package Funcs;
 
 public class Colisiones {
 
-	//clase para colisiones
+	//clase para colisionesss
 	
 	public static boolean checkRect(double x , double y ,double width , double height,
 			double x2 , double y2 ,double width2 , double height2

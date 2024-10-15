@@ -147,7 +147,7 @@ public class Juego extends InterfaceJuego
 				, this.personaje.height,this.enemigo.x,this.enemigo.y, this.enemigo.width
 				, this.enemigo.height)
 				) {
-			System.out.println("COLISIONEE con la capa :" + this.enemigo.LAYER);
+			System.out.println("COLISIONEE");
 			
 		}//provicional hasta crear bien la lista de enemigos y todo eso
 			
