@@ -3,7 +3,6 @@ package juego;
 import java.awt.Image;
 
 import entorno.Entorno;
-import entorno.InterfaceJuego;
 
 public class Personaje {
 	double x;

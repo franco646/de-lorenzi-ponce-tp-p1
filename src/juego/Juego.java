@@ -4,6 +4,7 @@ package juego;
 import java.awt.Color;
 import java.awt.Image;
 
+import Funcs.Colisiones;
 import entorno.Entorno;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
@@ -137,8 +138,20 @@ public class Juego extends InterfaceJuego
 		} else {
 			if (!this.personaje.isJumping) {
 				this.personaje.quieto();
-			}	
+			}
 		}
+		
+		//colisiones enemigos
+		if(
+				Colisiones.checkRect(this.personaje.x, this.personaje.y, this.personaje.width
+				, this.personaje.height,this.enemigo.x,this.enemigo.y, this.enemigo.width
+				, this.enemigo.height)
+				) {
+			System.out.println("COLISIONEE con la capa :" + this.enemigo.LAYER);
+			
+		}//provicional hasta crear bien la lista de enemigos y todo eso
+			
+		
 		
 		
 
