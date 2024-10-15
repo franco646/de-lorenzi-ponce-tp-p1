@@ -79,24 +79,31 @@ public class Juego extends InterfaceJuego
 		
 		enemigo.enisla = false;//enemigo en isla PROVICIONAL
 		
+		
+		
+		
 		for(Isla isla : this.islas) {
 			isla.dibujar(entorno);
 			
-			if (
-				    (this.personaje.x > isla.x - isla.width / 2
-				    && this.personaje.x < isla.x + isla.width / 2
-				    && Math.abs(this.personaje.y - (isla.y - isla.height / 2)) <= 5)
-				) 
-				{	
-					enIsla = true;
-				}
+			//if (
+			//	    (this.personaje.x > isla.x - isla.width / 2
+			//	    && this.personaje.x < isla.x + isla.width / 2
+			//	    && Math.abs(this.personaje.y - (isla.y - isla.height / 2)) <= 5)
+			//	) 
+				//{	
+				//	enIsla = true;
+		
+			if(Colisiones.is_on_floor(this.personaje.x, this.personaje.y, this.personaje.width
+				, this.personaje.height,isla.x,isla.y, isla.width
+				, isla.height)) {
 			
+				enIsla = true;
+				
+			}
 			
-			if (
-				    (this.enemigo.x > isla.x - isla.width / 2
-				    && this.enemigo.x < isla.x + isla.width / 2
-				    && Math.abs(this.enemigo.y - (isla.y - isla.height / 2)) <= 5)
-				) 
+			if (Colisiones.is_on_floor(this.enemigo.x, this.enemigo.y, this.enemigo.width
+							, this.enemigo.height,isla.x,isla.y, isla.width
+							, isla.height)) 
 				{
 					enemigo.enisla = true;
 				}
