@@ -109,6 +109,13 @@ public class Juego extends InterfaceJuego
 				}
 			
 		}
+		// colisiones enemigos
+		if (Colisiones.checkRect(this.personaje.x, this.personaje.y, this.personaje.width, this.personaje.height,
+				this.enemigo.x, this.enemigo.y, this.enemigo.width, this.enemigo.height,
+				this.personaje)) {
+			System.out.println(this.personaje.is_colisionando);
+
+		} // provicional hasta crear bien la lista de enemigos y todo eso
 		
 		if (!enIsla && !this.personaje.isJumping) {
 			this.personaje.caer();
@@ -148,15 +155,7 @@ public class Juego extends InterfaceJuego
 			}
 		}
 		
-		//colisiones enemigos
-		if(
-				Colisiones.checkRect(this.personaje.x, this.personaje.y, this.personaje.width
-				, this.personaje.height,this.enemigo.x,this.enemigo.y, this.enemigo.width
-				, this.enemigo.height)
-				) {
-			System.out.println("COLISIONEE");
-			
-		}//provicional hasta crear bien la lista de enemigos y todo eso
+		
 			
 		
 		
