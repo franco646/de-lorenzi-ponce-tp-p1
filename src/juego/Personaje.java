@@ -37,6 +37,7 @@ public class Personaje {
 	public boolean isJumping = false;
 	double alturaAlComenzarSalto; // coordenada en el eje y del personaje al comenzar el salto
 	public int alturaDelSalto = 170; // altura en pixeles del salto
+	double velocidadSalto = 8;
 	
 	
 	
@@ -95,9 +96,9 @@ public class Personaje {
 			this.imagen = this.imagenCaerIzq;
 		}
 		
-		this.y = this.y + 3 * this.grav_mult;
+		this.y = this.y + 1 * this.grav_mult;
 
-		this.grav_mult += 0.01;
+		this.grav_mult += 0.15;
 
 		if (this.y >= 768) {
 			this.x = 660;
@@ -154,9 +155,11 @@ public class Personaje {
 	}
 	
 	public void subir() {
-		this.y = y - 5;
+		this.y = this.y - this.velocidadSalto;
+		this.velocidadSalto = this.velocidadSalto < 3 ? 3 : this.velocidadSalto - 0.15; // La velocidad inicial del salto ira disminuyendo por efecto de la gravedad
 		if (this.alturaAlComenzarSalto > this.y + this.alturaDelSalto) {
 			this.isJumping = false;
+			this.velocidadSalto = 8;
 			this.caer();
 		}
 	}
