@@ -20,6 +20,8 @@ public class Enemigo {
 	public static int LAYER = 2; ///Capa de COLISION
 	Boolean derecha = true;
 	
+	boolean habitacion_direccion = true;
+	
 	Boolean enisla = true;
 	
 	public Enemigo(double x , double y) {
@@ -46,7 +48,29 @@ public class Enemigo {
 		e.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
 	}
 	
+	private boolean aleatorioNumero() {
+		int random = (int)(Math.random() * 2);
+		boolean boleano;
+		if(random == 0) {
+			boleano = false;
+		}
+		else {
+			boleano = true;
+		}
+		
+		return boleano;
+		
+	}
+	
 	public void caer() {
+		
+		if(this.habitacion_direccion) {
+			this.habitacion_direccion = false;
+			
+			this.derecha = this.aleatorioNumero();
+			
+		}
+		
 		this.imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run2_izq.png");
 		this.y = this.y + 3;
 		this.enisla = false;
