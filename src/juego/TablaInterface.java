@@ -9,6 +9,8 @@ public class TablaInterface {
 	private int salvados;
 	private int eliminados;
 	
+	private String tiempototal;
+	
 	
 	public TablaInterface(int tiempoInicial)
 	{
@@ -16,14 +18,48 @@ public class TablaInterface {
 	}
 	public void dibujar(Entorno e) {
 		
-		String tiempoTexto = Integer.toString(this.getTiempo());
+		this.convertirTiempo();
 		
-		char segundo = tiempoTexto.charAt(0);
+		e.escribirTexto(this.tiempototal, 15, 15);
 		
-		String mostrartiempo = String.valueOf(segundo);//tratando de hacer los segundos
-														//Arreglar
 		
-		e.escribirTexto(mostrartiempo, 15, 15);
+		String sal = Integer.toString(this.salvados);
+		
+		String SalvadosTotal = "Salvados :" + sal; 
+		
+		e.escribirTexto(SalvadosTotal, 160, 15);
+		
+		
+	}
+	
+	private void convertirTiempo() {
+		
+		
+		long segundosTotales = this.getTiempo() / 1000;
+		long minutos = segundosTotales / 60;
+		long segundos = segundosTotales % 60;
+		
+		
+		if(minutos <10 && segundos < 10) {
+			this.tiempototal = "Time : " + "0" + minutos + " : " + "0" + segundos;
+		}
+		else if(segundos < 10) {
+			this.tiempototal = "Time : " + minutos + " : " + "0" + segundos;
+		}
+		
+		else if(minutos < 10) {
+			this.tiempototal = "Time : " + "0" + minutos + " : " + segundos;
+		}
+		
+		else {
+			this.tiempototal = "Time : " + minutos + " : " + segundos;
+		}
+			
+	}
+	
+	public void sumarSalvados() {
+		
+		this.salvados +=1;
 		
 	}
 	
