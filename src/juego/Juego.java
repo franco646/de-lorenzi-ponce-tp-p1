@@ -19,6 +19,9 @@ public class Juego extends InterfaceJuego {
 	private int respawnPj_y;
 
 	private LinkedList<Gnomo> Gnomos = new LinkedList<>();// Linked de gnomos
+	
+	private LinkedList<Temporizador> GnomosTempo = new LinkedList<>();
+	
 
 	private int limiteGnomosParaColisionar;// esto es para que los Gnomos solo puedan colisionar en las ultimas dos
 											// filas
@@ -108,6 +111,36 @@ public class Juego extends InterfaceJuego {
 		}
 
 	}
+	
+	private void crearGnomoTempo() {
+		
+		Temporizador t = new Temporizador();
+		
+		this.GnomosTempo.add(t);
+		
+	}
+	
+	private void comprobarGnomoTempo() {
+		
+		int index = 0;
+		
+		for(Temporizador t : this.GnomosTempo) {
+			
+			if(t.terminado) {
+				this.agregarEnemigos();
+				this.GnomosTempo.remove(index);
+				
+				
+			}
+			index +=1;
+			
+			
+		}
+		
+		
+		
+	}
+	
 
 	private void crearEnemigos() {
 
@@ -145,8 +178,6 @@ public class Juego extends InterfaceJuego {
 
 		this.tablainterface.setTiempo(this.entorno.tiempo());
 
-		System.out.println("TIEMPO : " + this.entorno.tiempo());
-
 		this.tablainterface.dibujar(entorno);
 
 		// DIBUJA UNA LINEA ROJA PARA SABER CUANDO EL PJ PUEDE COLISIONAR CON LOS GNOMOS
@@ -165,7 +196,7 @@ public class Juego extends InterfaceJuego {
 		this.dibujarGnomos();
 
 		this.controlarMovimientosJugador();
-
+		this.comprobarGnomoTempo();
 		this.controlarColisionConGnomo();
 
 	}
@@ -198,8 +229,10 @@ public class Juego extends InterfaceJuego {
 		}
 
 	}
+	
 
 	public void controlarColisionConGnomo() {
+		
 		for (int i = 0; i < this.Gnomos.size(); i++) {// colisiones enemigos
 
 			Gnomo gnomo = this.Gnomos.get(i);
@@ -207,13 +240,9 @@ public class Juego extends InterfaceJuego {
 			if (Colisiones.colisionan(this.personaje.obtenerDimensiones(), gnomo.obtenerDimensiones())
 					&& gnomo.y > this.limiteGnomosParaColisionar) {
 
-				this.contadorColisiones += 1;// solo para saber cuantas veces colisiono
-
-				System.out.println("Contador de Col: " + this.contadorColisiones);
-
 				this.Gnomos.remove(i);
-
-				this.agregarEnemigos();
+				
+				this.crearGnomoTempo();
 
 			}
 		}
