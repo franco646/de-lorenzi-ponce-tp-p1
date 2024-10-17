@@ -52,15 +52,15 @@ public class Juego extends InterfaceJuego
             	int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2); 
             	
             	
-            	if(fila == 2&& isla == 1) {
-            		medioSeccionHorizontal +=120; 
-            	}
+            //	if(fila == 2&& isla == 1) {
+            //		medioSeccionHorizontal +=120; 
+            //	}
             	
             	//las islas se mueven si son de fila 2
             	
-            	else if(fila == 2 && isla ==2) {
-            		medioSeccionHorizontal -=120;
-            	}
+            	//else if(fila == 2 && isla ==2) {
+            	//	medioSeccionHorizontal -=120;
+            //	}
             	this.islas[index] = new Isla(medioSeccionHorizontal, medioSeccionVertical);
             	index = index + 1;
             	
