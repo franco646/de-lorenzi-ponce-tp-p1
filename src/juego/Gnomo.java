@@ -71,7 +71,6 @@ public class Gnomo {
 
 		if (this.habitacion_direccion) {
 			this.habitacion_direccion = false;
-
 			this.derecha = this.aleatorioNumero();
 
 		}
@@ -99,22 +98,24 @@ public class Gnomo {
 			this.x = 1366;
 		}
 
-		if (this.derecha) {
-			long tiempoActual = System.currentTimeMillis();
-			if (tiempoActual - this.tiempoAnterior > 150) {
-				this.tiempoAnterior = tiempoActual;
-				this.imagen = this.imagenesIzq[frame];
-				this.frame = (frame + 1) % this.imagenesIzq.length;
+		if (this.habitacion_direccion) {
+			if (this.derecha) {
+				long tiempoActual = System.currentTimeMillis();
+				if (tiempoActual - this.tiempoAnterior > 150) {
+					this.tiempoAnterior = tiempoActual;
+					this.imagen = this.imagenesIzq[frame];
+					this.frame = (frame + 1) % this.imagenesIzq.length;
+				}
+				this.x = this.x + 1;
+			} else if (this.derecha == false) {
+				long tiempoActual = System.currentTimeMillis();
+				if (tiempoActual - this.tiempoAnterior > 150) {
+					this.tiempoAnterior = tiempoActual;
+					this.imagen = this.imagenesIzq[frame];
+					this.frame = (frame + 1) % this.imagenesIzq.length;
+				}
+				this.x = this.x - 1;
 			}
-			this.x = this.x + 1;
-		} else if (this.derecha == false) {
-			long tiempoActual = System.currentTimeMillis();
-			if (tiempoActual - this.tiempoAnterior > 150) {
-				this.tiempoAnterior = tiempoActual;
-				this.imagen = this.imagenesIzq[frame];
-				this.frame = (frame + 1) % this.imagenesIzq.length;
-			}
-			this.x = this.x - 1;
 		}
 
 	}
