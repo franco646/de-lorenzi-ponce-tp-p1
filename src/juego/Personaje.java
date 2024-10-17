@@ -31,9 +31,6 @@ public class Personaje {
 	public float grav_mult = 1;// esta variable es para ir aumentando el valor 
 								//de la gravedad mientas mas pase el tiempo
 	
-	public boolean is_colisionando = false;//para saber si esta colisionando o no 
-											// con esto se puede colisionar una vez por contacto
-	
 	public boolean isJumping = false;
 	double alturaAlComenzarSalto; // coordenada en el eje y del personaje al comenzar el salto
 	public int alturaDelSalto = 170; // altura en pixeles del salto

@@ -14,7 +14,11 @@ public class Juego extends InterfaceJuego
 	private Entorno entorno;
 	private Personaje personaje;
 	//private Enemigo enemigo;
-	private Enemigo[] enemigos = new Enemigo[4];
+	private Enemigo[] enemigos = new Enemigo[4];//array de gnomos
+	
+	private int limiteGnomosParaColisionar;//esto es para que los Gnomos solo puedan colisionar en las ultimas dos filas
+	private int contadorColisiones = 0;//contador de colisiones para probar nomas
+	
 	
 	private Isla[] islas;
 	private Image fondo;
@@ -57,7 +61,16 @@ public class Juego extends InterfaceJuego
             	}
             	
             	int tamanioSeccionVertical = this.altoPantalla / qFilas;
-            	int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2); 
+            	int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2);
+            	
+            	if(fila == 3) {
+            		
+            		this.limiteGnomosParaColisionar = medioSeccionVertical;
+            		
+            		System.out.println("El Lim es : " + this.limiteGnomosParaColisionar);
+            		
+            		
+            	}
             	
             	this.islas[index] = new Isla(medioSeccionHorizontal, medioSeccionVertical);
             	index = index + 1;
@@ -157,9 +170,11 @@ public class Juego extends InterfaceJuego
 		
 		for(Enemigo enem : this.enemigos) {// colisiones enemigos
 			
-			if(Colisiones.checkRect(this.personaje, enem)) {
+			if(Colisiones.checkRect(this.personaje, enem) && enem.y > this.limiteGnomosParaColisionar) {
 				
-				System.out.println(this.personaje.is_colisionando);
+				this.contadorColisiones +=1;//solo para saber cuantas veces colisiono
+				
+				System.out.println("Contador de Col: " + this.contadorColisiones );
 				
 			}
 			

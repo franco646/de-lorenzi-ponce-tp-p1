@@ -24,6 +24,9 @@ public class Enemigo {
 	
 	Boolean enisla = true;
 	
+	public boolean is_colisionando = false;//para saber si esta colisionando o no 
+									// con esto se puede colisionar una vez por contacto
+	
 	public Enemigo(double x , double y) {
 		
 		this.x = x;

@@ -27,13 +27,13 @@ public class Colisiones {
 		double mindistancia = Math.min(width, height) / 2 
 				+ Math.min(width2, height2) / 2;
 		
-		if(!pj.is_colisionando) {//esto es para que solo colisione una vez
-			pj.is_colisionando = true;
+		if(!ene.is_colisionando) {//esto es para que solo colisione una vez
+			ene.is_colisionando = true;
 			return distancia <= mindistancia;//entonces si la variable distancia es menor o igual 
 			//a lo minimo de distancia que pueden tener entonces es TRUE
 		}
 		else if(distancia > mindistancia) {
-			pj.is_colisionando = false;//si sale el pj sale de la colision entonces ya 
+			ene.is_colisionando = false;//si sale el pj sale de la colision entonces ya 
 										//esta disponible para detectar la colision devuelta
 		}
 		return false;
