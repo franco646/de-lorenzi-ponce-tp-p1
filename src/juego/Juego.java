@@ -3,6 +3,7 @@ package juego;
 
 //import java.awt.Color;
 import java.awt.Image;
+import java.util.LinkedList;
 
 import entorno.Entorno;
 import entorno.Herramientas;
@@ -14,7 +15,7 @@ public class Juego extends InterfaceJuego
 	private Entorno entorno;
 	private Personaje personaje;
 	//private Enemigo enemigo;
-	private Enemigo[] enemigos = new Enemigo[4];//array de gnomos
+	private LinkedList<Enemigo> enemigos = new LinkedList<>() ;//LinkedList de gnomos
 	
 	private int limiteGnomosParaColisionar;//esto es para que los Gnomos solo puedan colisionar en las ultimas dos filas
 	private int contadorColisiones = 0;//contador de colisiones para probar nomas
@@ -90,15 +91,15 @@ public class Juego extends InterfaceJuego
 	
 	private void crearEnemigos() {
 		
-		System.out.println("creando array clase enemigos");
+		System.out.println("creando LinkedList de clase enemigos");
 		
 		Enemigo auxiliar;
 		
-		for(int i = 0;i < this.enemigos.length;i++) {
+		for(int i = 0;i < 5.;i++) {
 			
 			auxiliar = new Enemigo(30 * i , 0);
 			
-			this.enemigos[i] = auxiliar;
+			this.enemigos.add(auxiliar);
 			
 		}
 		
@@ -168,13 +169,17 @@ public class Juego extends InterfaceJuego
 			
 		}
 		
-		for(Enemigo enem : this.enemigos) {// colisiones enemigos
+		for(int i = 0;i < this.enemigos.size();i++) {// colisiones enemigos
+			
+			Enemigo enem = this.enemigos.get(i);
 			
 			if(Colisiones.checkRect(this.personaje, enem) && enem.y > this.limiteGnomosParaColisionar) {
 				
 				this.contadorColisiones +=1;//solo para saber cuantas veces colisiono
 				
 				System.out.println("Contador de Col: " + this.contadorColisiones );
+				
+				this.enemigos.remove(i);
 				
 			}
 			
