@@ -78,16 +78,6 @@ public class Gnomo {
 		this.imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run2_izq.png");
 		this.y = this.y + 3;
 		this.enisla = false;
-		if (this.y >= 768) {
-			this.x = 660;
-			this.y = 0;
-			if (this.derecha) {
-				this.derecha = false;
-			} else {
-				this.derecha = true;
-			}
-
-		}
 	}
 
 	public void mover() {

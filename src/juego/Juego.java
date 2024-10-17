@@ -194,14 +194,43 @@ public class Juego extends InterfaceJuego {
 
 		this.comprobarGnomoTempo();
 		
+		this.comprobarGnomoAltura();
+		
 		this.dibujarIslas();
 		this.dibujarJugador();
 		this.dibujarGnomos();
-
+		
 		this.controlarMovimientosJugador();
 		
 		this.controlarColisionConGnomo();
 
+	}
+	
+	public void comprobarGnomoAltura() {
+		
+		int alturaMinima = 768;
+		
+		
+		for (int i = 0; i < this.Gnomos.size();i++) {
+			
+			
+			
+			if (this.Gnomos.get(i).y >= alturaMinima) {
+				
+				System.out.println("se perdion un Gnomo");
+				
+				this.Gnomos.remove(i);
+				
+				this.tablainterface.sumarPerdidos();
+				
+				this.crearGnomoTempo();
+
+			}
+
+		}
+		
+		
+		
 	}
 
 	public void dibujarIslas() {
