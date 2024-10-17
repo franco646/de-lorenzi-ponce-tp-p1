@@ -19,6 +19,7 @@ public class Juego extends InterfaceJuego
 	private int anchoPantalla;
 	private int altoPantalla;
 	
+	boolean enIsla;
 	
 	// Variables y métodos propios de cada grupo
 	// ...
@@ -56,16 +57,6 @@ public class Juego extends InterfaceJuego
             	int tamanioSeccionVertical = this.altoPantalla / qFilas;
             	int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2); 
             	
-            	
-            //	if(fila == 2&& isla == 1) {
-            //		medioSeccionHorizontal +=120; 
-            //	}
-            	
-            	//las islas se mueven si son de fila 2
-            	
-            	//else if(fila == 2 && isla ==2) {
-            	//	medioSeccionHorizontal -=120;
-            //	}
             	this.islas[index] = new Isla(medioSeccionHorizontal, medioSeccionVertical);
             	index = index + 1;
             	
@@ -90,24 +81,24 @@ public class Juego extends InterfaceJuego
 		
 		this.entorno.dibujarImagen(this.fondo, this.anchoPantalla / 2, this.altoPantalla / 2, 0, 1);
 		
-		boolean enIsla = false;
+		enIsla = false;
 		
 		enemigo.enisla = false;//enemigo en isla PROVICIONAL
 		
+		this.lasColisiones();
+		
+		this.movimientosJuego();
 		
 		
+			
+
+	}
+	
+	public void lasColisiones() {
 		
 		for(Isla isla : this.islas) {
 			isla.dibujar(entorno);
 			
-			//if (
-			//	    (this.personaje.x > isla.x - isla.width / 2
-			//	    && this.personaje.x < isla.x + isla.width / 2
-			//	    && Math.abs(this.personaje.y - (isla.y - isla.height / 2)) <= 5)
-			//	) 
-				//{	
-				//	enIsla = true;
-		
 			if(Colisiones.is_on_floor(this.personaje , isla)) {
 			
 				enIsla = true;
@@ -126,6 +117,11 @@ public class Juego extends InterfaceJuego
 			System.out.println(this.personaje.is_colisionando);
 
 		} // provicional hasta crear bien la lista de enemigos y todo eso
+		
+		
+	}
+	
+	public void movimientosJuego() {
 		
 		if (!enIsla && !this.personaje.isJumping) {
 			this.personaje.caer();
@@ -163,15 +159,13 @@ public class Juego extends InterfaceJuego
 			if (!this.personaje.isJumping) {
 				this.personaje.quieto();
 			}
-		}
-		
-		
-			
+		}	
 		
 		
 		
-
+		
 	}
+	
 	
 
 	@SuppressWarnings("unused")

@@ -103,6 +103,7 @@ public class Personaje {
 		}
 
 		if (this.y >= 768) {
+			this.grav_mult = 1;
 			this.x = 660;
 			this.y = 0;
 		}
