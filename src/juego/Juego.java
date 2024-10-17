@@ -1,7 +1,7 @@
 package juego;
 
 
-//import java.awt.Color;
+import java.awt.Color;
 import java.awt.Image;
 import java.util.LinkedList;
 
@@ -15,7 +15,7 @@ public class Juego extends InterfaceJuego
 	private Entorno entorno;
 	private Personaje personaje;
 	//private Enemigo enemigo;
-	private LinkedList<Enemigo> enemigos = new LinkedList<>() ;//LinkedList de gnomos
+	private LinkedList<Enemigo> enemigos = new LinkedList<>() ;//Linked de gnomos
 	
 	private int limiteGnomosParaColisionar;//esto es para que los Gnomos solo puedan colisionar en las ultimas dos filas
 	private int contadorColisiones = 0;//contador de colisiones para probar nomas
@@ -117,6 +117,11 @@ public class Juego extends InterfaceJuego
 	{
 		
 		this.entorno.dibujarImagen(this.fondo, this.anchoPantalla / 2, this.altoPantalla / 2, 0, 1);
+		
+		
+		//DIBUJA UNA LINEA ROJA PARA SABER CUANDO EL PJ PUEDE COLISIONAR CON LOS GNOMOS
+		this.entorno.dibujarRectangulo(this.anchoPantalla/2, this.limiteGnomosParaColisionar
+				, this.anchoPantalla, 3, 0, Color.red);
 		
 		enIsla = false;
 		
