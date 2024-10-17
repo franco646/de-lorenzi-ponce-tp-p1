@@ -124,14 +124,15 @@ public class Juego extends InterfaceJuego {
 		
 		int index = 0;
 		
-		for(Temporizador t : this.GnomosTempo) {
+		if(!this.GnomosTempo.isEmpty())
+			for(Temporizador t : this.GnomosTempo) {
 			
-			if(t.terminado) {
-				this.agregarEnemigos();
-				this.GnomosTempo.remove(index);
+				if(t.terminado) {
+					this.agregarEnemigos();
+					this.GnomosTempo.remove(index);
 				
 				
-			}
+				}
 			index +=1;
 			
 			
@@ -243,6 +244,8 @@ public class Juego extends InterfaceJuego {
 					&& gnomo.y > this.limiteGnomosParaColisionar) {
 
 				this.Gnomos.remove(i);
+				
+				this.tablainterface.sumarSalvados();
 				
 				this.crearGnomoTempo();
 
