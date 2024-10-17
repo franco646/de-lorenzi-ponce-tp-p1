@@ -13,6 +13,8 @@ public class Juego extends InterfaceJuego
 {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
+	private TablaInterface tablainterface;// la clase que maneja los puntos y todo eso
+	
 	private Personaje personaje;
 	
 	private int respawnPj_x;//el spawn para el personaje
@@ -50,7 +52,7 @@ public class Juego extends InterfaceJuego
 		
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo/download (1).jpeg");
 		
-		
+		tablainterface = new TablaInterface(0);
 		
 		
 		this.crearEnemigos();
@@ -81,21 +83,32 @@ public class Juego extends InterfaceJuego
             	int tamanioSeccionHorizontal = this.anchoPantalla / fila;
             	if (fila == 2) {
             		medioSeccionHorizontal = (this.anchoPantalla / 3) * isla; // Las islas de la segunda fila no están centradas dos columna
-            	}else {
+            	}
+            	else if(fila == 3) {
+            		
+            		medioSeccionHorizontal = (this.anchoPantalla / 4) * isla;
+            		
+            	}
+            	
+            	else {
                 	medioSeccionHorizontal = (tamanioSeccionHorizontal * isla) - (tamanioSeccionHorizontal / 2);
             	}
+            	
+            	
             	
             	int tamanioSeccionVertical = this.altoPantalla / qFilas;
             	int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2);
             	
-            	if(fila == 3) {
+            	
+            	if(fila == 3 && isla == 1) {
+            		this.limiteGnomosParaColisionar =medioSeccionVertical; 
             		
-            		this.limiteGnomosParaColisionar = medioSeccionVertical;
             		
             		System.out.println("El Lim es : " + this.limiteGnomosParaColisionar);
             		
             		
             	}
+            	
             	
             	if(fila == qFilas && isla == 2) {
             		
@@ -156,6 +169,12 @@ public class Juego extends InterfaceJuego
 	{
 		
 		this.entorno.dibujarImagen(this.fondo, this.anchoPantalla / 2, this.altoPantalla / 2, 0, 1);
+		
+		this.tablainterface.setTiempo(this.entorno.tiempo());
+		
+		System.out.println("TIEMPO : " + this.entorno.tiempo());
+		
+		this.tablainterface.dibujar(entorno);
 		
 		
 		//DIBUJA UNA LINEA ROJA PARA SABER CUANDO EL PJ PUEDE COLISIONAR CON LOS GNOMOS
