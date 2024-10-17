@@ -195,7 +195,7 @@ public class Juego extends InterfaceJuego {
 
 			Gnomo gnomo = this.Gnomos.get(i);
 
-			if (Colisiones.colisionan(this.personaje.obtenerDimensiones(), gnomo.obtenerDimensiones())) {
+			if (Colisiones.colisionan(this.personaje.obtenerDimensiones(), gnomo.obtenerDimensiones() )&&  gnomo.y > this.limiteGnomosParaColisionar) {
 
 				this.contadorColisiones += 1;// solo para saber cuantas veces colisiono
 
