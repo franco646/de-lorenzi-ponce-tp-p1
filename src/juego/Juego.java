@@ -46,8 +46,13 @@ public class Juego extends InterfaceJuego
 		for (int fila = 1; fila <= qFilas; fila++) {
             for (int isla = 1; isla <= fila; isla++) {            	
             	
+            	int medioSeccionHorizontal;
             	int tamanioSeccionHorizontal = this.anchoPantalla / fila;
-            	int medioSeccionHorizontal = (tamanioSeccionHorizontal * isla) - (tamanioSeccionHorizontal / 2);
+            	if (fila == 2) {
+            		medioSeccionHorizontal = (this.anchoPantalla / 3) * isla; // Las islas de la segunda fila no están centradas dos columna
+            	}else {
+                	medioSeccionHorizontal = (tamanioSeccionHorizontal * isla) - (tamanioSeccionHorizontal / 2);
+            	}
             	
             	int tamanioSeccionVertical = this.altoPantalla / qFilas;
             	int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2); 
