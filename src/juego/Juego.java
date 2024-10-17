@@ -108,17 +108,13 @@ public class Juego extends InterfaceJuego
 				//{	
 				//	enIsla = true;
 		
-			if(Colisiones.is_on_floor(this.personaje.x, this.personaje.y, this.personaje.width
-				, this.personaje.height,isla.x,isla.y, isla.width
-				, isla.height)) {
+			if(Colisiones.is_on_floor(this.personaje , isla)) {
 			
 				enIsla = true;
 				
 			}
 			
-			if (Colisiones.is_on_floor(this.enemigo.x, this.enemigo.y, this.enemigo.width
-							, this.enemigo.height,isla.x,isla.y, isla.width
-							, isla.height)) 
+			if (Colisiones.is_on_floor(enemigo,isla)) 
 				{
 					enemigo.enisla = true;
 					enemigo.habitacion_direccion = true;
@@ -126,9 +122,7 @@ public class Juego extends InterfaceJuego
 			
 		}
 		// colisiones enemigos
-		if (Colisiones.checkRect(this.personaje.x, this.personaje.y, this.personaje.width, this.personaje.height,
-				this.enemigo.x, this.enemigo.y, this.enemigo.width, this.enemigo.height,
-				this.personaje)) {
+		if (Colisiones.checkRect(this.personaje,enemigo)) {
 			System.out.println(this.personaje.is_colisionando);
 
 		} // provicional hasta crear bien la lista de enemigos y todo eso
