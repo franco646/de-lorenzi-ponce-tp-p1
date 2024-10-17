@@ -1,7 +1,7 @@
 package juego;
 
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.awt.Image;
 
 import entorno.Entorno;
@@ -13,7 +13,9 @@ public class Juego extends InterfaceJuego
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private Personaje personaje;
-	private Enemigo enemigo;
+	//private Enemigo enemigo;
+	private Enemigo[] enemigos = new Enemigo[4];
+	
 	private Isla[] islas;
 	private Image fondo;
 	private int anchoPantalla;
@@ -37,7 +39,7 @@ public class Juego extends InterfaceJuego
 		
 		this.entorno = new Entorno(this, "Proyecto para TP", this.anchoPantalla, this.altoPantalla);
 		this.personaje = new Personaje(660, 0);
-		this.enemigo = new Enemigo(660,200);
+		//this.enemigo = new Enemigo(660,200);
 		this.islas = new Isla[qIslas];
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo/download (1).jpeg");
 		
@@ -63,12 +65,33 @@ public class Juego extends InterfaceJuego
             }
         }
 		
+		this.crearEnemigos();
+		
+		
 		// Inicializar lo que haga falta para el juego
 		// ...
 
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
+	
+	private void crearEnemigos() {
+		
+		System.out.println("creando array clase enemigos");
+		
+		Enemigo auxiliar;
+		
+		for(int i = 0;i < this.enemigos.length;i++) {
+			
+			auxiliar = new Enemigo(30 * i , 0);
+			
+			this.enemigos[i] = auxiliar;
+			
+		}
+		
+		
+	}
+	
 
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
@@ -83,9 +106,17 @@ public class Juego extends InterfaceJuego
 		
 		enIsla = false;
 		
-		enemigo.enisla = false;//enemigo en isla PROVICIONAL
+		//enemigo.enisla = false;//enemigo en isla PROVICIONAL
+		
+		for(Enemigo enem : this.enemigos) {
+			enem.enisla = false;
+				
+			}
+		
 		
 		this.lasColisiones();
+		
+		
 		
 		this.movimientosJuego();
 		
@@ -105,18 +136,43 @@ public class Juego extends InterfaceJuego
 				
 			}
 			
-			if (Colisiones.is_on_floor(enemigo,isla)) 
-				{
-					enemigo.enisla = true;
-					enemigo.habitacion_direccion = true;
+			for(Enemigo enem : this.enemigos) {
+				
+				if(Colisiones.is_on_floor(enem, isla)) {
+					enem.enisla = true;
+					enem.habitacion_direccion = true;
+					
+				}
+				
+					
 				}
 			
+			//if (Colisiones.is_on_floor(enemigo,isla)) 
+				//{
+					//enemigo.enisla = true;
+					//enemigo.habitacion_direccion = true;
+				//}
+			
 		}
+		
+		for(Enemigo enem : this.enemigos) {// colisiones enemigos
+			
+			if(Colisiones.checkRect(this.personaje, enem)) {
+				
+				System.out.println(this.personaje.is_colisionando);
+				
+			}
+			
+			
+			
+		}
+		
+		
 		// colisiones enemigos
-		if (Colisiones.checkRect(this.personaje,enemigo)) {
-			System.out.println(this.personaje.is_colisionando);
+		//if (Colisiones.checkRect(this.personaje,enemigo)) {
+			//System.out.println(this.personaje.is_colisionando);
 
-		} // provicional hasta crear bien la lista de enemigos y todo eso
+		//} // provicional hasta crear bien la lista de enemigos y todo eso
 		
 		
 	}
@@ -130,16 +186,39 @@ public class Juego extends InterfaceJuego
 			this.personaje.grav_mult = 1;
 		}
 		
-		if(!enemigo.enisla) {///PROVICIONAL
-			enemigo.caer();
+		for(Enemigo enem : this.enemigos) {
+			
+			enem.dibujar(this.entorno);
+			
+			if(!enem.enisla) {
+				enem.caer();
+			}
+			
+			enem.mover();
+			
 		}
+		
+		
+		//if(!enemigo.enisla) {///PROVICIONAL
+			//enemigo.caer();
+		//}
+		
+		
+		
+		
+		//this.enemigo.dibujar(this.entorno);
 		
 		this.personaje.dibujar(this.entorno);
 		
-		this.enemigo.dibujar(this.entorno);
 		///PROVICIONAL ENEMIGO DIBUJAR , MOVER
-		this.enemigo.mover();
+		//this.enemigo.mover();
 		
+		this.jugadorMovimiento();
+		
+		
+	}
+	
+	private void jugadorMovimiento() {
 		
 		if (this.personaje.isJumping) {
 			this.personaje.subir();
@@ -153,15 +232,17 @@ public class Juego extends InterfaceJuego
 		
 		if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)) {
 			this.personaje.moverDer();
+			
+			
 		} else if(this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)) {
 			this.personaje.moverIzq();
+			
+			
 		} else {
 			if (!this.personaje.isJumping) {
 				this.personaje.quieto();
 			}
-		}	
-		
-		
+		}
 		
 		
 	}
