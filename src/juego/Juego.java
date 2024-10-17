@@ -1,7 +1,5 @@
 package juego;
 
-
-import java.awt.Color;
 import java.awt.Image;
 import java.util.LinkedList;
 
@@ -9,8 +7,7 @@ import entorno.Entorno;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
 
-public class Juego extends InterfaceJuego
-{
+public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private TablaInterface tablainterface;// la clase que maneja los puntos y todo eso
@@ -30,11 +27,16 @@ public class Juego extends InterfaceJuego
 	private Image fondo;
 	private int anchoPantalla;
 	private int altoPantalla;
+<<<<<<< Upstream, based on origin/master
 	
 	boolean enIsla;
 	
+=======
+
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 	// Variables y métodos propios de cada grupo
 	// ...
+<<<<<<< Upstream, based on origin/master
 	Juego()
 	{
 		
@@ -67,16 +69,36 @@ public class Juego extends InterfaceJuego
 	
 	private void crearIslasInicio() {
 		
+=======
+	Juego() {
+
+		this.anchoPantalla = 1366;
+		this.altoPantalla = 768;
+
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 		int qFilas = 5;
 		int qIslas = 0;
 		for (int i = 1; i <= qFilas; i++) {
 			qIslas = qIslas + i;
 		}
+<<<<<<< Upstream, based on origin/master
 		
+=======
+
+		this.entorno = new Entorno(this, "Proyecto para TP", this.anchoPantalla, this.altoPantalla);
+		this.personaje = new Personaje(660, 0);
+		this.enemigo = new Enemigo(660, 200);
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 		this.islas = new Isla[qIslas];
+<<<<<<< Upstream, based on origin/master
 		
+=======
+		this.fondo = Herramientas.cargarImagen("imagenes/fondo/download (1).jpeg");
+
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 		int index = 0;
 		for (int fila = 1; fila <= qFilas; fila++) {
+<<<<<<< Upstream, based on origin/master
             for (int isla = 1; isla <= fila; isla++) {            	
             	
             	int medioSeccionHorizontal;
@@ -126,6 +148,32 @@ public class Juego extends InterfaceJuego
 		
 		
 		
+=======
+			for (int isla = 1; isla <= fila; isla++) {
+
+				int medioSeccionHorizontal;
+				int tamanioSeccionHorizontal = this.anchoPantalla / fila;
+				if (fila == 2) {
+					medioSeccionHorizontal = (this.anchoPantalla / 3) * isla; // Las islas de la segunda fila no están
+																				// centradas dos columna
+				} else {
+					medioSeccionHorizontal = (tamanioSeccionHorizontal * isla) - (tamanioSeccionHorizontal / 2);
+				}
+
+				int tamanioSeccionVertical = this.altoPantalla / qFilas;
+				int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2);
+
+				this.islas[index] = new Isla(medioSeccionHorizontal, medioSeccionVertical);
+				index = index + 1;
+			}
+		}
+
+		// Inicializar lo que haga falta para el juego
+		// ...
+
+		// Inicia el juego!
+		this.entorno.iniciar();
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 	}
 	
 	
@@ -160,15 +208,15 @@ public class Juego extends InterfaceJuego
 	
 
 	/**
-	 * Durante el juego, el método tick() será ejecutado en cada instante y 
-	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
-	 * actualizar el estado interno del juego para simular el paso del tiempo 
-	 * (ver el enunciado del TP para mayor detalle).
+	 * Durante el juego, el método tick() será ejecutado en cada instante y por lo
+	 * tanto es el método más importante de esta clase. Aquí se debe actualizar el
+	 * estado interno del juego para simular el paso del tiempo (ver el enunciado
+	 * del TP para mayor detalle).
 	 */
-	public void tick()
-	{
-		
+	public void tick() {
+
 		this.entorno.dibujarImagen(this.fondo, this.anchoPantalla / 2, this.altoPantalla / 2, 0, 1);
+<<<<<<< Upstream, based on origin/master
 		
 		this.tablainterface.setTiempo(this.entorno.tiempo());
 		
@@ -204,13 +252,35 @@ public class Juego extends InterfaceJuego
 	public void lasColisiones() {
 		
 		for(Isla isla : this.islas) {
+=======
+
+		boolean enIsla = false;
+
+		enemigo.enisla = false;// enemigo en isla PROVICIONAL
+
+		for (Isla isla : this.islas) {
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 			isla.dibujar(entorno);
+<<<<<<< Upstream, based on origin/master
 			
 			if(Colisiones.is_on_floor(this.personaje , isla)) {
 			
+=======
+
+			// if (
+			// (this.personaje.x > isla.x - isla.width / 2
+			// && this.personaje.x < isla.x + isla.width / 2
+			// && Math.abs(this.personaje.y - (isla.y - isla.height / 2)) <= 5)
+			// )
+			// {
+			// enIsla = true;
+
+			if (Colisiones.estaSobreIsla(this.personaje.obtenerDimensiones(), isla)) {
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 				enIsla = true;
-				
+
 			}
+<<<<<<< Upstream, based on origin/master
 			
 			for(Gnomo gnomo : this.Gnomos) {
 				
@@ -223,7 +293,15 @@ public class Juego extends InterfaceJuego
 					
 				}
 			
+=======
+
+			if (Colisiones.estaSobreIsla(this.enemigo.obtenerDimensiones(), isla)) {
+				this.enemigo.enisla = true;
+			}
+
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 		}
+<<<<<<< Upstream, based on origin/master
 		
 		for(int i = 0;i < this.Gnomos.size();i++) {// colisiones enemigos
 			
@@ -245,9 +323,19 @@ public class Juego extends InterfaceJuego
 	
 	public void movimientosJuego() {
 		
+=======
+		// colisiones enemigos
+		if (Colisiones.colisionan(this.personaje.obtenerDimensiones(), this.enemigo.obtenerDimensiones())) {
+			System.out.println("colisionaron");
+		}
+
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 		if (!enIsla && !this.personaje.isJumping) {
 			this.personaje.caer();
+		} else {
+			this.personaje.resetVelocidadCaida();
 		}
+<<<<<<< Upstream, based on origin/master
 		else {
 			this.personaje.grav_mult = 1;
 		}
@@ -262,9 +350,15 @@ public class Juego extends InterfaceJuego
 			
 			gnomo.mover();
 			
+=======
+
+		if (!enemigo.enisla) {/// PROVICIONAL
+			enemigo.caer();
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 		}
-		
+
 		this.personaje.dibujar(this.entorno);
+<<<<<<< Upstream, based on origin/master
 		
 		this.jugadorMovimiento();
 		
@@ -273,21 +367,32 @@ public class Juego extends InterfaceJuego
 	
 	private void jugadorMovimiento() {
 		
+=======
+
+		this.enemigo.dibujar(this.entorno);
+		/// PROVICIONAL ENEMIGO DIBUJAR , MOVER
+		this.enemigo.mover();
+
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 		if (this.personaje.isJumping) {
 			this.personaje.subir();
 		}
-		
+
 		if (this.entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
 			if (enIsla && !this.personaje.isJumping) {
 				this.personaje.comenzarSalto();
 			}
 		}
-		
-		if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)) {
+
+		if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)) {
 			this.personaje.moverDer();
+<<<<<<< Upstream, based on origin/master
 			
 			
 		} else if(this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)) {
+=======
+		} else if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)) {
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 			this.personaje.moverIzq();
 			
 			
@@ -296,15 +401,21 @@ public class Juego extends InterfaceJuego
 				this.personaje.quieto();
 			}
 		}
+<<<<<<< Upstream, based on origin/master
 		
 		
+=======
+
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 	}
+<<<<<<< Upstream, based on origin/master
 	
 	
+=======
+>>>>>>> 16185b6 Corrige gravedad y colisiones
 
 	@SuppressWarnings("unused")
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		Juego juego = new Juego();
 	}
 }
