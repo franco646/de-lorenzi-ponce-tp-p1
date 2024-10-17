@@ -191,12 +191,14 @@ public class Juego extends InterfaceJuego {
 
 		}
 
+		this.comprobarGnomoTempo();
+		
 		this.dibujarIslas();
 		this.dibujarJugador();
 		this.dibujarGnomos();
 
 		this.controlarMovimientosJugador();
-		this.comprobarGnomoTempo();
+		
 		this.controlarColisionConGnomo();
 
 	}
