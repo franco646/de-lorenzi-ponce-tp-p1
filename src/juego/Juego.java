@@ -29,8 +29,6 @@ public class Juego extends InterfaceJuego {
 	private int anchoPantalla;
 	private int altoPantalla;
 
-	boolean enIsla;
-
 	// Variables y métodos propios de cada grupo
 	// ...
 	Juego() {
@@ -155,47 +153,59 @@ public class Juego extends InterfaceJuego {
 		this.entorno.dibujarRectangulo(this.anchoPantalla / 2, this.limiteGnomosParaColisionar, this.anchoPantalla, 3,
 				0, Color.red);
 
-		enIsla = false;
+		this.personaje.enIsla = false;
 
 		for (Gnomo gnomo : this.Gnomos) {
 			gnomo.enisla = false;
 
 		}
 
-		this.lasColisiones();
+		this.dibujarIslas();
+		this.dibujarJugador();
+		this.dibujarGnomos();
 
-		this.movimientosJuego();
+		this.controlarMovimientosJugador();
+
+		this.controlarColisionConGnomo();
 
 	}
 
-	public void lasColisiones() {
-
+	public void dibujarIslas() {
 		for (Isla isla : this.islas) {
 			isla.dibujar(entorno);
 
-			if (Colisiones.estaSobreIsla(this.personaje.obtenerDimensiones(), isla)) {
+			this.controlarColisionesConIsla(isla);
 
-				enIsla = true;
+		}
+	}
 
-			}
+	public void controlarColisionesConIsla(Isla isla) {
 
-			for (Gnomo gnomo : this.Gnomos) {
+		if (Colisiones.estaSobreIsla(this.personaje.obtenerDimensiones(), isla)) {
 
-				if (Colisiones.estaSobreIsla(gnomo.obtenerDimensiones(), isla)) {
-					gnomo.enisla = true;
-					gnomo.habitacion_direccion = true;
+			this.personaje.enIsla = true;
 
-				}
+		}
+
+		for (Gnomo gnomo : this.Gnomos) {
+
+			if (Colisiones.estaSobreIsla(gnomo.obtenerDimensiones(), isla)) {
+				gnomo.enisla = true;
+				gnomo.habitacion_direccion = true;
 
 			}
 
 		}
 
+	}
+
+	public void controlarColisionConGnomo() {
 		for (int i = 0; i < this.Gnomos.size(); i++) {// colisiones enemigos
 
 			Gnomo gnomo = this.Gnomos.get(i);
 
-			if (Colisiones.colisionan(this.personaje.obtenerDimensiones(), gnomo.obtenerDimensiones() )&&  gnomo.y > this.limiteGnomosParaColisionar) {
+			if (Colisiones.colisionan(this.personaje.obtenerDimensiones(), gnomo.obtenerDimensiones())
+					&& gnomo.y > this.limiteGnomosParaColisionar) {
 
 				this.contadorColisiones += 1;// solo para saber cuantas veces colisiono
 
@@ -209,44 +219,41 @@ public class Juego extends InterfaceJuego {
 		}
 	}
 
-	public void movimientosJuego() {
-
-		if (!enIsla && !this.personaje.isJumping) {
-			this.personaje.caer();
-		} else {
-			this.personaje.resetVelocidadCaida();
-		}
-
+	public void dibujarGnomos() {
 		for (Gnomo gnomo : this.Gnomos) {
 
 			gnomo.dibujar(this.entorno);
 
-			if (!gnomo.enisla) {
-				gnomo.caer();
-			}
-
-			gnomo.mover();
+			this.controlarMovimientosGnomo(gnomo);
 
 		}
-
-		this.personaje.dibujar(this.entorno);
-
-		this.jugadorMovimiento();
-
 	}
 
-	private void jugadorMovimiento() {
+	public void dibujarJugador() {
+		this.personaje.dibujar(this.entorno);
+	}
 
-		if (this.personaje.isJumping) {
-			this.personaje.subir();
+	public void controlarCaidaJugador() {
+		if (!this.personaje.enIsla && !this.personaje.isJumping) {
+			this.personaje.caer();
+		} else {
+			this.personaje.resetVelocidadCaida();
 		}
+	}
 
+	public void controlarSaltoJugador() {
 		if (this.entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
-			if (enIsla && !this.personaje.isJumping) {
+			if (this.personaje.enIsla && !this.personaje.isJumping) {
 				this.personaje.comenzarSalto();
 			}
 		}
 
+		if (this.personaje.isJumping) {
+			this.personaje.subir();
+		}
+	}
+
+	public void controlarCaminataJugador() {
 		if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)) {
 			this.personaje.moverDer();
 
@@ -254,11 +261,24 @@ public class Juego extends InterfaceJuego {
 			this.personaje.moverIzq();
 
 		} else {
-			if (!this.personaje.isJumping) {
+			if (!this.personaje.isJumping && this.personaje.enIsla) {
 				this.personaje.quieto();
 			}
 		}
+	}
 
+	public void controlarMovimientosJugador() {
+		this.controlarSaltoJugador();
+		this.controlarCaidaJugador();
+		this.controlarCaminataJugador();
+	}
+
+	public void controlarMovimientosGnomo(Gnomo gnomo) {
+		if (!gnomo.enisla) {
+			gnomo.caer();
+		}
+
+		gnomo.mover();
 	}
 
 	@SuppressWarnings("unused")

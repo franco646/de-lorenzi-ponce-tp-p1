@@ -13,6 +13,8 @@ public class Personaje {
 	double ancho;
 	double alto;
 
+	public boolean enIsla;
+
 	private int frame;
 	private long tiempoAnterior;
 
@@ -112,12 +114,7 @@ public class Personaje {
 	public void moverDer() {
 		this.derecha = true;
 		if (this.x < 1366 - this.ancho / 2) {
-			long tiempoActual = System.currentTimeMillis();
-			if (tiempoActual - this.tiempoAnterior > 150 && !this.isJumping) {
-				this.tiempoAnterior = tiempoActual;
-				this.imagen = this.imagenesDer[frame];
-				this.frame = (frame + 1) % this.imagenesDer.length;
-			}
+			this.animar("derecha");
 			this.x = this.x + 3;
 		} else {
 			this.quieto();
@@ -127,15 +124,19 @@ public class Personaje {
 	public void moverIzq() {
 		this.derecha = false;
 		if (this.x > 0 + this.ancho / 2) {
-			long tiempoActual = System.currentTimeMillis();
-			if (tiempoActual - this.tiempoAnterior > 150 && !this.isJumping) {
-				this.tiempoAnterior = tiempoActual;
-				this.imagen = this.imagenesIzq[frame];
-				this.frame = (frame + 1) % this.imagenesIzq.length;
-			}
+			this.animar("izquierda");
 			this.x = this.x - 3;
 		} else {
 			this.quieto();
+		}
+	}
+
+	public void animar(String direccion) {
+		long tiempoActual = System.currentTimeMillis();
+		if (tiempoActual - this.tiempoAnterior > 150 && !this.isJumping && this.enIsla) {
+			this.tiempoAnterior = tiempoActual;
+			this.imagen = direccion == "izquierda" ? this.imagenesIzq[frame] : this.imagenesDer[frame];
+			this.frame = (frame + 1) % this.imagenesIzq.length;
 		}
 	}
 
