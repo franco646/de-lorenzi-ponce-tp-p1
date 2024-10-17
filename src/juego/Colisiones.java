@@ -4,17 +4,17 @@ public class Colisiones {
 	
 	//clase para colisionesss
 	
-	public static boolean checkRect(Personaje pj,Enemigo ene
+	public static boolean checkRect(Personaje pj,Gnomo gno
 			) {
 		
 		double x =pj.x;
 		double y = pj.y; 
 		double width = pj.width;
 		double height = pj.height;
-		double x2 = ene.x;
-		double y2 = ene.y;
-		double width2 = ene.width;
-		double height2 = ene.height;
+		double x2 = gno.x;
+		double y2 = gno.y;
+		double width2 = gno.width;
+		double height2 = gno.height;
 		
 		double distanciaX = x2 - x;// calculamos la distancia del eje X
 		double distanciaY = y2 - y;// calculamos la distancia del eje Y
@@ -48,10 +48,10 @@ public class Colisiones {
 				&& Math.abs(y - (y2 - height2 / 2)) <= 5;
 		
 	}
-public static boolean is_on_floor(Enemigo ene , Isla isla) {
+public static boolean is_on_floor(Gnomo gno , Isla isla) {
 		
-		double x =ene.x;
-		double y = ene.y;
+		double x =gno.x;
+		double y = gno.y;
 		double x2 = isla.x;
 		double y2 = isla.y;
 		double width2 = isla.width;

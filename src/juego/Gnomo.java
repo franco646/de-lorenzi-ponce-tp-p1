@@ -4,7 +4,7 @@ import java.awt.Image;
 
 import entorno.Entorno;
 
-public class Enemigo {
+public class Gnomo {
 
 	double x;
 	double y;
@@ -27,7 +27,7 @@ public class Enemigo {
 	public boolean is_colisionando = false;//para saber si esta colisionando o no 
 									// con esto se puede colisionar una vez por contacto
 	
-	public Enemigo(double x , double y) {
+	public Gnomo(double x , double y) {
 		
 		this.x = x;
 		this.y = y;

@@ -21,9 +21,9 @@ public class ColisionVisible {
 		e.dibujarRectangulo(pj.x, pj.y, pj.width, pj.height, 0, colorb);
 	}
 	
-	public static void dibujar(Entorno e,Enemigo ene) {
+	public static void dibujar(Entorno e,Gnomo gno) {
 		Color colorb = ColisionVisible.COLOR_GREEN;
-		e.dibujarRectangulo(ene.x, ene.y, ene.width, ene.height, 0, colorb);
+		e.dibujarRectangulo(gno.x, gno.y, gno.width, gno.height, 0, colorb);
 	}
 	
 	public static void dibujar(Entorno e,Isla i) {
