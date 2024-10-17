@@ -98,7 +98,9 @@ public class Personaje {
 		
 		this.y = this.y + 1 * this.grav_mult;
 
-		this.grav_mult += 0.15;
+		if(this.grav_mult <= 11) {
+			this.grav_mult += 0.15;
+		}
 
 		if (this.y >= 768) {
 			this.x = 660;

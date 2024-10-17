@@ -4,7 +4,6 @@ package juego;
 import java.awt.Color;
 import java.awt.Image;
 
-import Funcs.Colisiones;
 import entorno.Entorno;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
@@ -52,8 +51,19 @@ public class Juego extends InterfaceJuego
             	int tamanioSeccionVertical = this.altoPantalla / qFilas;
             	int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2); 
             	
+            	
+            	if(fila == 2&& isla == 1) {
+            		medioSeccionHorizontal +=120; 
+            	}
+            	
+            	//las islas se mueven si son de fila 2
+            	
+            	else if(fila == 2 && isla ==2) {
+            		medioSeccionHorizontal -=120;
+            	}
             	this.islas[index] = new Isla(medioSeccionHorizontal, medioSeccionVertical);
             	index = index + 1;
+            	
             }
         }
 		

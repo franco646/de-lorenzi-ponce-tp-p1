@@ -1,6 +1,4 @@
-package Funcs;
-
-import juego.Personaje;
+package juego;
 
 public class Colisiones {
 	
