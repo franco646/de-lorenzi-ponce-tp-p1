@@ -200,9 +200,11 @@ public class Juego extends InterfaceJuego {
 				this.contadorColisiones += 1;// solo para saber cuantas veces colisiono
 
 				System.out.println("Contador de Col: " + this.contadorColisiones);
-
+				
 				this.Gnomos.remove(i);
 
+				this.tablainterface.sumarSalvados();
+				
 				this.agregarEnemigos();
 
 			}
