@@ -25,7 +25,7 @@ public class Proyectil {
 	private final double ESCALA = 0.05;
 
 	public Proyectil(double x, double y, boolean derecha) {
-		this.x = x;
+		this.x = derecha ? x + 40 : x - 40;
 		this.y = y;
 		this.derecha = derecha;
 
@@ -48,13 +48,14 @@ public class Proyectil {
 			this.x = this.x - VELOCIDAD;
 		}
 	}
+
 	public Rectangle obtenerDimensiones() {
-		int x = (int)this.x;
-		int y = (int)this.y;
+		int x = (int) this.x;
+		int y = (int) this.y;
 		int ancho = (int) this.ancho;
 		int alto = (int) this.alto;
 
 		return new Rectangle(x, y, ancho, alto);
 	}
-	
+
 }
