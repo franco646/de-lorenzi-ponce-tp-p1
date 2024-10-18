@@ -20,10 +20,10 @@ public class Colisiones {
 		boolean colizionHorizontal = bordeDerCaja1 > bordeIzqCaja2 && bordeIzqCaja1 < bordeDerCaja2;
 		boolean colisionVertical = bordeSupCaja1 > bordeInfCaja2 && bordeInfCaja1 < bordeSupCaja2;
 
-		if (colizionHorizontal && colisionVertical) {
-			System.out.println("colison horizontal: " + colizionHorizontal);
-			System.out.println("colison vertical: " + colisionVertical);
-		}
+		//if (colizionHorizontal && colisionVertical) {
+		//	System.out.println("colison horizontal: " + colizionHorizontal);
+		//	System.out.println("colison vertical: " + colisionVertical);
+		//}
 
 		return colizionHorizontal && colisionVertical;
 

@@ -34,6 +34,8 @@ public class Juego extends InterfaceJuego {
 	private int limiteGnomosParaColisionar;// esto es para que los Gnomos solo puedan colisionar en las ultimas dos
 											// filas
 
+	private boolean perdiste;
+	
 	private Isla[] islas;
 	private double anchoisla;
 	private Image fondo;
@@ -43,7 +45,9 @@ public class Juego extends InterfaceJuego {
 	// Variables y métodos propios de cada grupo
 	// ...
 	Juego() {
-
+		
+		this.perdiste = false;
+		
 		this.anchoPantalla = 1366;
 		this.altoPantalla = 768;
 
@@ -272,6 +276,19 @@ public class Juego extends InterfaceJuego {
 		this.Gnomos.add(auxiliar);
 
 	}
+	
+	public void comprobarEstadoDeJuego() {
+		
+		
+		if(this.tablainterface.getPerdidos() == 10) {
+			
+			this.perdiste = true;
+			System.out.println("PERDISTE :(");
+			
+		}
+		
+		
+	}
 
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y por lo
@@ -280,40 +297,41 @@ public class Juego extends InterfaceJuego {
 	 * del TP para mayor detalle).
 	 */
 	public void tick() {
-
+		
+		this.comprobarEstadoDeJuego();
+		
 		this.entorno.dibujarImagen(this.fondo, this.anchoPantalla / 2, this.altoPantalla / 2, 0, 1);
-
-		this.tablainterface.setTiempo(this.entorno.tiempo());
-
-		this.tablainterface.dibujar(entorno);
-
-		// DIBUJA UNA LINEA ROJA PARA SABER CUANDO EL PJ PUEDE COLISIONAR CON LOS GNOMOS
-		this.entorno.dibujarRectangulo(this.anchoPantalla / 2, this.limiteGnomosParaColisionar, this.anchoPantalla, 3,
-				0, Color.red);
-
-		this.personaje.enIsla = false;
-
-		for (Gnomo gnomo : this.Gnomos) {
-			gnomo.enisla = false;
-
+		
+		if(!this.perdiste) {
+		
+			this.tablainterface.setTiempo(this.entorno.tiempo());
+	
+			this.tablainterface.dibujar(entorno);
+	
+			// DIBUJA UNA LINEA ROJA PARA SABER CUANDO EL PJ PUEDE COLISIONAR CON LOS GNOMOS
+			this.entorno.dibujarRectangulo(this.anchoPantalla / 2, this.limiteGnomosParaColisionar, this.anchoPantalla, 3,
+					0, Color.red);
+	
+			this.personaje.enIsla = false;
+	
+			for (int i = 0 ;i < this.Gnomos.size();i++) {
+				Gnomo gnomo = this.Gnomos.get(i);
+				gnomo.enisla = false;
+			}
+			for (int i = 0 ;i < this.enemigos.size();i++) {
+				Enemigo enemigo = this.enemigos.get(i);
+				enemigo.enisla = false;
+			}
+	
+			this.GnomoPerdidos();
+			this.comprobarGnomoTempo();
+			this.comprobarEnemigoTempo();
+			this.controlarIslas();
+			this.controlarEnemigos();
+			this.controlarGnomos();
+			this.controlarJugador();
+			this.controlarProyectiles();
 		}
-
-		for (Enemigo enemigo : this.enemigos) {
-			enemigo.enisla = false;
-
-		}
-
-		this.GnomoPerdidos();
-
-		this.comprobarGnomoTempo();
-		this.comprobarEnemigoTempo();
-
-		this.controlarIslas();
-		this.controlarEnemigos();
-		this.controlarGnomos();
-		this.controlarJugador();
-		this.controlarProyectiles();
-
 	}
 
 	public void controlarIslas() {
