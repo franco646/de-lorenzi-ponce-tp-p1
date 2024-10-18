@@ -19,7 +19,6 @@ public class Temporizador {
 		    this.task = new TimerTask(){
 		    @Override
 		    public void run() {
-		    	System.out.println("¡La tarea se ejecutó después de 2 segundos!");
 		                
 		    	terminado = true;
 		             

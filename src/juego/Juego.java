@@ -31,15 +31,14 @@ public class Juego extends InterfaceJuego {
 	private LinkedList<Temporizador> GnomosTempo = new LinkedList<>();
 	
 	private LinkedList<Temporizador> enemigoTempo = new LinkedList<>();
+	
+	private LinkedList<Temporizador> DisparoTempo = new LinkedList<>();
 
 	private int limiteGnomosParaColisionar;// esto es para que los Gnomos solo puedan colisionar en las ultimas dos
-											// filas
-	private int contadorColisiones = 0;// contador de colisiones para probar nomas
-
+											// filas 
+	
 	private Isla[] islas;
 	private double anchoisla;
-	
-	private Proyectil proyectil;
 	private Image fondo;
 	private int anchoPantalla;
 	private int altoPantalla;
@@ -320,6 +319,7 @@ public class Juego extends InterfaceJuego {
 		
 		this.comprobarGnomoTempo();
 		this.comprobarEnemigoTempo();
+		this.temporizadorDisparoComprobar();
 
 		this.dibujarIslas();
 		this.dibujarEnemigo();
@@ -385,7 +385,9 @@ public class Juego extends InterfaceJuego {
 				
 				if(Colisiones.colisionan(ene.obtenerDimensiones(),proy.obtenerDimensiones() ));
 					
-					this.proyectiles.remove(n);
+					System.out.println("JA");
+				
+					//this.proyectiles.remove(n);
 				
 					this.enemigos.remove(i);
 				
@@ -503,9 +505,28 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 	}
+	
+	public void temporizadorDisparoComprobar() {
+		
+		if(this.DisparoTempo.isEmpty()) {
+			this.DisparoTempo.add(new Temporizador(2000));
+		}
+		else {
+			
+			if(this.DisparoTempo.get(0).terminado){
+				this.personaje.puedeDisparar = true;
+				this.DisparoTempo.remove(0);
+			}
+			
+		}
+		
+		
+		
+	}
 
 	public void controlarDisparoJugador() {
-		if (this.entorno.estaPresionada('c')) {
+		
+		if (this.entorno.estaPresionada('c') && this.personaje.puedeDisparar) {
 			
 			Proyectil proyectil;
 			
@@ -522,6 +543,8 @@ public class Juego extends InterfaceJuego {
 				}
 				
 				proyectiles.addFirst(proyectil);
+				
+				this.personaje.puedeDisparar = false;
 			}
 		}
 	}

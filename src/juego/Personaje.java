@@ -33,6 +33,8 @@ public class Personaje {
 	double alturaAlComenzarSalto; // coordenada en el eje y del personaje al comenzar el salto
 	public boolean isJumping = false;
 
+	public boolean puedeDisparar = true;
+	
 	private final double VELOCIDAD_INICIAL_SALTO = 8;
 	private final double VELOCIDAD_FINAL_SALTO = 3;
 
