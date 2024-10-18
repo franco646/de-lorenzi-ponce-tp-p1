@@ -17,6 +17,11 @@ public class ColisionVisible {
 		Color colorb = ColisionVisible.COLOR_BLUE;
 		e.dibujarRectangulo(pj.x, pj.y, pj.ancho, pj.alto, 0, colorb);
 	}
+	
+	public static void dibujar(Entorno e, Enemigo ene) {
+		Color colorb = ColisionVisible.COLOR_RED;
+		e.dibujarRectangulo(ene.x, ene.y, ene.ancho, ene.alto, 0, colorb);
+	}
 
 	public static void dibujar(Entorno e, Gnomo gno) {
 		Color colorb = ColisionVisible.COLOR_GREEN;

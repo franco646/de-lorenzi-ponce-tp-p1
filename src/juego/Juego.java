@@ -17,17 +17,28 @@ public class Juego extends InterfaceJuego {
 
 	private int respawnPj_x;// el spawn para el personaje
 	private int respawnPj_y;
+	
+	private int[] islasCordenadasX;
+	private int[] islasCordenadasY;
+	
 
 	private LinkedList<Gnomo> Gnomos = new LinkedList<>();// Linked de gnomos
+	
+	private LinkedList<Enemigo> enemigos = new LinkedList<>();
+	
 	private LinkedList<Proyectil> proyectiles = new LinkedList<Proyectil>();
 
 	private LinkedList<Temporizador> GnomosTempo = new LinkedList<>();
+	
+	private LinkedList<Temporizador> enemigoTempo = new LinkedList<>();
 
 	private int limiteGnomosParaColisionar;// esto es para que los Gnomos solo puedan colisionar en las ultimas dos
 											// filas
 	private int contadorColisiones = 0;// contador de colisiones para probar nomas
 
 	private Isla[] islas;
+	private double anchoisla;
+	
 	private Proyectil proyectil;
 	private Image fondo;
 	private int anchoPantalla;
@@ -49,6 +60,8 @@ public class Juego extends InterfaceJuego {
 
 		tablainterface = new TablaInterface(0);
 
+		this.crearGnomos();
+		
 		this.crearEnemigos();
 
 		// Inicializar lo que haga falta para el juego
@@ -62,16 +75,25 @@ public class Juego extends InterfaceJuego {
 
 		int qFilas = 5;
 		int qIslas = 0;
+		
+		
+		
+		
 		for (int i = 1; i <= qFilas; i++) {
 			qIslas = qIslas + i;
 		}
-
+		
+		this.islasCordenadasX = new int[qIslas];
+		
+		this.islasCordenadasY = new int[qIslas];
+		
+		
 		this.islas = new Isla[qIslas];
 
 		int index = 0;
 		for (int fila = 1; fila <= qFilas; fila++) {
 			for (int isla = 1; isla <= fila; isla++) {
-
+				
 				int medioSeccionHorizontal;
 				int tamanioSeccionHorizontal = this.anchoPantalla / fila;
 				if (fila == 2) {
@@ -106,8 +128,17 @@ public class Juego extends InterfaceJuego {
 				}
 
 				this.islas[index] = new Isla(medioSeccionHorizontal, medioSeccionVertical);
+				
+				this.anchoisla = this.islas[index].ancho;
+				
+				this.islasCordenadasX[index] = medioSeccionHorizontal;
+				
+				this.islasCordenadasY[index] = medioSeccionVertical - (tamanioSeccionVertical / 2);
+				
 				index = index + 1;
 
+				
+				
 			}
 		}
 
@@ -133,9 +164,17 @@ public class Juego extends InterfaceJuego {
 
 	private void crearGnomoTempo() {
 
-		Temporizador t = new Temporizador();
+		Temporizador t = new Temporizador(2000);
 
 		this.GnomosTempo.add(t);
+
+	}
+	
+	private void crearEnemigoTempo() {
+
+		Temporizador t = new Temporizador(3000);
+
+		this.enemigoTempo.add(t);
 
 	}
 
@@ -145,7 +184,7 @@ public class Juego extends InterfaceJuego {
 			for (int i = 0;i < this.GnomosTempo.size();i++) {
 
 				if (this.GnomosTempo.get(i).terminado) {
-					this.agregarEnemigos();
+					this.agregarGnomos();
 					this.GnomosTempo.remove(i);
 
 				}
@@ -153,14 +192,58 @@ public class Juego extends InterfaceJuego {
 			}
 
 	}
+	
+	private void comprobarEnemigoTempo() {
 
+		if (!this.enemigoTempo.isEmpty())
+			for (int i = 0;i < this.enemigoTempo.size();i++) {
+
+				if (this.enemigoTempo.get(i).terminado) {
+					this.agregarEnemigo();
+					this.enemigoTempo.remove(i);
+
+				}
+
+			}
+
+	}
+	
 	private void crearEnemigos() {
-
+		
 		System.out.println("creando LinkedList de clase enemigos");
+
+		int total = this.islasCordenadasX.length - 1;
+		
+		int aleatorioNum;
+		
+		int numEnemigo = 4;
+		
+		Enemigo auxiliar;
+
+		for (int i = 0; i < numEnemigo; i++) {
+			
+			aleatorioNum = Enemigo.seleccionAleatoria(total);
+			
+			while(aleatorioNum == 0 || aleatorioNum == 12){
+				aleatorioNum = Enemigo.seleccionAleatoria(total);
+			}
+			
+			auxiliar = new Enemigo(this.islasCordenadasX[aleatorioNum],this.islasCordenadasY[aleatorioNum] - 30);
+			
+			this.enemigos.add(auxiliar);
+
+		}
+		
+		
+	}
+
+	private void crearGnomos() {
+
+		System.out.println("creando LinkedList de clase Gnomos");
 
 		Gnomo auxiliar;
 
-		for (int i = 0; i < 5.; i++) {
+		for (int i = 0; i < 5; i++) {
 
 			auxiliar = new Gnomo(this.anchoPantalla / 2, 0);
 
@@ -168,8 +251,32 @@ public class Juego extends InterfaceJuego {
 
 		}
 	}
+	
+	private void agregarEnemigo() {
+		
+		int total = this.islasCordenadasX.length - 1;
+		
+		int aleatorioNum;
+		
+		Enemigo auxiliar;
+		
+		System.out.println("Se añadio uno nuevo Enemigo");
+			
+		aleatorioNum = Enemigo.seleccionAleatoria(total);
+			
+		while(aleatorioNum == 0 || aleatorioNum == 12){
+			aleatorioNum = Enemigo.seleccionAleatoria(total);
+			}
+			
+			auxiliar = new Enemigo(this.islasCordenadasX[aleatorioNum],this.islasCordenadasY[aleatorioNum] - 30);
+			
+			
+			this.enemigos.add(auxiliar);
+		
 
-	private void agregarEnemigos() {
+	}
+
+	private void agregarGnomos() {
 
 		System.out.println("Se añadio uno nuevo");
 		Gnomo auxiliar = new Gnomo(this.anchoPantalla / 2, 0);
@@ -202,32 +309,43 @@ public class Juego extends InterfaceJuego {
 			gnomo.enisla = false;
 
 		}
+		
+		for (Enemigo enemigo : this.enemigos) {
+			enemigo.enisla = false;
+
+		}
+		
 
 		this.GnomoPerdidos();
 		
 		this.comprobarGnomoTempo();
+		this.comprobarEnemigoTempo();
 
 		this.dibujarIslas();
+		this.dibujarEnemigo();
 		this.dibujarJugador();
 		this.dibujarGnomos();
 
+		
 		this.controlarMovimientosJugador();
 		this.controlarMovimientoProyectiles();
 		this.controlarColisionConGnomo();
 
+		
+		
 	}
 
 	public void dibujarIslas() {
 		for (Isla isla : this.islas) {
 			isla.dibujar(entorno);
-
+			
 			this.controlarColisionesConIsla(isla);
 
 		}
 	}
 
 	public void controlarColisionesConIsla(Isla isla) {
-
+		
 		if (Colisiones.estaSobreIsla(this.personaje.obtenerDimensiones(), isla)) {
 
 			this.personaje.enIsla = true;
@@ -243,12 +361,47 @@ public class Juego extends InterfaceJuego {
 			}
 
 		}
+		
+		for (Enemigo enemigo : this.enemigos) {
 
+			if (Colisiones.estaSobreIsla(enemigo.obtenerDimensiones(), isla)) {
+				enemigo.enisla = true;
+				
+
+			}
+		}
+
+	}
+	
+	public void controlarColisionConEnemigo() {
+		
+		for(int i = 0;i < this.enemigos.size();i++) {
+			
+			Enemigo ene = this.enemigos.get(i);
+			
+			for(int n = 0;n < this.proyectiles.size();n++) {
+			
+				Proyectil proy = this.proyectiles.get(n);
+				
+				if(Colisiones.colisionan(ene.obtenerDimensiones(),proy.obtenerDimensiones() ));
+					
+					this.proyectiles.remove(n);
+				
+					this.enemigos.remove(i);
+				
+					this.tablainterface.sumarEliminados();
+					
+					this.crearEnemigoTempo();
+			}
+		}
+		
+		
+		
 	}
 
 	public void controlarColisionConGnomo() {
 
-		for (int i = 0; i < this.Gnomos.size(); i++) {// colisiones enemigos
+		for (int i = 0; i < this.Gnomos.size(); i++) {// colisiones Gnomos
 
 			Gnomo gnomo = this.Gnomos.get(i);
 
@@ -262,7 +415,26 @@ public class Juego extends InterfaceJuego {
 				this.crearGnomoTempo();
 
 			}
+			
+			for(Enemigo enem : this.enemigos) {
+				
+				if(Colisiones.colisionan(gnomo.obtenerDimensiones(), enem.obtenerDimensiones())) {
+					
+					this.Gnomos.remove(i);
+
+					this.tablainterface.sumarPerdidos();
+
+					this.crearGnomoTempo();
+					
+				}
+				
+				
+			}
+			
+			
+			
 		}
+		
 	}
 
 	public void dibujarGnomos() {
@@ -277,6 +449,25 @@ public class Juego extends InterfaceJuego {
 
 	public void dibujarJugador() {
 		this.personaje.dibujar(this.entorno);
+	}
+	
+	public void dibujarEnemigo() {
+		
+		Enemigo enemigo;
+		
+		for(int i = 0; i < this.enemigos.size();i++) {
+			
+			enemigo = this.enemigos.get(i);
+			
+			enemigo.dibujar(entorno);
+			
+			this.controlarMovimientosEnemigo(enemigo);
+			
+			this.controlarColisionConEnemigo();
+			
+			
+		}
+		
 	}
 
 	public void controlarCaidaJugador() {
@@ -344,6 +535,15 @@ public class Juego extends InterfaceJuego {
 		this.controlarCaidaJugador();
 		this.controlarCaminataJugador();
 		this.controlarDisparoJugador();
+	}
+	
+	public void controlarMovimientosEnemigo(Enemigo enemigo) {
+		if(!enemigo.enisla) {
+			
+			enemigo.caer();
+		}
+		
+		enemigo.mover(this.anchoisla,enemigo.xInicial);
 	}
 
 	public void controlarMovimientosGnomo(Gnomo gnomo) {

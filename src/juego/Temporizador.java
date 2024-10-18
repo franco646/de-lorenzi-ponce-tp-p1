@@ -11,7 +11,7 @@ public class Temporizador {
 		
 	public boolean terminado;
 
-	public Temporizador() {//temporizador para respawnear a los Gnomos
+	public Temporizador(int Milisegundos) {//temporizador para respawnear a los Gnomos
 		    this.terminado = false;
 		    	
 		    this.tempo = new Timer();
@@ -27,7 +27,7 @@ public class Temporizador {
 		        }
 		    };
 		        
-		    this.tempo.schedule(task, 2000);
+		    this.tempo.schedule(task, Milisegundos);
 		        
 		    	
 		

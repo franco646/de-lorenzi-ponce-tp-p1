@@ -21,6 +21,7 @@ public class Isla {
 		this.imagen = entorno.Herramientas.cargarImagen("imagenes/isla/pngegg.png");
 		this.ancho = imagen.getWidth(null) * this.escala;
 		this.alto = imagen.getHeight(null) * this.escala;
+		
 	}
 
 	public void dibujar(Entorno e) {
