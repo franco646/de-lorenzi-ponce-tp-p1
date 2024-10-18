@@ -352,18 +352,18 @@ public class Juego extends InterfaceJuego {
 
 	public void controlarColisionesEnemigo(Enemigo enemigo) {
 		for (Proyectil proyectil : this.proyectiles) {
-			if (Colisiones.colisionan(proyectil.obtenerDimensiones(), enemigo.obtenerDimensiones()))
-				;
+			if (Colisiones.colisionan(enemigo.obtenerDimensiones(), proyectil.obtenerDimensiones())) {
+				System.out.println("colisionan");
 
-			System.out.println("Golpeo enemigo");
+				this.proyectiles.remove(proyectil);
 
-			this.proyectiles.remove(proyectil);
+				this.enemigos.remove(enemigo);
 
-			this.enemigos.remove(enemigo);
+				this.tablainterface.sumarEliminados();
 
-			this.tablainterface.sumarEliminados();
-
-			this.crearEnemigoTempo();
+				this.crearEnemigoTempo();
+			}
+			;
 		}
 	}
 
