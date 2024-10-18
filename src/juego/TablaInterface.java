@@ -29,6 +29,17 @@ public class TablaInterface {
 		
 		e.escribirTexto(SalvadosTotal, 160, 15);
 		
+		String per = Integer.toString(this.perdidos);
+		
+		String perTotal = "Perdidos :" + per; 
+		
+		e.escribirTexto(perTotal, 275, 15);
+		
+		String eli = Integer.toString(this.eliminados);
+		
+		String eliTotal = "Eliminados :" + eli; 
+		
+		e.escribirTexto(eliTotal, 375, 15);
 		
 	}
 	
@@ -56,6 +67,17 @@ public class TablaInterface {
 		}
 			
 	}
+	
+	public void sumarEliminados() {
+		
+		this.eliminados +=1;
+	}
+	
+	public void sumarPerdidos() {
+		
+		this.perdidos +=1;
+	}
+	
 	
 	public void sumarSalvados() {
 		
