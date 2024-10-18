@@ -330,8 +330,10 @@ public class Juego extends InterfaceJuego {
 
 		}
 
-		for (Gnomo gnomo : this.Gnomos) {
+		for (int i = 0;i < this.Gnomos.size() ; i++) {
 
+			Gnomo gnomo = this.Gnomos.get(i);
+			
 			if (Colisiones.estaSobreIsla(gnomo.obtenerDimensiones(), isla)) {
 				gnomo.enisla = true;
 				gnomo.habitacion_direccion = true;
@@ -340,8 +342,10 @@ public class Juego extends InterfaceJuego {
 
 		}
 
-		for (Enemigo enemigo : this.enemigos) {
-
+		for (int i = 0 ;i < this.enemigos.size();i++) {
+			
+			Enemigo enemigo = this.enemigos.get(i);
+			
 			if (Colisiones.estaSobreIsla(enemigo.obtenerDimensiones(), isla)) {
 				enemigo.enisla = true;
 
@@ -380,8 +384,10 @@ public class Juego extends InterfaceJuego {
 
 		}
 
-		for (Enemigo enemigo : this.enemigos) {
-
+		for (int i = 0 ;i < this.enemigos.size();i++) {
+			
+			Enemigo enemigo = this.enemigos.get(i);
+			
 			if (Colisiones.colisionan(gnomo.obtenerDimensiones(), enemigo.obtenerDimensiones())) {
 
 				this.Gnomos.remove(gnomo);
@@ -397,8 +403,10 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void controlarGnomos() {
-		for (Gnomo gnomo : this.Gnomos) {
+		for (int i = 0 ;i < this.Gnomos.size(); i++) {
 
+			Gnomo gnomo = this.Gnomos.get(i);
+			
 			gnomo.dibujar(entorno);
 
 			this.controlarColisionesGnomo(gnomo);
