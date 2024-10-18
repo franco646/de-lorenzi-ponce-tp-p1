@@ -21,7 +21,7 @@ public class Enemigo {
 	
 	Boolean derecha = true;
 	
-	boolean habitacion_direccion = true;
+	boolean puedeMoverse = false;
 
 	Boolean enisla = true;
 	
@@ -65,36 +65,36 @@ public class Enemigo {
 	}
 	
 	public void caer() {
-		
 		this.imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/real/enemigoGeneric.png");
 		this.y = this.y + 3;
 		 
 	}
 	public void mover(double ancho,double xIsla) {
-		
-		double anchoMitad = ancho/2;
-		
-		double posicion1 = anchoMitad + xIsla;//extremo derecho de la isla
-		double posicion2 = xIsla - anchoMitad + 5;//extremo izquiero de la isla
-		
-		if (this.x <= posicion2) {
-			this.derecha = true;
-			
-		} else if (this.x >= posicion1) {
-			this.derecha = false;
-		}
-		
-		if(this.derecha) {
-			
-			this.x +=0.7;
-			
-		}
-		
-		else if(!this.derecha) {
-			
-			this.x -=0.7;
-			
-		}
+			if(this.puedeMoverse) {	
+				double anchoMitad = ancho/2;
+				
+				double posicion1 = anchoMitad + xIsla;//extremo derecho de la isla
+				double posicion2 = xIsla - anchoMitad + 5;//extremo izquiero de la isla
+				
+				if (this.x <= posicion2) {
+					this.derecha = true;
+					
+				} else if (this.x >= posicion1) {
+					this.derecha = false;
+				}
+				
+				if(this.derecha) {
+					
+					this.x +=0.7;
+					
+				}
+				
+				else if(!this.derecha) {
+					
+					this.x -=0.7;
+					
+				}
+			}
 
 	}
 	

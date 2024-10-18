@@ -217,7 +217,8 @@ public class Juego extends InterfaceJuego {
 				aleatorioNum = Enemigo.seleccionAleatoria(total);
 			}
 
-			auxiliar = new Enemigo(this.islasCordenadasX[aleatorioNum], this.islasCordenadasY[aleatorioNum] - 30);
+			auxiliar = new Enemigo(this.islasCordenadasX[aleatorioNum],
+					this.islasCordenadasY[aleatorioNum] - 90);
 
 			this.enemigos.add(auxiliar);
 
@@ -256,7 +257,8 @@ public class Juego extends InterfaceJuego {
 			aleatorioNum = Enemigo.seleccionAleatoria(total);
 		}
 
-		auxiliar = new Enemigo(this.islasCordenadasX[aleatorioNum], this.islasCordenadasY[aleatorioNum] - 30);
+		auxiliar = new Enemigo(this.islasCordenadasX[aleatorioNum],
+				this.islasCordenadasY[aleatorioNum] - 90);
 
 		this.enemigos.add(auxiliar);
 
@@ -348,6 +350,7 @@ public class Juego extends InterfaceJuego {
 			
 			if (Colisiones.estaSobreIsla(enemigo.obtenerDimensiones(), isla)) {
 				enemigo.enisla = true;
+				enemigo.puedeMoverse = true;
 
 			}
 		}
@@ -510,7 +513,7 @@ public class Juego extends InterfaceJuego {
 
 	public void controlarMovimientosEnemigo(Enemigo enemigo) {
 		if (!enemigo.enisla) {
-
+			enemigo.puedeMoverse = false;
 			enemigo.caer();
 		}
 
