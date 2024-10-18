@@ -355,7 +355,10 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void controlarColisionesEnemigo(Enemigo enemigo) {
-		for (Proyectil proyectil : this.proyectiles) {
+		for (int i = 0;i < this.proyectiles.size();i++) {
+			
+			Proyectil proyectil = this.proyectiles.get(i);
+			
 			if (Colisiones.colisionan(enemigo.obtenerDimensiones(), proyectil.obtenerDimensiones())) {
 				System.out.println("colisionan");
 
@@ -421,8 +424,10 @@ public class Juego extends InterfaceJuego {
 
 	public void controlarEnemigos() {
 
-		for (Enemigo enemigo : this.enemigos) {
+		for (int i = 0;i < this.enemigos.size();i++) {
 
+			Enemigo enemigo = this.enemigos.get(i);
+			
 			enemigo.dibujar(entorno);
 
 			this.controlarMovimientosEnemigo(enemigo);
@@ -485,7 +490,9 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void controlarProyectiles() {
-		for (Proyectil proyectil : this.proyectiles) {
+		for (int i = 0;i < this.proyectiles.size();i++) {
+			Proyectil proyectil = this.proyectiles.get(i);
+			
 			proyectil.dibujar(entorno);
 			proyectil.mover();
 			this.eliminarProyectilesFueraDePantalla(proyectil);
