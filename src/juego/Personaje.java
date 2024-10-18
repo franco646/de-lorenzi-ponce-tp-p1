@@ -27,20 +27,20 @@ public class Personaje {
 	private Image imagenSaltarDer;
 	private Image imagenSaltarIzq;
 
-	private Boolean derecha = true; /// comprobar si esta a la derecha == true
+	public Boolean derecha = true; /// comprobar si esta a la derecha == true
 
 	private static final int ALTURA_DEL_SALTO = 170; // altura en pixeles del salto
 	double alturaAlComenzarSalto; // coordenada en el eje y del personaje al comenzar el salto
 	public boolean isJumping = false;
 
-	private static final double VELOCIDAD_INICIAL_SALTO = 8;
-	private static final double VELOCIDAD_FINAL_SALTO = 3;
+	private final double VELOCIDAD_INICIAL_SALTO = 8;
+	private final double VELOCIDAD_FINAL_SALTO = 3;
 
-	private static final double VELOCIDAD_INICIAL_CAIDA = 3;
-	private static final double VELOCIDAD_FINAL_CAIDA = 8;
+	private final double VELOCIDAD_INICIAL_CAIDA = 3;
+	private final double VELOCIDAD_FINAL_CAIDA = 8;
 
-	private static final double GRAVEDAD = 0.15; // Cantidad de pixeles que se aumenta/disminuye por cada frame durante
-													// salto/caida
+	private final double GRAVEDAD = 0.15; // Cantidad de pixeles que se aumenta/disminuye por cada frame durante
+											// salto/caida
 
 	private double velocidadSalto = VELOCIDAD_INICIAL_SALTO;
 	private double velocidadCaida = VELOCIDAD_INICIAL_CAIDA;

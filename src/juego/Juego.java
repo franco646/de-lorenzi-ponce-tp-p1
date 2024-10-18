@@ -19,15 +19,16 @@ public class Juego extends InterfaceJuego {
 	private int respawnPj_y;
 
 	private LinkedList<Gnomo> Gnomos = new LinkedList<>();// Linked de gnomos
-	
+	private LinkedList<Proyectil> proyectiles = new LinkedList<Proyectil>();
+
 	private LinkedList<Temporizador> GnomosTempo = new LinkedList<>();
-	
 
 	private int limiteGnomosParaColisionar;// esto es para que los Gnomos solo puedan colisionar en las ultimas dos
 											// filas
 	private int contadorColisiones = 0;// contador de colisiones para probar nomas
 
 	private Isla[] islas;
+	private Proyectil proyectil;
 	private Image fondo;
 	private int anchoPantalla;
 	private int altoPantalla;
@@ -111,37 +112,32 @@ public class Juego extends InterfaceJuego {
 		}
 
 	}
-	
+
 	private void crearGnomoTempo() {
-		
+
 		Temporizador t = new Temporizador();
-		
+
 		this.GnomosTempo.add(t);
-		
+
 	}
-	
+
 	private void comprobarGnomoTempo() {
-		
+
 		int index = 0;
-		
-		if(!this.GnomosTempo.isEmpty())
-			for(Temporizador t : this.GnomosTempo) {
-			
-				if(t.terminado) {
+
+		if (!this.GnomosTempo.isEmpty())
+			for (Temporizador t : this.GnomosTempo) {
+
+				if (t.terminado) {
 					this.agregarEnemigos();
 					this.GnomosTempo.remove(index);
-				
-				
+
 				}
-			index +=1;
-			
-			
-		}
-		
-		
-		
+				index += 1;
+
+			}
+
 	}
-	
 
 	private void crearEnemigos() {
 
@@ -193,13 +189,13 @@ public class Juego extends InterfaceJuego {
 		}
 
 		this.comprobarGnomoTempo();
-		
+
 		this.dibujarIslas();
 		this.dibujarJugador();
 		this.dibujarGnomos();
 
 		this.controlarMovimientosJugador();
-		
+		this.controlarMovimientoProyectiles();
 		this.controlarColisionConGnomo();
 
 	}
@@ -232,10 +228,9 @@ public class Juego extends InterfaceJuego {
 		}
 
 	}
-	
 
 	public void controlarColisionConGnomo() {
-		
+
 		for (int i = 0; i < this.Gnomos.size(); i++) {// colisiones enemigos
 
 			Gnomo gnomo = this.Gnomos.get(i);
@@ -244,9 +239,9 @@ public class Juego extends InterfaceJuego {
 					&& gnomo.y > this.limiteGnomosParaColisionar) {
 
 				this.Gnomos.remove(i);
-				
+
 				this.tablainterface.sumarSalvados();
-				
+
 				this.crearGnomoTempo();
 
 			}
@@ -301,10 +296,37 @@ public class Juego extends InterfaceJuego {
 		}
 	}
 
+	public void controlarDisparoJugador() {
+		if (this.entorno.estaPresionada('c')) {
+			if (this.proyectiles.isEmpty() || Math.abs(this.personaje.x - this.proyectiles.getFirst().x) > 100) {
+				Proyectil proyectil = new Proyectil(this.personaje.x, this.personaje.y, this.personaje.derecha);
+				proyectiles.addFirst(proyectil);
+			}
+		}
+	}
+
+	public void eliminarProyectilesFueraDePantalla(Proyectil proyectil) {
+		double bordeIzqProyectil = proyectil.x - proyectil.ancho / 2;
+		double bordeDerProyectil = proyectil.x + proyectil.ancho / 2;
+
+		if (bordeIzqProyectil > this.anchoPantalla || bordeDerProyectil < 0) {
+			this.proyectiles.remove(proyectil);
+		}
+	}
+
+	public void controlarMovimientoProyectiles() {
+		for (Proyectil proyectil : this.proyectiles) {
+			proyectil.dibujar(entorno);
+			proyectil.mover();
+			this.eliminarProyectilesFueraDePantalla(proyectil);
+		}
+	}
+
 	public void controlarMovimientosJugador() {
 		this.controlarSaltoJugador();
 		this.controlarCaidaJugador();
 		this.controlarCaminataJugador();
+		this.controlarDisparoJugador();
 	}
 
 	public void controlarMovimientosGnomo(Gnomo gnomo) {
