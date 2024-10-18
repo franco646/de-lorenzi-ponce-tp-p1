@@ -141,17 +141,14 @@ public class Juego extends InterfaceJuego {
 
 	private void comprobarGnomoTempo() {
 
-		int index = 0;
-
 		if (!this.GnomosTempo.isEmpty())
-			for (Temporizador t : this.GnomosTempo) {
+			for (int i = 0;i < this.GnomosTempo.size();i++) {
 
-				if (t.terminado) {
+				if (this.GnomosTempo.get(i).terminado) {
 					this.agregarEnemigos();
-					this.GnomosTempo.remove(index);
+					this.GnomosTempo.remove(i);
 
 				}
-				index += 1;
 
 			}
 
