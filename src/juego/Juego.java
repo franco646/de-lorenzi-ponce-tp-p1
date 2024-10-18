@@ -123,6 +123,8 @@ public class Juego extends InterfaceJuego {
 				
 				this.tablainterface.sumarPerdidos();
 				
+				this.crearGnomoTempo();
+				
 				
 			}
 			
