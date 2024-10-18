@@ -506,8 +506,21 @@ public class Juego extends InterfaceJuego {
 
 	public void controlarDisparoJugador() {
 		if (this.entorno.estaPresionada('c')) {
+			
+			Proyectil proyectil;
+			
 			if (this.proyectiles.isEmpty() || Math.abs(this.personaje.x - this.proyectiles.getFirst().x) > 100) {
-				Proyectil proyectil = new Proyectil(this.personaje.x, this.personaje.y, this.personaje.derecha);
+				if(this.personaje.derecha) {
+					proyectil = new Proyectil(this.personaje.x + 40,
+							this.personaje.y, this.personaje.derecha);
+					
+					}
+				else {
+					proyectil = new Proyectil(this.personaje.x - 40,
+							this.personaje.y, this.personaje.derecha);
+					
+				}
+				
 				proyectiles.addFirst(proyectil);
 			}
 		}

@@ -49,8 +49,8 @@ public class Proyectil {
 		}
 	}
 	public Rectangle obtenerDimensiones() {
-		int x = (int) ((int) this.x * this.escala);
-		int y = (int) ((int) this.y * this.escala);
+		int x = (int)this.x;
+		int y = (int)this.y;
 		int ancho = (int) this.ancho;
 		int alto = (int) this.alto;
 
