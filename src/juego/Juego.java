@@ -112,6 +112,22 @@ public class Juego extends InterfaceJuego {
 		}
 
 	}
+	
+	public void GnomoPerdidos() {
+		
+		for(int i =0;i <this.Gnomos.size();i++) {
+			
+			if(this.Gnomos.get(i).y>=768) {
+				
+				this.Gnomos.remove(i);
+				
+				this.tablainterface.sumarPerdidos();
+				
+				
+			}
+			
+		}
+	}
 
 	private void crearGnomoTempo() {
 
@@ -188,6 +204,8 @@ public class Juego extends InterfaceJuego {
 
 		}
 
+		this.GnomoPerdidos();
+		
 		this.comprobarGnomoTempo();
 
 		this.dibujarIslas();
