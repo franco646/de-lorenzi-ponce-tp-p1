@@ -161,7 +161,7 @@ public class Juego extends InterfaceJuego {
 
 	private void crearEnemigoTempo() {
 
-		Temporizador t = new Temporizador(3000);
+		Temporizador t = new Temporizador(5000);
 
 		this.enemigoTempo.add(t);
 
