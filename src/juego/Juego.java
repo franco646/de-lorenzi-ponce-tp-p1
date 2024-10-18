@@ -495,6 +495,7 @@ public class Juego extends InterfaceJuego {
 			
 			proyectil.dibujar(entorno);
 			proyectil.mover();
+			proyectil.scalaSumar();
 			this.eliminarProyectilesFueraDePantalla(proyectil);
 		}
 	}

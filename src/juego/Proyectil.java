@@ -48,6 +48,18 @@ public class Proyectil {
 			this.x = this.x - VELOCIDAD;
 		}
 	}
+	
+	public void scalaSumar() {
+		if(this.escala <= 0.1) {
+			this.escala +=0.002;
+			this.ancho = this.imagen.getWidth(null) * this.escala;
+			this.alto = this.imagen.getHeight(null) * this.escala;
+		}
+		
+		
+		
+	}
+	
 
 	public Rectangle obtenerDimensiones() {
 		int x = (int) this.x;
