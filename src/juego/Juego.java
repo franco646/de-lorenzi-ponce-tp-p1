@@ -152,11 +152,11 @@ public class Juego extends InterfaceJuego {
 	}
 
 	private void crearGnomoTempo() {
+		if(this.Gnomos.size() <4) {
+			Temporizador t = new Temporizador(2000);
 
-		Temporizador t = new Temporizador(2000);
-
-		this.GnomosTempo.add(t);
-
+			this.GnomosTempo.add(t);
+		}
 	}
 
 	private void crearEnemigoTempo() {
