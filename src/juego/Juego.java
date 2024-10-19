@@ -85,31 +85,27 @@ public class Juego extends InterfaceJuego {
 	}
 
 	private void crearIslasInicio() {
-		int index = 0;
 		for (int fila = 1; fila <= this.CANTIDAD_FILAS; fila++) {
-			for (int isla = 1; isla <= fila; isla++) {
 
-				int medioSeccionHorizontal;
-				int tamanioSeccionHorizontal = this.anchoPantalla / fila;
+			int tamanioSeccionVertical = this.altoPantalla / this.CANTIDAD_FILAS;
+			int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2);
+
+			int tamanioSeccionHorizontal = this.anchoPantalla / fila;
+			int medioSeccionHorizontal;
+
+			for (int isla = 1; isla <= fila; isla++) {
 				if (fila == 2) {
 					medioSeccionHorizontal = (this.anchoPantalla / 3) * isla; // Las islas de la segunda fila no están
-																				// centradas dos columna
+																				// // centradas dos columna
 				} else if (fila == 3) {
-
 					medioSeccionHorizontal = (this.anchoPantalla / 4) * isla;
-
 				}
 
 				else {
 					medioSeccionHorizontal = (tamanioSeccionHorizontal * isla) - (tamanioSeccionHorizontal / 2);
 				}
 
-				int tamanioSeccionVertical = this.altoPantalla / this.CANTIDAD_FILAS;
-				int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2);
-
 				this.islas.add(new Isla(medioSeccionHorizontal, medioSeccionVertical));
-
-				index = index + 1;
 
 			}
 		}
