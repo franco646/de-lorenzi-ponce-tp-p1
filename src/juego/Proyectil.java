@@ -50,7 +50,7 @@ public class Proyectil {
 	}
 	
 	public void scalaSumar() {
-		if(this.escala <= 0.1) {
+		if(this.escala <= 0.16) {
 			this.escala +=0.002;
 			this.ancho = this.imagen.getWidth(null) * this.escala;
 			this.alto = this.imagen.getHeight(null) * this.escala;

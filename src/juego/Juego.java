@@ -46,6 +46,10 @@ public class Juego extends InterfaceJuego {
 	private Image fondo;
 	private int anchoPantalla;
 	private int altoPantalla;
+	
+	private Image gameOver;
+	private Image youWin;
+	private double winAndOverScale;
 
 	// Variables y métodos propios de cada grupo
 	// ...
@@ -64,6 +68,9 @@ public class Juego extends InterfaceJuego {
 
 		this.fondo = Herramientas.cargarImagen("imagenes/fondo/download (1).jpeg");
 
+		this.gameOver = Herramientas.cargarImagen("imagenes/finalJuego/gameOver.png");
+		this.youWin = Herramientas.cargarImagen("imagenes/finalJuego/youWin.png");
+		
 		tablainterface = new TablaInterface(0);
 
 		this.crearEnemigos();
@@ -242,12 +249,6 @@ public class Juego extends InterfaceJuego {
 
 	public void comprobarEstadoDeJuego() {
 
-		if (this.perdiste) {
-
-			System.out.println("PERDISTE :(");
-
-		}
-
 		if (this.tablainterface.getPerdidos() == 10) {
 
 			this.perdiste = true;
@@ -255,7 +256,7 @@ public class Juego extends InterfaceJuego {
 
 		}
 
-		if (this.tablainterface.getSalvados() == 4) {
+		if (this.tablainterface.getSalvados() == 10) {
 
 			this.ganaste = true;
 
@@ -284,7 +285,7 @@ public class Juego extends InterfaceJuego {
 			this.tablainterface.dibujar(entorno);
 
 			// DIBUJA UNA LINEA ROJA PARA SABER CUANDO EL PJ PUEDE COLISIONAR CON LOS GNOMOS
-			this.entorno.dibujarRectangulo(this.anchoPantalla / 2, this.limiteGnomosParaColisionar, this.anchoPantalla,
+			this.entorno.dibujarRectangulo(this.anchoPantalla / 2, this.limiteGnomosParaColisionar + 20, this.anchoPantalla,
 					3, 0, Color.red);
 
 			this.personaje.enIsla = false;
@@ -308,6 +309,30 @@ public class Juego extends InterfaceJuego {
 			this.controlarJugador();
 			this.controlarProyectiles();
 		}
+		
+		else if(this.perdiste) {
+			this.entorno.dibujarImagen(gameOver, this.anchoPantalla/2, this.altoPantalla/2
+					, 0 , this.winAndOverScale);
+			
+			if(this.winAndOverScale < 4) {
+				
+				this.winAndOverScale +=0.01;
+			}
+			
+		}
+		else if(this.ganaste) {
+			
+			this.entorno.dibujarImagen(this.youWin, this.anchoPantalla/2
+					, this.altoPantalla/2, 0 , this.winAndOverScale);
+			
+			if(this.winAndOverScale < 1) {
+				
+				this.winAndOverScale +=0.005;
+			}
+			
+			
+		}
+		
 	}
 
 	public void controlarIslas() {
@@ -374,7 +399,7 @@ public class Juego extends InterfaceJuego {
 	public void controlarColisionesGnomo(Gnomo gnomo) {
 
 		if (Colisiones.colisionan(this.personaje.obtenerDimensiones(), gnomo.obtenerDimensiones())
-				&& gnomo.y > this.limiteGnomosParaColisionar) {
+				&& gnomo.y > this.limiteGnomosParaColisionar - 20) {
 
 			this.Gnomos.remove(gnomo);
 
