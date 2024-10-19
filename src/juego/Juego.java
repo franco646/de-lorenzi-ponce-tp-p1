@@ -19,12 +19,9 @@ public class Juego extends InterfaceJuego {
 	private int respawnPj_x;// el spawn para el personaje
 	private int respawnPj_y;
 
-	private int[] islasCordenadasX;
-	private int[] islasCordenadasY;
-
 	private LinkedList<Gnomo> Gnomos = new LinkedList<>();// Linked de gnomos
 
-	private LinkedList<Enemigo> enemigos = new LinkedList<>();
+	private LinkedList<Enemigo> enemigos = new LinkedList<Enemigo>();
 
 	private LinkedList<Proyectil> proyectiles = new LinkedList<Proyectil>();
 
@@ -47,7 +44,6 @@ public class Juego extends InterfaceJuego {
 	private boolean perdiste;
 	private boolean ganaste;
 
-	private double anchoisla;
 	private Image fondo;
 	private int anchoPantalla;
 	private int altoPantalla;
@@ -405,10 +401,10 @@ public class Juego extends InterfaceJuego {
 
 	public void controlarCaminataJugador() {
 		if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)) {
-			this.personaje.moverDer();
+			this.personaje.moverDer(this.entorno);
 
 		} else if (this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)) {
-			this.personaje.moverIzq();
+			this.personaje.moverIzq(this.entorno);
 
 		} else {
 			if (!this.personaje.isJumping && this.personaje.enIsla) {
