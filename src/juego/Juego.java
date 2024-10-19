@@ -50,6 +50,7 @@ public class Juego extends InterfaceJuego {
 	private Image gameOver;
 	private Image youWin;
 	private double winAndOverScale;
+	private double giroImagen;
 
 	// Variables y métodos propios de cada grupo
 	// ...
@@ -189,8 +190,6 @@ public class Juego extends InterfaceJuego {
 
 	private void crearEnemigos() {
 
-		System.out.println("creando LinkedList de clase enemigos");
-
 		int total = this.islasCordenadasX.length - 1;
 
 		int aleatorioNum;
@@ -233,8 +232,6 @@ public class Juego extends InterfaceJuego {
 
 		Enemigo auxiliar;
 
-		System.out.println("Se añadio uno nuevo Enemigo");
-
 		aleatorioNum = Enemigo.seleccionAleatoria(total);
 
 		while (aleatorioNum == 0 || aleatorioNum == 12) {
@@ -249,19 +246,15 @@ public class Juego extends InterfaceJuego {
 
 	public void comprobarEstadoDeJuego() {
 
-		if (this.tablainterface.getPerdidos() == 10) {
+		if (this.tablainterface.getPerdidos() >= 10) {
 
 			this.perdiste = true;
-			System.out.println("PERDISTE :(");
 
 		}
 
-		if (this.tablainterface.getSalvados() == 10) {
+		if (this.tablainterface.getSalvados() >= 10) {
 
 			this.ganaste = true;
-
-			System.out.println("Ganaste :)");
-
 		}
 
 	}
@@ -312,11 +305,14 @@ public class Juego extends InterfaceJuego {
 		
 		else if(this.perdiste) {
 			this.entorno.dibujarImagen(gameOver, this.anchoPantalla/2, this.altoPantalla/2
-					, 0 , this.winAndOverScale);
+					, Herramientas.radianes(this.giroImagen) , this.winAndOverScale);
 			
-			if(this.winAndOverScale < 4) {
+			if(this.winAndOverScale < 6) {
 				
 				this.winAndOverScale +=0.01;
+			}
+			if(this.giroImagen <= 358) {
+				this.giroImagen +=358/120;
 			}
 			
 		}
@@ -325,7 +321,7 @@ public class Juego extends InterfaceJuego {
 			this.entorno.dibujarImagen(this.youWin, this.anchoPantalla/2
 					, this.altoPantalla/2, 0 , this.winAndOverScale);
 			
-			if(this.winAndOverScale < 1) {
+			if(this.winAndOverScale < 1.20) {
 				
 				this.winAndOverScale +=0.005;
 			}
@@ -381,8 +377,8 @@ public class Juego extends InterfaceJuego {
 
 			Proyectil proyectil = this.proyectiles.get(i);
 
-			if (Colisiones.colisionan(enemigo.obtenerDimensiones(), proyectil.obtenerDimensiones())) {
-				System.out.println("colisionan");
+			if (Colisiones.colisionan(enemigo.obtenerDimensiones()
+					, proyectil.obtenerDimensiones())) {
 
 				this.proyectiles.remove(proyectil);
 
