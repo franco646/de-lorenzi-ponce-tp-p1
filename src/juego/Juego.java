@@ -35,6 +35,7 @@ public class Juego extends InterfaceJuego {
 											// filas
 
 	private boolean perdiste;
+	private boolean ganaste;
 	
 	private Isla[] islas;
 	private double anchoisla;
@@ -47,6 +48,7 @@ public class Juego extends InterfaceJuego {
 	Juego() {
 		
 		this.perdiste = false;
+		this.ganaste = false;
 		
 		this.anchoPantalla = 1366;
 		this.altoPantalla = 768;
@@ -280,6 +282,12 @@ public class Juego extends InterfaceJuego {
 	public void comprobarEstadoDeJuego() {
 		
 		
+		if(this.perdiste) {
+			
+			System.out.println("PERDISTE :(");
+			
+		}
+		
 		if(this.tablainterface.getPerdidos() == 10) {
 			
 			this.perdiste = true;
@@ -287,6 +295,13 @@ public class Juego extends InterfaceJuego {
 			
 		}
 		
+		if(this.tablainterface.getSalvados() == 4) {
+			
+			this.ganaste = true;
+			
+			System.out.println("Ganaste :)");
+			
+		}
 		
 	}
 
@@ -302,7 +317,7 @@ public class Juego extends InterfaceJuego {
 		
 		this.entorno.dibujarImagen(this.fondo, this.anchoPantalla / 2, this.altoPantalla / 2, 0, 1);
 		
-		if(!this.perdiste) {
+		if(!this.perdiste && !this.ganaste) {
 		
 			this.tablainterface.setTiempo(this.entorno.tiempo());
 	
@@ -457,6 +472,14 @@ public class Juego extends InterfaceJuego {
 		}
 
 	}
+	
+	public void jugadorSeCayo() {
+		
+		if (this.personaje.y >= 768) {
+			this.perdiste = true;
+		}
+			
+	}
 
 	public void controlarCaidaJugador() {
 		if (!this.personaje.enIsla && !this.personaje.isJumping) {
@@ -522,6 +545,7 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void controlarJugador() {
+		this.jugadorSeCayo();
 		this.dibujarJugador();
 		this.controlarSaltoJugador();
 		this.controlarCaidaJugador();

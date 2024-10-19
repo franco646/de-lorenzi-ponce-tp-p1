@@ -101,10 +101,10 @@ public class Personaje {
 
 		this.velocidadCaida = this.velocidadCaida > VELOCIDAD_FINAL_CAIDA ? VELOCIDAD_FINAL_CAIDA
 				: this.velocidadCaida + GRAVEDAD;
-		if (this.y >= 768) {
-			this.x = 660;
-			this.y = 0;
-		}
+		//if (this.y >= 768) {
+		//	this.x = 660;
+		//	this.y = 0;
+		//}
 	}
 
 	public void resetVelocidadCaida() {
