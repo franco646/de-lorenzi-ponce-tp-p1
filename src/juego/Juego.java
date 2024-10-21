@@ -139,7 +139,6 @@ public class Juego extends InterfaceJuego {
 	private void crearEnemigos(int cantidadDeEnemigos) {
 		for (int i = 0; i < cantidadDeEnemigos; i++) {
 
-			// guarda tiempo en segundos
 			Random random = new Random();
 
 			int numeroAleatorio = random.nextInt(this.islas.size());
@@ -292,6 +291,11 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void controlarColisionesEnemigo(Enemigo enemigo) {
+
+		if (Colisiones.colisionan(enemigo.obtenerDimensiones(), this.personaje.obtenerDimensiones())) {
+			this.personaje.morir();
+		}
+
 		for (int i = 0; i < this.proyectiles.size(); i++) {
 
 			Proyectil proyectil = this.proyectiles.get(i);
@@ -304,7 +308,6 @@ public class Juego extends InterfaceJuego {
 
 				this.tablainterface.sumarEliminados();
 			}
-			;
 		}
 	}
 
@@ -367,12 +370,10 @@ public class Juego extends InterfaceJuego {
 
 	}
 
-	public void jugadorSeCayo() {
-
-		if (this.personaje.y >= 768) {
+	public void controlarLimitesPantallaJugador() {
+		if (this.personaje.y > this.altoPantalla) {
 			this.perdiste = true;
 		}
-
 	}
 
 	public void controlarCaidaJugador() {
@@ -439,12 +440,16 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void controlarJugador() {
-		this.jugadorSeCayo();
 		this.dibujarJugador();
-		this.controlarSaltoJugador();
-		this.controlarCaidaJugador();
-		this.controlarCaminataJugador();
-		this.controlarDisparoJugador();
+		this.controlarLimitesPantallaJugador();
+		if (this.personaje.estaVivo) {
+			this.controlarSaltoJugador();
+			this.controlarCaidaJugador();
+			this.controlarCaminataJugador();
+			this.controlarDisparoJugador();
+		} else {
+			this.personaje.caer();
+		}
 	}
 
 	public void controlarMovimientosEnemigo(Enemigo enemigo) {

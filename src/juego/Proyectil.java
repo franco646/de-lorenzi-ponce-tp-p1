@@ -8,31 +8,25 @@ import entorno.Entorno;
 public class Proyectil {
 	double x;
 	double y;
-	double ancho;
-	double alto;
-	double escala;
-
 	boolean derecha;
 
-	// imagen derecha
+	private final int VELOCIDAD = 10;
+	private final double LIMITE_ESCALA = 0.08;
 
 	private final Image IMAGEN_DER = entorno.Herramientas.cargarImagen("imagenes/proyectil/proyectil-der.png");
 	private final Image IMAGEN_IZQ = entorno.Herramientas.cargarImagen("imagenes/proyectil/proyectil-izq.png");
 
 	private Image imagen = IMAGEN_DER;
 
-	private final int VELOCIDAD = 10;
-	private final double ESCALA = 0.05;
+	double escala = 0.05;
+
+	double ancho = this.imagen.getWidth(null) * this.escala;
+	double alto = this.imagen.getHeight(null) * this.escala;
 
 	public Proyectil(double x, double y, boolean derecha) {
 		this.x = derecha ? x + 40 : x - 40;
 		this.y = y;
 		this.derecha = derecha;
-
-		this.escala = 0.05;
-
-		this.ancho = this.imagen.getWidth(null) * ESCALA;
-		this.alto = this.imagen.getHeight(null) * ESCALA;
 	}
 
 	public void dibujar(Entorno e) {
@@ -48,18 +42,16 @@ public class Proyectil {
 			this.x = this.x - VELOCIDAD;
 		}
 	}
-	
+
 	public void scalaSumar() {
-		if(this.escala <= 0.16) {
-			this.escala +=0.002;
+		if (this.escala <= 0.16) {
+			double nuevaEscala = this.escala + 0.02;
+			this.escala = nuevaEscala < this.LIMITE_ESCALA ? nuevaEscala : this.LIMITE_ESCALA;
 			this.ancho = this.imagen.getWidth(null) * this.escala;
 			this.alto = this.imagen.getHeight(null) * this.escala;
 		}
-		
-		
-		
+
 	}
-	
 
 	public Rectangle obtenerDimensiones() {
 		int x = (int) this.x;

@@ -66,13 +66,16 @@ public class Personaje {
 	double alturaAlComenzarSalto; // coordenada en el eje y del personaje al comenzar el salto
 	public boolean isJumping = false;
 
+	public boolean estaVivo = true;
+	public int anguloImagen = 0;
+
 	public Personaje(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 
 	public void dibujar(Entorno e) {
-		e.dibujarImagen(this.imagen, this.x, this.y, 0, this.ESCALA);
+		e.dibujarImagen(this.imagen, this.x, this.y, this.anguloImagen, this.ESCALA);
 
 		ColisionVisible.dibujar(e, this);
 		// PARA HACER VISIBLE EL TAMAÑO DE LA COLISION PARA LAS PRUEBAS
@@ -129,6 +132,12 @@ public class Personaje {
 		} else {
 			this.imagen = this.IMAGEN_QUIETO_IZQ;
 		}
+	}
+
+	public void morir() {
+		this.estaVivo = false;
+		this.imagen = this.IMAGEN_CAER_DER;
+		this.anguloImagen = 180;
 	}
 
 	public void comenzarSalto() {
