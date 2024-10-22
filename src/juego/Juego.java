@@ -45,9 +45,10 @@ public class Juego extends InterfaceJuego {
 
 	private static final int LIMITE_SALVACION_GNOMOS = (ALTO_PANTALLA / 2) - 20;// esto es para que los Gnomos solo
 																				// puedan
-	// ser salvados en las ultimas dos filas
+																				// ser salvados en las ultimas dos filas
 
 	private static final Image FONDO = Herramientas.cargarImagen("imagenes/fondo/download (1).jpeg");
+	private static final Image CASA_DE_GNOMOS = Herramientas.cargarImagen("imagenes/casa/casa de gnomos.png");
 	private static final Image GAME_OVER_IMAGEN = Herramientas.cargarImagen("imagenes/finalJuego/gameOver.png");
 	private static final Image VICTORY_IMAGEN = Herramientas.cargarImagen("imagenes/finalJuego/youWin.png");
 
@@ -86,10 +87,12 @@ public class Juego extends InterfaceJuego {
 			this.GnomoPerdidos();
 
 			this.controlarIslas();
+			this.entorno.dibujarImagen(CASA_DE_GNOMOS, ANCHO_PANTALLA / 2, 10, 0, 0.3);
 			this.controlarEnemigos();
 			this.controlarGnomos();
 			this.controlarJugador();
 			this.controlarProyectiles();
+
 		}
 
 		else if (this.perdiste) {
