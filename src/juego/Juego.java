@@ -185,7 +185,7 @@ public class Juego extends InterfaceJuego {
 			for (Isla isla : islas) {
 				if (Colisiones.estaSobreIsla(gnomo.obtenerDimensiones(), isla)) {
 					gnomo.enisla = true;
-					gnomo.habitacion_direccion = true;
+					gnomo.habilitacionMovimiento = true;
 					break;
 				} else {
 					gnomo.enisla = false;

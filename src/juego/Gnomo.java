@@ -9,71 +9,74 @@ public class Gnomo {
 
 	double x;
 	double y;
-	Image imagen;
-	double escala;
-	double ancho;
-	double alto;
-	// Image[] imagenesDer;
-	Image[] imagenesIzq;
+	Image imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run1_izq.png");
+	
+	Image[] imagenesIzq = new Image[] { entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run1_izq.png"),
+			entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run2_izq.png"),
+			entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run3_izq.png") };
+	
+	private static final int ESCALA = 2;
+	private static final int GRAVEDAD = 3;
+	
+	
+	double ancho = imagen.getWidth(null) * Gnomo.ESCALA;
+	double alto = imagen.getHeight(null) * Gnomo.ESCALA;
+	
+	
+
 	int frame;
 	long tiempoAnterior;
 
-	public static int LAYER = 2; /// Capa de COLISION
 	Boolean derecha = true;
 
-	boolean habitacion_direccion = true;
+	boolean habilitacionMovimiento = true;
 
 	Boolean enisla = false;
 
-	public boolean is_colisionando = false;// para saber si esta colisionando o no
-	// con esto se puede colisionar una vez por contacto
+	
 
 	public Gnomo(double x, double y) {
 
 		this.x = x;
 		this.y = y;
-		this.escala = 2;
-		this.imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run1_izq.png");
-		this.ancho = imagen.getWidth(null) * this.escala;
-		this.alto = imagen.getHeight(null) * this.escala;
-		this.frame = 0;
 
-		this.imagenesIzq = new Image[] { entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run1_izq.png"),
-				entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run2_izq.png"),
-				entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run3_izq.png") };
+		this.frame = 0;
 
 		this.tiempoAnterior = System.currentTimeMillis();
 
 	}
 
 	public void dibujar(Entorno entorno) {
-		entorno.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
+		entorno.dibujarImagen(this.imagen, this.x, this.y, 0, Gnomo.ESCALA);
 
 	}
 
-	private boolean aleatorioNumero() {
+	private boolean numeroAleatorio() {
 		int random = (int) (Math.random() * 2);
 		boolean boleano;
-		if (random == 0) {
+		
+		if(random == 0) {
 			boleano = false;
-		} else {
+		}
+		else {
 			boleano = true;
 		}
-
+		
 		return boleano;
+		
 
 	}
 
 	public void caer() {
 
-		if (this.habitacion_direccion) {
-			this.habitacion_direccion = false;
-			this.derecha = this.aleatorioNumero();
+		if (this.habilitacionMovimiento) {
+			this.habilitacionMovimiento = false;
+			this.derecha = this.numeroAleatorio();
 
 		}
 
 		this.imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run2_izq.png");
-		this.y = this.y + 3;
+		this.y = this.y + Gnomo.GRAVEDAD;
 		this.enisla = false;
 	}
 
@@ -85,7 +88,7 @@ public class Gnomo {
 			this.x = 1366;
 		}
 
-		if (this.habitacion_direccion) {
+		if (this.habilitacionMovimiento) {
 			if (this.derecha) {
 				long tiempoActual = System.currentTimeMillis();
 				if (tiempoActual - this.tiempoAnterior > 150) {
