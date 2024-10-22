@@ -3,9 +3,6 @@ package juego;
 import java.awt.Rectangle;
 
 public class Colisiones {
-
-	// clase para colisionesss
-
 	public static boolean colisionan(Rectangle caja1, Rectangle caja2) {
 		int bordeDerCaja1 = caja1.x + caja1.width / 2;
 		int bordeIzqCaja1 = caja1.x - caja1.width / 2;
@@ -20,16 +17,9 @@ public class Colisiones {
 		boolean colizionHorizontal = bordeDerCaja1 > bordeIzqCaja2 && bordeIzqCaja1 < bordeDerCaja2;
 		boolean colisionVertical = bordeSupCaja1 > bordeInfCaja2 && bordeInfCaja1 < bordeSupCaja2;
 
-		//if (colizionHorizontal && colisionVertical) {
-		//	System.out.println("colison horizontal: " + colizionHorizontal);
-		//	System.out.println("colison vertical: " + colisionVertical);
-		//}
-
 		return colizionHorizontal && colisionVertical;
 
 	}
-
-	// is_on_floor detecta si el objeto esta tocando el suelo :::
 
 	public static boolean estaSobreIsla(Rectangle caja, Isla isla) {
 		int bordeInfCaja = caja.y + caja.height / 2;

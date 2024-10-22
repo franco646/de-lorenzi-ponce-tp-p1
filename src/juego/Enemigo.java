@@ -89,11 +89,8 @@ public class Enemigo {
 
 	}
 
-	public void dibujar(Entorno e) {
-		e.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
-
-		ColisionVisible.dibujar(e, this);
-		// PARA HACER VISIBLE EL TAMAÑO DE LA COLISION PARA LAS PRUEBAS
+	public void dibujar(Entorno entorno) {
+		entorno.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
 
 	}
 

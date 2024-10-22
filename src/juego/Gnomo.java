@@ -23,7 +23,7 @@ public class Gnomo {
 
 	boolean habitacion_direccion = true;
 
-	Boolean enisla = true;
+	Boolean enisla = false;
 
 	public boolean is_colisionando = false;// para saber si esta colisionando o no
 	// con esto se puede colisionar una vez por contacto
@@ -46,11 +46,8 @@ public class Gnomo {
 
 	}
 
-	public void dibujar(Entorno e) {
-		e.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
-
-		ColisionVisible.dibujar(e, this);
-		// PARA HACER VISIBLE EL TAMAÑO DE LA COLISION PARA LAS PRUEBAS
+	public void dibujar(Entorno entorno) {
+		entorno.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
 
 	}
 
@@ -77,8 +74,9 @@ public class Gnomo {
 
 		this.imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run2_izq.png");
 		this.y = this.y + 3;
-		this.enisla = false; 
+		this.enisla = false;
 	}
+
 	public void mover() {
 
 		if (this.x >= 1366) {
