@@ -16,8 +16,8 @@ public class Juego extends InterfaceJuego {
 
 	private Personaje personaje;
 
-	private int respawnPj_x;// el spawn para el personaje
-	private int respawnPj_y;
+	private int respawnPj_x = 100;// el spawn para el personaje
+	private int respawnPj_y = 100;
 
 	private LinkedList<Gnomo> Gnomos = new LinkedList<>();// Linked de gnomos
 
@@ -63,6 +63,8 @@ public class Juego extends InterfaceJuego {
 		this.anchoPantalla = 1366;
 		this.altoPantalla = 768;
 
+		this.limiteGnomosParaColisionar = (this.altoPantalla / 2) - 20;
+		
 		this.crearIslasInicio();
 
 		this.entorno = new Entorno(this, "Proyecto para TP", this.anchoPantalla, this.altoPantalla);
@@ -91,7 +93,7 @@ public class Juego extends InterfaceJuego {
 			int medioSeccionVertical = (tamanioSeccionVertical * fila) - (tamanioSeccionVertical / 2);
 
 			int tamanioSeccionHorizontal = this.anchoPantalla / fila;
-			int medioSeccionHorizontal;
+			int medioSeccionHorizontal = 0;//iniciamos la variable
 
 			for (int isla = 1; isla <= fila; isla++) {
 				if (fila == 2) {
@@ -99,6 +101,11 @@ public class Juego extends InterfaceJuego {
 																				// // centradas dos columna
 				} else if (fila == 3) {
 					medioSeccionHorizontal = (this.anchoPantalla / 4) * isla;
+				}
+				else if (fila == 5 && isla== 2) {
+					medioSeccionHorizontal = (tamanioSeccionHorizontal * isla) - (tamanioSeccionHorizontal / 2);
+					this.respawnPj_x =medioSeccionHorizontal;
+					this.respawnPj_y =medioSeccionVertical - 100; 
 				}
 
 				else {
