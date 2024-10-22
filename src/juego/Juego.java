@@ -57,11 +57,12 @@ public class Juego extends InterfaceJuego {
 	Juego() {
 		this.entorno = new Entorno(this, "Proyecto para TP", ANCHO_PANTALLA, ALTO_PANTALLA);
 
-		this.personaje = new Personaje(this.respawnPj_x, this.respawnPj_y);
-
 		this.tablainterface = new TablaInterface(0);
 
 		this.crearIslasInicio();
+
+		this.crearJugador();
+
 		this.crearEnemigos(CANTIDAD_INICIAL_ENEMIGOS);
 
 		this.entorno.iniciar();
@@ -116,6 +117,15 @@ public class Juego extends InterfaceJuego {
 
 	}
 
+	private void crearJugador() {
+		this.personaje = new Personaje(this.respawnPj_x, this.respawnPj_y);
+	}
+
+	private void crearSpawnJugador(int x, int y) {
+		this.respawnPj_x = x;
+		this.respawnPj_y = y - 100;
+	}
+
 	private void crearIslasInicio() {
 		for (int fila = 1; fila <= CANTIDAD_FILAS; fila++) {
 
@@ -131,14 +141,14 @@ public class Juego extends InterfaceJuego {
 																			// // centradas dos columna
 				} else if (fila == 3) {
 					medioSeccionHorizontal = (ANCHO_PANTALLA / 4) * isla;
-				} else if (fila == 5 && isla == 2) {
-					medioSeccionHorizontal = (tamanioSeccionHorizontal * isla) - (tamanioSeccionHorizontal / 2);
-					this.respawnPj_x = medioSeccionHorizontal;
-					this.respawnPj_y = medioSeccionVertical - 100;
 				}
 
 				else {
 					medioSeccionHorizontal = (tamanioSeccionHorizontal * isla) - (tamanioSeccionHorizontal / 2);
+					if (fila == CANTIDAD_FILAS && isla == 1) { // crea el spawn del personaje en la primer isla de la
+																// ultima fila
+						this.crearSpawnJugador(medioSeccionHorizontal - 100, medioSeccionVertical);
+					}
 				}
 
 				this.islas.add(new Isla(medioSeccionHorizontal, medioSeccionVertical));
