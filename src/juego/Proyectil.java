@@ -8,10 +8,12 @@ import entorno.Entorno;
 public class Proyectil {
 	double x;
 	double y;
+	
 	boolean derecha;
 
-	private final int VELOCIDAD = 10;
-	private final double LIMITE_ESCALA = 0.08;
+	private final int VELOCIDAD = 12;
+	private final double LIMITE_ESCALA = 0.14;
+	private final int POSICION_INICIAL = 40;
 
 	private final Image IMAGEN_DER = entorno.Herramientas.cargarImagen("imagenes/proyectil/proyectil-der.png");
 	private final Image IMAGEN_IZQ = entorno.Herramientas.cargarImagen("imagenes/proyectil/proyectil-izq.png");
@@ -24,8 +26,16 @@ public class Proyectil {
 	double alto = this.imagen.getHeight(null) * this.escala;
 
 	public Proyectil(double x, double y, boolean derecha) {
-		this.x = derecha ? x + 40 : x - 40;
+		
+		if(derecha) {
+			this.x =x + this.POSICION_INICIAL;
+		}
+		else {
+			this.x =x - this.POSICION_INICIAL;
+		}
+		
 		this.y = y;
+		
 		this.derecha = derecha;
 	}
 
@@ -44,9 +54,9 @@ public class Proyectil {
 	}
 
 	public void scalaSumar() {
-		if (this.escala <= 0.16) {
-			double nuevaEscala = this.escala + 0.02;
-			this.escala = nuevaEscala < this.LIMITE_ESCALA ? nuevaEscala : this.LIMITE_ESCALA;
+		if (this.escala <= this.LIMITE_ESCALA) {
+			this.escala += 0.002;
+			
 			this.ancho = this.imagen.getWidth(null) * this.escala;
 			this.alto = this.imagen.getHeight(null) * this.escala;
 		}
