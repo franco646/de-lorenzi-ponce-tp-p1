@@ -10,10 +10,15 @@ public class Enemigo {
 	double xInicial;
 	double x;
 	double y;
-	Image imagen;
-	double escala;
-	double ancho;
-	double alto;
+	
+	Image imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/real/enemigoGeneric.png");
+	
+	private static final double ESCALA = 0.1;
+	private static final double VELOCIDAD = 0.7;
+	private static final double GRAVEDAD = 1.5;
+	
+	double ancho = imagen.getWidth(null) * Enemigo.ESCALA;
+	double alto = imagen.getHeight(null) * Enemigo.ESCALA;
 
 	Image[] imagenes;
 	int frame;
@@ -33,12 +38,8 @@ public class Enemigo {
 
 		this.x = x;
 		this.y = y;
-
-		this.escala = 0.1;
-		this.imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/real/enemigoGeneric.png");
-		this.ancho = imagen.getWidth(null) * this.escala;
-		this.alto = imagen.getHeight(null) * this.escala;
-		this.derecha = this.aleatorioNumero();
+		
+		this.derecha = this.numeroAleatorio();
 
 		this.frame = 0;
 
@@ -46,27 +47,25 @@ public class Enemigo {
 
 	}
 
-	private boolean aleatorioNumero() {
+	private boolean numeroAleatorio() {
 		int random = (int) (Math.random() * 2);
 		boolean boleano;
-		if (random == 0) {
+		
+		if(random == 0) {
 			boleano = false;
-		} else {
+		}
+		else {
 			boleano = true;
 		}
-
+		
 		return boleano;
+		
 
-	}
-
-	public static int seleccionAleatoria(int Maximo) {
-		int random = (int) (Math.random() * Maximo);
-		return random;
 	}
 
 	public void caer() {
 		this.imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/real/enemigoGeneric.png");
-		this.y = this.y + 3;
+		this.y = this.y + Enemigo.GRAVEDAD;
 
 	}
 
@@ -77,20 +76,20 @@ public class Enemigo {
 
 		if (this.derecha) {
 
-			this.x += 0.7;
+			this.x += Enemigo.VELOCIDAD;
 
 		}
 
 		else if (!this.derecha) {
 
-			this.x -= 0.7;
+			this.x -=Enemigo.VELOCIDAD;
 
 		}
 
 	}
 
 	public void dibujar(Entorno entorno) {
-		entorno.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
+		entorno.dibujarImagen(this.imagen, this.x, this.y, 0, Enemigo.ESCALA);
 
 	}
 
