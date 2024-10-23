@@ -12,9 +12,8 @@ public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private TablaInterface tablainterface;// la clase que maneja los puntos y todo eso
-
+	
 	private Personaje personaje;
-
 	private int respawnPj_x = 100;// el spawn para el personaje
 	private int respawnPj_y = 100;
 
@@ -27,13 +26,17 @@ public class Juego extends InterfaceJuego {
 	private LinkedList<Isla> islas = new LinkedList<Isla>();
 
 	private static final int CANTIDAD_MAXIMA_GNOMOS = 5;
-	private static final int TIEMPO_RESPAWN_GNOMO = 5; // en segundos
+	private static final int TIEMPO_RESPAWN_GNOMO = 2; // en segundos
 	private static final int CANTIDAD_INICIAL_ENEMIGOS = 8;
 	private static final int CANTIDAD_MAXIMA_ENEMIGOS = 12;
-	private static final int TIEMPO_RESPAWN_ENEMIGOS = 3; // en segundos
+	private static final int TIEMPO_RESPAWN_ENEMIGOS = 1; // en segundos
 
 	private static final int CANTIDAD_FILAS = 5;
+	
+	private  final int CANTIDAD_DE_GNOMOS_PARA_GANAR = 15;
 
+	private  final int CANTIDAD_DE_GNOMOS_PARA_PERDER = 3;
+	
 	private int tiempoDeCreacionGnomo; // guarda el tiempo del momento en el que se creó el ultimo gnomo
 	private int tiempoDeCreacionEnemigo; // guarda el tiempo del momento en el que se creó el ultimo Enemigo
 

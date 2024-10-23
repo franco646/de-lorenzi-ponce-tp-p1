@@ -72,7 +72,6 @@ public class Personaje {
 	double alturaAlComenzarSalto; // coordenada en el eje y del personaje al comenzar el salto
 	public boolean isJumping = false;
 
-	
 	public boolean estaVivo = true;
 	public int anguloImagen = 0;
 	
@@ -152,6 +151,7 @@ public class Personaje {
 		this.imagen = IMAGEN_CAER_DER;
 		this.anguloImagen = 180;	
 	}
+	
 	public void yaTerminoLaCaida() {
 		
 		double caidaHastaCuando = this.Yinicial + this.caidaLimite;
@@ -161,16 +161,15 @@ public class Personaje {
 			this.noTieneQueCaer = true;
 			this.anguloImagen = 0;
 			
+			
 		}
-		
-		
 		
 	}
 
 	public void morir() {
 		this.estaVivo = false;
-		//this.imagen = IMAGEN_CAER_DER;
-		//this.anguloImagen = 180;
+		this.imagen = IMAGEN_CAER_DER;
+		this.anguloImagen = 180;
 	}
 
 	public void comenzarSalto() {
