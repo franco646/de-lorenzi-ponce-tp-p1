@@ -63,14 +63,24 @@ public class Personaje {
 
 	private int frame = 0;
 	private long tiempoAnterior = 0;
-
+	
+	
+	public boolean puedeColisionar = true;
+	
 	public Boolean derecha = true; // direccion del personaje
 
 	double alturaAlComenzarSalto; // coordenada en el eje y del personaje al comenzar el salto
 	public boolean isJumping = false;
 
+	
 	public boolean estaVivo = true;
 	public int anguloImagen = 0;
+	
+	//caerse de la isla cuando colisiona con un enemigo
+	public boolean noTieneQueCaer = true;
+	private double Yinicial;
+	private final double caidaLimite= 55;
+	
 
 	public Personaje(double x, double y) {
 		this.x = x;
@@ -133,11 +143,34 @@ public class Personaje {
 			this.imagen = IMAGEN_QUIETO_IZQ;
 		}
 	}
+	
+	public void caerseDeLaIsla() {
+		this.Yinicial = this.y;
+		this.noTieneQueCaer = false;
+		this.isJumping = false;
+		this.puedeColisionar = false;
+		this.imagen = IMAGEN_CAER_DER;
+		this.anguloImagen = 180;	
+	}
+	public void yaTerminoLaCaida() {
+		
+		double caidaHastaCuando = this.Yinicial + this.caidaLimite;
+		
+		if(this.y >= caidaHastaCuando) {
+			this.puedeColisionar = true;
+			this.noTieneQueCaer = true;
+			this.anguloImagen = 0;
+			
+		}
+		
+		
+		
+	}
 
 	public void morir() {
 		this.estaVivo = false;
-		this.imagen = IMAGEN_CAER_DER;
-		this.anguloImagen = 180;
+		//this.imagen = IMAGEN_CAER_DER;
+		//this.anguloImagen = 180;
 	}
 
 	public void comenzarSalto() {

@@ -15,7 +15,7 @@ public class Enemigo {
 	
 	private static final double ESCALA = 0.1;
 	private static final double VELOCIDAD = 0.7;
-	private static final double GRAVEDAD = 1.5;
+	private static final double GRAVEDAD = 2.5;
 	
 	double ancho = imagen.getWidth(null) * Enemigo.ESCALA;
 	double alto = imagen.getHeight(null) * Enemigo.ESCALA;
