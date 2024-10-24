@@ -12,7 +12,7 @@ public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private TablaInterface tablainterface;// la clase que maneja los puntos y todo eso
-	
+
 	private Personaje personaje;
 	private int respawnPj_x = 100;// el spawn para el personaje
 	private int respawnPj_y = 100;
@@ -21,22 +21,22 @@ public class Juego extends InterfaceJuego {
 
 	private LinkedList<Enemigo> enemigos = new LinkedList<Enemigo>();
 
-	private LinkedList<Proyectil> proyectiles = new LinkedList<Proyectil>();
+	private Proyectil proyectil;
 
 	private LinkedList<Isla> islas = new LinkedList<Isla>();
 
 	private static final int CANTIDAD_MAXIMA_GNOMOS = 5;
 	private static final int TIEMPO_RESPAWN_GNOMO = 2; // en segundos
-	private static final int CANTIDAD_INICIAL_ENEMIGOS = 8;
-	private static final int CANTIDAD_MAXIMA_ENEMIGOS = 12;
-	private static final int TIEMPO_RESPAWN_ENEMIGOS = 1; // en segundos
+	private static final int CANTIDAD_INICIAL_ENEMIGOS = 5;
+	private static final int CANTIDAD_MAXIMA_ENEMIGOS = 10;
+	private static final int TIEMPO_RESPAWN_ENEMIGOS = 5; // en segundos
 
 	private static final int CANTIDAD_FILAS = 5;
-	
-	private  final int CANTIDAD_DE_GNOMOS_PARA_GANAR = 15;
 
-	private  final int CANTIDAD_DE_GNOMOS_PARA_PERDER = 3;
-	
+	private static final int CANTIDAD_DE_GNOMOS_PARA_GANAR = 10;
+
+	private static final int CANTIDAD_DE_GNOMOS_PARA_PERDER = 10;
+
 	private int tiempoDeCreacionGnomo; // guarda el tiempo del momento en el que se creó el ultimo gnomo
 	private int tiempoDeCreacionEnemigo; // guarda el tiempo del momento en el que se creó el ultimo Enemigo
 
@@ -94,7 +94,7 @@ public class Juego extends InterfaceJuego {
 			this.controlarEnemigos();
 			this.controlarGnomos();
 			this.controlarJugador();
-			this.controlarProyectiles();
+			this.controlarProyectil();
 
 		}
 
@@ -268,13 +268,13 @@ public class Juego extends InterfaceJuego {
 
 	public void comprobarEstadoDeJuego() {
 
-		if (this.tablainterface.getPerdidos() >= 10) {
+		if (this.tablainterface.getPerdidos() >= CANTIDAD_DE_GNOMOS_PARA_PERDER) {
 
 			this.perdiste = true;
 
 		}
 
-		if (this.tablainterface.getSalvados() >= 10) {
+		if (this.tablainterface.getSalvados() >= CANTIDAD_DE_GNOMOS_PARA_GANAR) {
 
 			this.ganaste = true;
 		}
@@ -284,17 +284,16 @@ public class Juego extends InterfaceJuego {
 	public void controlarColisionesEnemigo(Enemigo enemigo) {
 
 		if (Colisiones.colisionan(enemigo.obtenerDimensiones(), this.personaje.obtenerDimensiones())
-				&& this.personaje.puedeColisionar) {
-			this.personaje.caerseDeLaIsla();
+				&& enemigo.enisla) {
+			this.personaje.morir();
 		}
 
-		for (int i = 0; i < this.proyectiles.size(); i++) {
-
-			Proyectil proyectil = this.proyectiles.get(i);
-
+		if (this.proyectil != null && this.proyectil.esVisible) {
 			if (Colisiones.colisionan(enemigo.obtenerDimensiones(), proyectil.obtenerDimensiones())) {
 
-				this.proyectiles.remove(proyectil);
+				this.proyectil.volverInvisible(); // el proyectil se vuelve invisible al chocar con un enemigo hasta que
+													// eventualmente es eliminado al superar cierta distancia con el
+													// jugador
 
 				this.enemigos.remove(enemigo);
 
@@ -403,51 +402,41 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void controlarDisparoJugador() {
-		if (this.entorno.estaPresionada('c')) {
-			if (this.proyectiles.isEmpty() || Math.abs(this.personaje.x - this.proyectiles.getFirst().x) > 200) {
-				Proyectil proyectil = new Proyectil(this.personaje.x, this.personaje.y, this.personaje.derecha);
-				proyectiles.addFirst(proyectil);
-			}
+		if (this.entorno.estaPresionada('c') && this.proyectil == null) {
+			this.proyectil = new Proyectil(this.personaje.x, this.personaje.y, this.personaje.derecha, entorno);
 		}
 	}
 
-	public void eliminarProyectilesFueraDePantalla(Proyectil proyectil) {
-		double bordeIzqProyectil = proyectil.x - proyectil.ancho / 2;
-		double bordeDerProyectil = proyectil.x + proyectil.ancho / 2;
+	public double calcularDistanciaProyectilJugador() {
+		return Math.abs(this.proyectil.x - this.personaje.x);
+	}
 
-		if (bordeIzqProyectil > ANCHO_PANTALLA || bordeDerProyectil < 0) {
-			this.proyectiles.remove(proyectil);
+	public void eliminarProyectilSegunDistancia() {
+		double distanciaProyectilJugador = calcularDistanciaProyectilJugador();
+		if (distanciaProyectilJugador > ANCHO_PANTALLA) {
+			this.proyectil = null;
 		}
 	}
 
-	public void controlarProyectiles() {
-		for (int i = 0; i < this.proyectiles.size(); i++) {
-			Proyectil proyectil = this.proyectiles.get(i);
-
-			proyectil.dibujar(entorno);
-			proyectil.mover();
-			proyectil.scalaSumar();
-			this.eliminarProyectilesFueraDePantalla(proyectil);
+	public void controlarProyectil() {
+		if (this.proyectil != null) {
+			this.proyectil.dibujar(entorno);
+			this.proyectil.mover();
+			this.proyectil.scalaSumar();
+			this.eliminarProyectilSegunDistancia();
 		}
 	}
 
 	public void controlarJugador() {
 		this.dibujarJugador();
 		this.controlarLimitesPantallaJugador();
-		if (this.personaje.estaVivo && this.personaje.noTieneQueCaer) {
+		if (this.personaje.estaVivo) {
 			this.controlarSaltoJugador();
 			this.controlarCaidaJugador();
 			this.controlarCaminataJugador();
 			this.controlarDisparoJugador();
-		} 
-		
-		else if(this.personaje.estaVivo && !this.personaje.noTieneQueCaer) {	
-			this.personaje.yaTerminoLaCaida();
+		} else {
 			this.personaje.caer();
-		}
-		else {
-			this.personaje.caer();
-			
 		}
 	}
 
