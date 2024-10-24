@@ -173,11 +173,11 @@ public class Juego extends InterfaceJuego {
 
 	public void controlarColisionesConIsla() {
 		for (Isla isla : this.islas) {
-			if (Colisiones.estaSobreIsla(this.personaje.obtenerDimensiones(), isla) && this.personaje.puedeColisionar) {
-				this.personaje.enIsla = true;
+			if (Colisiones.estaSobreIsla(this.personaje.obtenerDimensiones(), isla)) {
+				this.personaje.setEnIsla(true);
 				break;
 			} else {
-				this.personaje.enIsla = false;
+				this.personaje.setEnIsla(false);
 			}
 		}
 
@@ -288,7 +288,7 @@ public class Juego extends InterfaceJuego {
 			this.personaje.morir();
 		}
 
-		if (this.proyectil != null && this.proyectil.esVisible) {
+		if (this.proyectil != null && this.proyectil.getEsVisible()) {
 			if (Colisiones.colisionan(enemigo.obtenerDimensiones(), proyectil.obtenerDimensiones())) {
 
 				this.proyectil.volverInvisible(); // el proyectil se vuelve invisible al chocar con un enemigo hasta que
@@ -362,13 +362,13 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void controlarLimitesPantallaJugador() {
-		if (this.personaje.y > ALTO_PANTALLA) {
+		if (this.personaje.getY() > ALTO_PANTALLA) {
 			this.perdiste = true;
 		}
 	}
 
 	public void controlarCaidaJugador() {
-		if (!this.personaje.enIsla && !this.personaje.isJumping) {
+		if (!this.personaje.getEnIsla() && !this.personaje.getEstaSaltando()) {
 			this.personaje.caer();
 		} else {
 			this.personaje.resetVelocidadCaida();
@@ -377,12 +377,12 @@ public class Juego extends InterfaceJuego {
 
 	public void controlarSaltoJugador() {
 		if (this.entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
-			if (this.personaje.enIsla && !this.personaje.isJumping) {
+			if (this.personaje.getEnIsla() && !this.personaje.getEstaSaltando()) {
 				this.personaje.comenzarSalto();
 			}
 		}
 
-		if (this.personaje.isJumping) {
+		if (this.personaje.getEstaSaltando()) {
 			this.personaje.subir();
 		}
 	}
@@ -395,7 +395,7 @@ public class Juego extends InterfaceJuego {
 			this.personaje.moverIzq(this.entorno);
 
 		} else {
-			if (!this.personaje.isJumping && this.personaje.enIsla) {
+			if (!this.personaje.getEstaSaltando() && this.personaje.getEnIsla()) {
 				this.personaje.quieto();
 			}
 		}
@@ -403,12 +403,13 @@ public class Juego extends InterfaceJuego {
 
 	public void controlarDisparoJugador() {
 		if (this.entorno.estaPresionada('c') && this.proyectil == null) {
-			this.proyectil = new Proyectil(this.personaje.x, this.personaje.y, this.personaje.derecha, entorno);
+			this.proyectil = new Proyectil(this.personaje.getX(), this.personaje.getY(), this.personaje.getDerecha());
+			// getDerecha() le pasa al proyectil la dirección a la que se debe mover
 		}
 	}
 
 	public double calcularDistanciaProyectilJugador() {
-		return Math.abs(this.proyectil.x - this.personaje.x);
+		return Math.abs(this.proyectil.getX() - this.personaje.getX());
 	}
 
 	public void eliminarProyectilSegunDistancia() {
@@ -430,7 +431,7 @@ public class Juego extends InterfaceJuego {
 	public void controlarJugador() {
 		this.dibujarJugador();
 		this.controlarLimitesPantallaJugador();
-		if (this.personaje.estaVivo) {
+		if (this.personaje.getEstaVivo()) {
 			this.controlarSaltoJugador();
 			this.controlarCaidaJugador();
 			this.controlarCaminataJugador();

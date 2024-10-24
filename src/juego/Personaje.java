@@ -6,8 +6,8 @@ import java.awt.Rectangle;
 import entorno.Entorno;
 
 public class Personaje {
-	double x;
-	double y;
+	private double x;
+	private double y;
 
 	private static final int ALTURA_DEL_SALTO = 170; // altura en pixeles del salto
 	private static final double ESCALA = 0.5;
@@ -51,39 +51,58 @@ public class Personaje {
 	private static final Image IMAGEN_SALTAR_IZQ = entorno.Herramientas
 			.cargarImagen("imagenes/personaje/izquierda/saltar.png");
 
-	Image imagen = IMAGEN_QUIETO_DER;
+	private Image imagen = IMAGEN_QUIETO_DER;
 
-	double ancho = imagen.getWidth(null) * ESCALA;
-	double alto = imagen.getHeight(null) * ESCALA;
+	private double ancho = imagen.getWidth(null) * ESCALA;
+	private double alto = imagen.getHeight(null) * ESCALA;
 
 	private double velocidadSalto = VELOCIDAD_INICIAL_SALTO;
 	private double velocidadCaida = VELOCIDAD_INICIAL_CAIDA;
 
-	public boolean enIsla;
+	private boolean enIsla;
 
 	private int frame = 0;
 	private long tiempoAnterior = 0;
-	
-	
-	public boolean puedeColisionar = true;
-	
-	public Boolean derecha = true; // direccion del personaje
 
-	double alturaAlComenzarSalto; // coordenada en el eje y del personaje al comenzar el salto
-	public boolean isJumping = false;
+	private Boolean derecha = true; // direccion del personaje
 
-	public boolean estaVivo = true;
-	public int anguloImagen = 0;
-	
-	//caerse de la isla cuando colisiona con un enemigo
-	public boolean noTieneQueCaer = true;
-	private double Yinicial;
-	private final double caidaLimite= 55;
-	
+	private double alturaAlComenzarSalto; // coordenada en el eje y del personaje al comenzar el salto
+	private boolean estaSaltando = false;
+
+	private boolean estaVivo = true;
+	private int anguloImagen = 0;
 
 	public Personaje(double x, double y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public boolean getEnIsla() {
+		return this.enIsla;
+	}
+
+	public void setEnIsla(boolean enIsla) {
+		this.enIsla = enIsla;
+	}
+
+	public boolean getEstaSaltando() {
+		return this.estaSaltando;
+	}
+
+	public boolean getEstaVivo() {
+		return this.estaVivo;
+	}
+
+	public boolean getDerecha() {
+		return this.derecha;
+	}
+
+	public double getX() {
+		return this.x;
+	}
+
+	public double getY() {
+		return this.y;
 	}
 
 	public void dibujar(Entorno entorno) {
@@ -128,7 +147,7 @@ public class Personaje {
 
 	public void animar(Entorno entorno) {
 		long tiempoActual = entorno.tiempo();
-		if (tiempoActual - this.tiempoAnterior > 150 && !this.isJumping && this.enIsla) {
+		if (tiempoActual - this.tiempoAnterior > 150 && !this.estaSaltando && this.enIsla) {
 			this.tiempoAnterior = tiempoActual;
 			this.imagen = this.derecha ? IMAGENES_DER[frame] : IMAGENES_IZQ[frame];
 			this.frame = (frame + 1) % IMAGENES_IZQ.length;
@@ -141,29 +160,6 @@ public class Personaje {
 		} else {
 			this.imagen = IMAGEN_QUIETO_IZQ;
 		}
-	}
-	
-	public void caerseDeLaIsla() {
-		this.Yinicial = this.y;
-		this.noTieneQueCaer = false;
-		this.isJumping = false;
-		this.puedeColisionar = false;
-		this.imagen = IMAGEN_CAER_DER;
-		this.anguloImagen = 180;	
-	}
-	
-	public void yaTerminoLaCaida() {
-		
-		double caidaHastaCuando = this.Yinicial + this.caidaLimite;
-		
-		if(this.y >= caidaHastaCuando) {
-			this.puedeColisionar = true;
-			this.noTieneQueCaer = true;
-			this.anguloImagen = 0;
-			
-			
-		}
-		
 	}
 
 	public void morir() {
@@ -178,7 +174,7 @@ public class Personaje {
 		} else {
 			this.imagen = IMAGEN_SALTAR_IZQ;
 		}
-		this.isJumping = true;
+		this.estaSaltando = true;
 		this.alturaAlComenzarSalto = this.y;
 	}
 
@@ -188,7 +184,7 @@ public class Personaje {
 				: this.velocidadSalto - GRAVEDAD; // La velocidad inicial del salto ira disminuyendo por efecto de la
 													// gravedad
 		if (this.alturaAlComenzarSalto > this.y + ALTURA_DEL_SALTO) {
-			this.isJumping = false;
+			this.estaSaltando = false;
 			this.velocidadSalto = VELOCIDAD_INICIAL_SALTO;
 			this.caer();
 		}

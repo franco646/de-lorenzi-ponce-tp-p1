@@ -6,42 +6,46 @@ import java.awt.Rectangle;
 import entorno.Entorno;
 
 public class Proyectil {
-	double x;
-	double y;
+	private double x;
+	private double y;
+	private boolean derecha; // la dirección del proyectil
 
-	boolean derecha;
+	private boolean esVisible = true;
 
-	public static final int VELOCIDAD = 12;
-	private final double LIMITE_ESCALA = 0.14;
-	private final int POSICION_INICIAL = 40;
+	private double escala = 0.05;
+	private double ancho;
+	private double alto;
 
-	private final Image imagen = entorno.Herramientas.cargarImagen("imagenes/bola/fireball.png");
+	private static final int VELOCIDAD = 12;
+	private static final double LIMITE_ESCALA = 0.1;
 
-	double escala = 0.05;
+	private static final Image IMAGEN_DER = entorno.Herramientas.cargarImagen("imagenes/proyectil/proyectil-der.png");
+	private static final Image IMAGEN_IZQ = entorno.Herramientas.cargarImagen("imagenes/proyectil/proyectil-izq.png");
 
-	double ancho = this.imagen.getWidth(null) * this.escala;
-	double alto = this.imagen.getHeight(null) * this.escala;
-	public int tiempoDeCreacion;
-	public boolean esVisible = true;
+	private Image imagen = IMAGEN_DER;
 
-	public Proyectil(double x, double y, boolean derecha, Entorno entorno) {
-
-		if (derecha) {
-			this.x = x + this.POSICION_INICIAL;
-		} else {
-			this.x = x - this.POSICION_INICIAL;
-		}
-
+	public Proyectil(double x, double y, boolean derecha) {
+		this.x = derecha ? x + 20 : x - 20; // suma/resta 20px para que el proyectil spawnee delante del personaje y no
+											// sobre él
 		this.y = y;
-
-		this.derecha = derecha;
-		this.tiempoDeCreacion = entorno.tiempo();
+		this.derecha = derecha; // es la direccion hacia donde se mueve
+		this.imagen = derecha ? IMAGEN_DER : IMAGEN_IZQ;
+		this.ancho = this.imagen.getWidth(null) * this.escala;
+		this.alto = this.imagen.getHeight(null) * this.escala;
 	}
 
 	public void dibujar(Entorno e) {
 		if (this.esVisible) {
 			e.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
 		}
+	}
+
+	public double getX() {
+		return this.x;
+	}
+
+	public boolean getEsVisible() {
+		return this.esVisible;
 	}
 
 	public void mover() {
@@ -57,7 +61,7 @@ public class Proyectil {
 	}
 
 	public void scalaSumar() {
-		if (this.escala <= this.LIMITE_ESCALA) {
+		if (this.escala <= LIMITE_ESCALA) {
 			this.escala += 0.002;
 
 			this.ancho = this.imagen.getWidth(null) * this.escala;
