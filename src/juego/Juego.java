@@ -11,17 +11,18 @@ import entorno.InterfaceJuego;
 public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
+
 	private TablaInterface tablainterface;// la clase que maneja los puntos y todo eso
 
 	private Personaje personaje;
-	private int respawnPj_x = 100;// el spawn para el personaje
+	private Proyectil proyectil;
+
+	private int respawnPj_x = 100;// Spawn por defecto del personaje
 	private int respawnPj_y = 100;
 
 	private LinkedList<Gnomo> Gnomos = new LinkedList<>();// Linked de gnomos
 
 	private LinkedList<Enemigo> enemigos = new LinkedList<Enemigo>();
-
-	private Proyectil proyectil;
 
 	private LinkedList<Isla> islas = new LinkedList<Isla>();
 
@@ -127,11 +128,6 @@ public class Juego extends InterfaceJuego {
 		this.personaje = new Personaje(this.respawnPj_x, this.respawnPj_y);
 	}
 
-	private void crearSpawnJugador(int x, int y) {
-		this.respawnPj_x = x;
-		this.respawnPj_y = y - 100;
-	}
-
 	private void crearIslasInicio() {
 		for (int fila = 1; fila <= CANTIDAD_FILAS; fila++) {
 
@@ -151,7 +147,7 @@ public class Juego extends InterfaceJuego {
 
 				else {
 					medioSeccionHorizontal = (tamanioSeccionHorizontal * isla) - (tamanioSeccionHorizontal / 2);
-					if (fila == CANTIDAD_FILAS && isla == 1) { // crea el spawn del personaje en la primer isla de la
+					if (fila == CANTIDAD_FILAS && isla == 1) { // crea el spawn del jugador en la primer isla de la
 																// ultima fila
 						this.crearSpawnJugador(medioSeccionHorizontal - 100, medioSeccionVertical);
 					}
@@ -162,6 +158,11 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 
+	}
+
+	private void crearSpawnJugador(int x, int y) {
+		this.respawnPj_x = x;
+		this.respawnPj_y = y - 100;
 	}
 
 	public void controlarIslas() {
@@ -175,7 +176,7 @@ public class Juego extends InterfaceJuego {
 		for (Isla isla : this.islas) {
 			if (Colisiones.estaSobreIsla(this.personaje.obtenerDimensiones(), isla)) {
 				this.personaje.setEnIsla(true);
-				break;
+				break; // si el personaje está sobre una isla detiene el ciclo
 			} else {
 				this.personaje.setEnIsla(false);
 			}
@@ -189,7 +190,7 @@ public class Juego extends InterfaceJuego {
 				if (Colisiones.estaSobreIsla(gnomo.obtenerDimensiones(), isla)) {
 					gnomo.enisla = true;
 					gnomo.habilitacionMovimiento = true;
-					break;
+					break; // si el gnomo está sobre una isla detiene el ciclo
 				} else {
 					gnomo.enisla = false;
 				}
@@ -232,7 +233,8 @@ public class Juego extends InterfaceJuego {
 
 	private void controlarCreacionDeEnemigos() {
 		int tiempoActualEnSegundos = this.entorno.tiempo() / 1000;
-		if (tiempoActualEnSegundos > this.tiempoDeCreacionEnemigo + TIEMPO_RESPAWN_ENEMIGOS
+		if (tiempoActualEnSegundos > this.tiempoDeCreacionEnemigo + TIEMPO_RESPAWN_ENEMIGOS // añade un enemigo cada
+																							// cierto tiempo
 				&& this.enemigos.size() < CANTIDAD_MAXIMA_ENEMIGOS) {
 			this.tiempoDeCreacionEnemigo = tiempoActualEnSegundos;
 			crearEnemigos(1);
@@ -256,7 +258,7 @@ public class Juego extends InterfaceJuego {
 
 	}
 
-	private void controlarCreacionDeGnomos() {
+	private void controlarCreacionDeGnomos() { // crea gnomos cada cierto tiempo
 		int tiempoActualEnSegundos = this.entorno.tiempo() / 1000;
 		if (this.Gnomos.isEmpty() || tiempoActualEnSegundos > this.tiempoDeCreacionGnomo + TIEMPO_RESPAWN_GNOMO
 				&& this.Gnomos.size() <= CANTIDAD_MAXIMA_GNOMOS) {
@@ -284,11 +286,11 @@ public class Juego extends InterfaceJuego {
 	public void controlarColisionesEnemigo(Enemigo enemigo) {
 
 		if (Colisiones.colisionan(enemigo.obtenerDimensiones(), this.personaje.obtenerDimensiones())
-				&& enemigo.enisla) {
+				&& enemigo.enisla) { // el enemigo debe estar sobre una isla para matar al jugador
 			this.personaje.morir();
 		}
 
-		if (this.proyectil != null && this.proyectil.getEsVisible()) {
+		if (this.proyectil != null && this.proyectil.getEsVisible()) { // debe haber un proyectil visible
 			if (Colisiones.colisionan(enemigo.obtenerDimensiones(), proyectil.obtenerDimensiones())) {
 
 				this.proyectil.volverInvisible(); // el proyectil se vuelve invisible al chocar con un enemigo hasta que
