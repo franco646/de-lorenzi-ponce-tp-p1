@@ -6,35 +6,31 @@ import java.awt.Rectangle;
 import entorno.Entorno;
 
 public class Enemigo {
-
-	double xInicial;
-	double x;
-	double y;
 	
-	Image imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/real/enemigoGeneric.png");
+	private double x;
+	private double y;
+	
+	private Image imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/real/enemigoGeneric.png");
 	
 	private static final double ESCALA = 0.1;
 	private static final double VELOCIDAD = 0.7;
 	private static final double GRAVEDAD = 2.5;
 	
-	double ancho = imagen.getWidth(null) * Enemigo.ESCALA;
-	double alto = imagen.getHeight(null) * Enemigo.ESCALA;
+	private double ancho = imagen.getWidth(null) * Enemigo.ESCALA;
+	private double alto = imagen.getHeight(null) * Enemigo.ESCALA;
 
-	Image[] imagenes;
-	int frame;
-	long tiempoAnterior;
+	private int frame;
+	private long tiempoAnterior;
 
-	Boolean derecha = true;
+	private Boolean derecha = true;
 
-	boolean puedeMoverse = false;
+	private boolean puedeMoverse = false;
 
-	Boolean enisla = true;
+	private Boolean enisla = true;
 
-	public boolean is_colisionando = false;
+	private boolean colisionando = false;
 
 	public Enemigo(double x, double y) {
-
-		this.xInicial = x;
 
 		this.x = x;
 		this.y = y;
@@ -102,4 +98,34 @@ public class Enemigo {
 		return new Rectangle(x, y, ancho, alto);
 	}
 
+	//GET Y SET : 
+	
+	public boolean getPuedeMoverse() {
+		return puedeMoverse;
+	}
+
+	public void setPuedeMoverse(boolean puedeMoverse) {
+		this.puedeMoverse = puedeMoverse;
+	}
+
+	public Boolean getEnisla() {
+		return enisla;
+	}
+
+	public void setEnisla(Boolean enisla) {
+		this.enisla = enisla;
+	}
+
+	public boolean getColisionando() {
+		return colisionando;
+	}
+
+	public void setColisionando(boolean is_colisionando) {
+		this.colisionando = is_colisionando;
+	}
+
+
+	
+	
+	
 }

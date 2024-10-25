@@ -188,11 +188,11 @@ public class Juego extends InterfaceJuego {
 
 			for (Isla isla : islas) {
 				if (Colisiones.estaSobreIsla(gnomo.obtenerDimensiones(), isla)) {
-					gnomo.enisla = true;
-					gnomo.habilitacionMovimiento = true;
+					gnomo.setEnisla(true);;
+					gnomo.setHabilitacionMovimiento(true);;
 					break; // si el gnomo está sobre una isla detiene el ciclo
 				} else {
-					gnomo.enisla = false;
+					gnomo.setEnisla(false);
 				}
 			}
 
@@ -204,11 +204,11 @@ public class Juego extends InterfaceJuego {
 
 			for (Isla isla : islas) {
 				if (Colisiones.estaSobreIsla(enemigo.obtenerDimensiones(), isla)) {
-					enemigo.enisla = true;
-					enemigo.puedeMoverse = true;
+					enemigo.setEnisla(true);
+					enemigo.setPuedeMoverse(true);
 					break;
 				} else {
-					enemigo.enisla = false;
+					enemigo.setEnisla(false);
 				}
 			}
 
@@ -220,7 +220,7 @@ public class Juego extends InterfaceJuego {
 
 		for (int i = 0; i < this.Gnomos.size(); i++) {
 
-			if (this.Gnomos.get(i).y >= 768) {
+			if (this.Gnomos.get(i).getY() >= 768) {
 
 				this.Gnomos.remove(i);
 
@@ -286,7 +286,7 @@ public class Juego extends InterfaceJuego {
 	public void controlarColisionesEnemigo(Enemigo enemigo) {
 
 		if (Colisiones.colisionan(enemigo.obtenerDimensiones(), this.personaje.obtenerDimensiones())
-				&& enemigo.enisla) { // el enemigo debe estar sobre una isla para matar al jugador
+				&& enemigo.getEnisla()) { // el enemigo debe estar sobre una isla para matar al jugador
 			this.personaje.morir();
 		}
 
@@ -307,7 +307,7 @@ public class Juego extends InterfaceJuego {
 	public void controlarColisionesGnomo(Gnomo gnomo) {
 
 		if (Colisiones.colisionan(this.personaje.obtenerDimensiones(), gnomo.obtenerDimensiones())
-				&& gnomo.y > LIMITE_SALVACION_GNOMOS - 20) {
+				&& gnomo.getY() > LIMITE_SALVACION_GNOMOS - 20) {
 
 			this.Gnomos.remove(gnomo);
 
@@ -444,14 +444,14 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void controlarMovimientosEnemigo(Enemigo enemigo) {
-		if (!enemigo.enisla && !enemigo.puedeMoverse) {
+		if (!enemigo.getEnisla() && !enemigo.getPuedeMoverse()) {
 			enemigo.caer();
 		}
 		enemigo.mover();
 	}
 
 	public void controlarMovimientosGnomo(Gnomo gnomo) {
-		if (!gnomo.enisla) {
+		if (!gnomo.getEnisla()) {
 			gnomo.caer();
 		}
 

@@ -7,11 +7,11 @@ import entorno.Entorno;
 
 public class Gnomo {
 
-	double x;
-	double y;
-	Image imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run1_izq.png");
+	private double x;
+	private double y;
+	private Image imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run1_izq.png");
 	
-	Image[] imagenesIzq = new Image[] { entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run1_izq.png"),
+	private Image[] imagenesIzq = new Image[] { entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run1_izq.png"),
 			entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run2_izq.png"),
 			entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run3_izq.png") };
 	
@@ -19,19 +19,21 @@ public class Gnomo {
 	private static final int GRAVEDAD = 3;
 	
 	
-	double ancho = imagen.getWidth(null) * Gnomo.ESCALA;
-	double alto = imagen.getHeight(null) * Gnomo.ESCALA;
+	private double ancho = imagen.getWidth(null) * Gnomo.ESCALA;
+	private double alto = imagen.getHeight(null) * Gnomo.ESCALA;
 	
 	
 
-	int frame;
-	long tiempoAnterior;
+	
 
-	Boolean derecha = true;
+	private int frame;
+	private long tiempoAnterior;
 
-	boolean habilitacionMovimiento = true;
+	private Boolean derecha = true;
 
-	Boolean enisla = false;
+	private boolean habilitacionMovimiento = true;
+
+	private Boolean enisla = false;
 
 	
 
@@ -117,6 +119,24 @@ public class Gnomo {
 		int alto = (int) this.alto;
 
 		return new Rectangle(x, y, ancho, alto);
+	}
+	
+	//set y get
+
+	public double getY() {
+		return y;
+	}
+
+	public void setHabilitacionMovimiento(boolean habilitacionMovimiento) {
+		this.habilitacionMovimiento = habilitacionMovimiento;
+	}
+
+	public Boolean getEnisla() {
+		return enisla;
+	}
+
+	public void setEnisla(Boolean enisla) {
+		this.enisla = enisla;
 	}
 
 }
