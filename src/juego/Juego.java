@@ -251,7 +251,7 @@ public class Juego extends InterfaceJuego {
 																								// enemigos
 																								// sobre la primer isla
 
-			Enemigo enemigo = new Enemigo(islaAleatoria.x, islaAleatoria.y - 200);
+			Enemigo enemigo = new Enemigo(islaAleatoria.getX(), islaAleatoria.getY() - 200);
 
 			this.enemigos.add(enemigo);
 		}

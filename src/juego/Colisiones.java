@@ -24,9 +24,9 @@ public class Colisiones {
 	public static boolean estaSobreIsla(Rectangle caja, Isla isla) {
 		int bordeInfCaja = caja.y + caja.height / 2;
 
-		double bordeDerIsla = isla.x + isla.ancho / 2;
-		double bordeIzqIsla = isla.x - isla.ancho / 2;
-		double bordeSupIsla = isla.y - isla.alto / 4; // Es un poco mas abajo del borde superior para que lo que esté
+		double bordeDerIsla = isla.getX() + isla.getAncho() / 2;
+		double bordeIzqIsla = isla.getX() - isla.getAncho() / 2;
+		double bordeSupIsla = isla.getY() - isla.getAlto() / 4; // Es un poco mas abajo del borde superior para que lo que esté
 														// encima no parezca flotando
 
 		boolean colisionHorizontal = caja.x > bordeIzqIsla && caja.x < bordeDerIsla;

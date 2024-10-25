@@ -5,14 +5,14 @@ import java.awt.Image;
 import entorno.Entorno;
 
 public class Isla {
-	public double x;
-	public double y;
-	public double ancho;
-	public double alto;
+	private double x;
+	private double y;
+	private double ancho;
+	private double alto;
 
-	double escala;
+	private double escala;
 
-	Image imagen;
+	private Image imagen;
 
 	public Isla(double x, double y) {
 		this.x = x;
@@ -30,4 +30,42 @@ public class Isla {
 		// ColisionVisible.dibujar(e, this);
 		// PARA HACER VISIBLE EL TAMAÑO DE LA COLISION PARA LAS PRUEBAS
 	}
+	
+	//set y get : 
+	
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double getAncho() {
+		return ancho;
+	}
+
+	public void setAncho(double ancho) {
+		this.ancho = ancho;
+	}
+
+	public double getAlto() {
+		return alto;
+	}
+
+	public void setAlto(double alto) {
+		this.alto = alto;
+	}
+
+
+	
+	
+	
 }
