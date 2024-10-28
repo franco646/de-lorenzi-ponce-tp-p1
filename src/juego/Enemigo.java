@@ -6,21 +6,18 @@ import java.awt.Rectangle;
 import entorno.Entorno;
 
 public class Enemigo {
-	
+
 	private double x;
 	private double y;
-	
+
 	private Image imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/real/enemigoGeneric.png");
-	
+
 	private static final double ESCALA = 0.1;
 	private static final double VELOCIDAD = 0.7;
 	private static final double GRAVEDAD = 2.5;
-	
+
 	private double ancho = imagen.getWidth(null) * Enemigo.ESCALA;
 	private double alto = imagen.getHeight(null) * Enemigo.ESCALA;
-
-	private int frame;
-	private long tiempoAnterior;
 
 	private Boolean derecha = true;
 
@@ -30,32 +27,44 @@ public class Enemigo {
 
 	private boolean colisionando = false;
 
+	private boolean lanzoBomba = false;
+
 	public Enemigo(double x, double y) {
 
 		this.x = x;
 		this.y = y;
-		
+
 		this.derecha = this.numeroAleatorio();
 
-		this.frame = 0;
+	}
 
-		this.tiempoAnterior = System.currentTimeMillis();
+	public boolean getLanzoBomba() {
+		return this.lanzoBomba;
+	}
 
+	public void setLanzoBomba(boolean lanzoBomba) {
+		this.lanzoBomba = lanzoBomba;
+	}
+
+	public double getX() {
+		return this.x;
+	}
+
+	public double getY() {
+		return this.y;
 	}
 
 	private boolean numeroAleatorio() {
 		int random = (int) (Math.random() * 2);
 		boolean boleano;
-		
-		if(random == 0) {
+
+		if (random == 0) {
 			boleano = false;
-		}
-		else {
+		} else {
 			boleano = true;
 		}
-		
+
 		return boleano;
-		
 
 	}
 
@@ -78,7 +87,7 @@ public class Enemigo {
 
 		else if (!this.derecha) {
 
-			this.x -=Enemigo.VELOCIDAD;
+			this.x -= Enemigo.VELOCIDAD;
 
 		}
 
@@ -98,8 +107,8 @@ public class Enemigo {
 		return new Rectangle(x, y, ancho, alto);
 	}
 
-	//GET Y SET : 
-	
+	// GET Y SET :
+
 	public boolean getPuedeMoverse() {
 		return puedeMoverse;
 	}
@@ -124,8 +133,4 @@ public class Enemigo {
 		this.colisionando = is_colisionando;
 	}
 
-
-	
-	
-	
 }

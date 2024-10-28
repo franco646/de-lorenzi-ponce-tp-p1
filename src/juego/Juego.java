@@ -26,11 +26,14 @@ public class Juego extends InterfaceJuego {
 
 	private LinkedList<Isla> islas = new LinkedList<Isla>();
 
+	private LinkedList<Bomba> bombas = new LinkedList<Bomba>();
+
 	private static final int CANTIDAD_MAXIMA_GNOMOS = 5;
 	private static final int TIEMPO_RESPAWN_GNOMO = 2; // en segundos
 	private static final int CANTIDAD_INICIAL_ENEMIGOS = 5;
 	private static final int CANTIDAD_MAXIMA_ENEMIGOS = 10;
 	private static final int TIEMPO_RESPAWN_ENEMIGOS = 5; // en segundos
+	private static int TIEMPO_RESPAWN_BOMBAS = 5 * 1000; // en milesimas
 
 	private static final int CANTIDAD_FILAS = 5;
 
@@ -38,8 +41,9 @@ public class Juego extends InterfaceJuego {
 
 	private static final int CANTIDAD_DE_GNOMOS_PARA_PERDER = 10;
 
-	private int tiempoDeCreacionGnomo; // guarda el tiempo del momento en el que se creó el ultimo gnomo
-	private int tiempoDeCreacionEnemigo; // guarda el tiempo del momento en el que se creó el ultimo Enemigo
+	private int tiempoDeCreacionUltimoGnomo; // guarda el tiempo del momento en el que se creó el ultimo gnomo
+	private int tiempoDeCreacionUltimoEnemigo; // guarda el tiempo del momento en el que se creó el ultimo Enemigo
+	private int tiempoDeCreacionUltimaBomba = 0;
 
 	private boolean perdiste = false;
 	private boolean ganaste = false;
@@ -96,6 +100,7 @@ public class Juego extends InterfaceJuego {
 			this.controlarGnomos();
 			this.controlarJugador();
 			this.controlarProyectil();
+			this.controlarBombas();
 
 		}
 
@@ -239,10 +244,11 @@ public class Juego extends InterfaceJuego {
 
 	private void controlarCreacionDeEnemigos() {
 		int tiempoActualEnSegundos = this.entorno.tiempo() / 1000;
-		if (tiempoActualEnSegundos > this.tiempoDeCreacionEnemigo + TIEMPO_RESPAWN_ENEMIGOS // añade un enemigo cada
-																							// cierto tiempo
+		if (tiempoActualEnSegundos > this.tiempoDeCreacionUltimoEnemigo + TIEMPO_RESPAWN_ENEMIGOS // añade un enemigo
+																									// cada
+				// cierto tiempo
 				&& this.enemigos.size() < CANTIDAD_MAXIMA_ENEMIGOS) {
-			this.tiempoDeCreacionEnemigo = tiempoActualEnSegundos;
+			this.tiempoDeCreacionUltimoEnemigo = tiempoActualEnSegundos;
 			crearEnemigos(1);
 		}
 	}
@@ -266,9 +272,9 @@ public class Juego extends InterfaceJuego {
 
 	private void controlarCreacionDeGnomos() { // crea gnomos cada cierto tiempo
 		int tiempoActualEnSegundos = this.entorno.tiempo() / 1000;
-		if (this.Gnomos.isEmpty() || tiempoActualEnSegundos > this.tiempoDeCreacionGnomo + TIEMPO_RESPAWN_GNOMO
+		if (this.Gnomos.isEmpty() || tiempoActualEnSegundos > this.tiempoDeCreacionUltimoGnomo + TIEMPO_RESPAWN_GNOMO
 				&& this.Gnomos.size() <= CANTIDAD_MAXIMA_GNOMOS) {
-			this.tiempoDeCreacionGnomo = tiempoActualEnSegundos; // guarda tiempo en segundos
+			this.tiempoDeCreacionUltimoGnomo = tiempoActualEnSegundos; // guarda tiempo en segundos
 			Gnomo gnomo = new Gnomo(ANCHO_PANTALLA / 2, 0);
 			this.Gnomos.add(gnomo);
 		}
@@ -310,6 +316,12 @@ public class Juego extends InterfaceJuego {
 		}
 	}
 
+	public void controlarColisionesExplosion(Bomba bomba) {
+		if (Colisiones.colisionan(bomba.obtenerDimensiones(), this.personaje.obtenerDimensiones())) {
+			this.personaje.morir();
+		}
+	}
+
 	public void controlarColisionesGnomo(Gnomo gnomo) {
 
 		if (Colisiones.colisionan(this.personaje.obtenerDimensiones(), gnomo.obtenerDimensiones())
@@ -337,6 +349,33 @@ public class Juego extends InterfaceJuego {
 
 	}
 
+	public void controlarBombas() {
+		for (int i = 0; i < this.bombas.size(); i++) {
+
+			Bomba bomba = this.bombas.get(i);
+
+			bomba.dibujar(entorno);
+			if (bomba.getExploto()) {
+				this.controlarColisionesExplosion(bomba);
+				this.controlarEliminacionBomba(bomba);
+			}
+			this.controlarExplosionBomba(bomba);
+		}
+	}
+
+	public void controlarEliminacionBomba(Bomba bomba) {
+		int tiempoActual = entorno.tiempo();
+		int tiempoDesdeExplosion = tiempoActual - bomba.getTiempoAlMomenteDeExplosion();
+
+		if (tiempoDesdeExplosion > 1000) {
+			this.bombas.remove(bomba);
+		}
+	}
+
+	public void controlarExplosionBomba(Bomba bomba) {
+		bomba.controlarExplosion(entorno);
+	}
+
 	public void controlarGnomos() {
 		for (int i = 0; i < this.Gnomos.size(); i++) {
 
@@ -362,11 +401,23 @@ public class Juego extends InterfaceJuego {
 
 			enemigo.dibujar(entorno);
 
+			this.contolarBombasEnemigo(enemigo);
 			this.controlarMovimientosEnemigo(enemigo);
 			this.controlarColisionesEnemigo(enemigo);
 
 		}
 
+	}
+
+	public void contolarBombasEnemigo(Enemigo enemigo) { // cada 5 segundos un enemigo deja una bomba
+		int tiempoActual = entorno.tiempo();
+		int tiempoDesdeLaLaUltimaBomba = tiempoActual - this.tiempoDeCreacionUltimaBomba; // el tiempo que transcurrio
+																							// desde la creacion de la
+																							// ultima bomba
+		if (tiempoDesdeLaLaUltimaBomba > TIEMPO_RESPAWN_BOMBAS && enemigo.getEnisla()) {
+			this.tiempoDeCreacionUltimaBomba = entorno.tiempo();
+			this.bombas.add(new Bomba(enemigo.getX(), enemigo.getY(), entorno));
+		}
 	}
 
 	public void controlarLimitesPantallaJugador() {
