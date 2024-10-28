@@ -110,6 +110,7 @@ public class Personaje {
 	}
 
 	public void caer() {
+		this.resetVelocidadSalto();
 		if (this.derecha) {
 			this.imagen = IMAGEN_CAER_DER;
 		} else {
@@ -119,6 +120,11 @@ public class Personaje {
 
 		this.velocidadCaida = this.velocidadCaida > VELOCIDAD_FINAL_CAIDA ? VELOCIDAD_FINAL_CAIDA
 				: this.velocidadCaida + GRAVEDAD;
+	}
+
+	public void resetVelocidadSalto() {
+		this.estaSaltando = false;
+		this.velocidadSalto = VELOCIDAD_INICIAL_SALTO;
 	}
 
 	public void resetVelocidadCaida() {

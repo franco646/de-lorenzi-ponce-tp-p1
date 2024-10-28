@@ -26,11 +26,26 @@ public class Colisiones {
 
 		double bordeDerIsla = isla.getX() + isla.getAncho() / 2;
 		double bordeIzqIsla = isla.getX() - isla.getAncho() / 2;
-		double bordeSupIsla = isla.getY() - isla.getAlto() / 4; // Es un poco mas abajo del borde superior para que lo que esté
-														// encima no parezca flotando
+		double bordeSupIsla = isla.getY() - isla.getAlto() / 4; // Es un poco mas abajo del borde superior para que lo
+																// que esté
+																// encima no parezca flotando
 
 		boolean colisionHorizontal = caja.x > bordeIzqIsla && caja.x < bordeDerIsla;
 		boolean colisionVertical = Math.abs(bordeInfCaja - bordeSupIsla) <= 5;
+
+		return colisionHorizontal && colisionVertical;
+
+	}
+
+	public static boolean colisionaConInferiorIsla(Rectangle caja, Isla isla) {
+		int bordeSupCaja = caja.y - caja.height / 2;
+
+		double bordeDerIsla = isla.getX() + isla.getAncho() / 2;
+		double bordeIzqIsla = isla.getX() - isla.getAncho() / 2;
+		double bordeSupIsla = isla.getY() - isla.getAlto() / 4;
+
+		boolean colisionHorizontal = caja.x > bordeIzqIsla && caja.x < bordeDerIsla;
+		boolean colisionVertical = Math.abs(bordeSupCaja - bordeSupIsla) <= 5;
 
 		return colisionHorizontal && colisionVertical;
 

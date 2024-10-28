@@ -180,6 +180,10 @@ public class Juego extends InterfaceJuego {
 			} else {
 				this.personaje.setEnIsla(false);
 			}
+
+			if (Colisiones.colisionaConInferiorIsla(this.personaje.obtenerDimensiones(), isla)) {
+				this.personaje.caer();
+			}
 		}
 
 		for (int i = 0; i < this.Gnomos.size(); i++) {
@@ -188,8 +192,10 @@ public class Juego extends InterfaceJuego {
 
 			for (Isla isla : islas) {
 				if (Colisiones.estaSobreIsla(gnomo.obtenerDimensiones(), isla)) {
-					gnomo.setEnisla(true);;
-					gnomo.setHabilitacionMovimiento(true);;
+					gnomo.setEnisla(true);
+					;
+					gnomo.setHabilitacionMovimiento(true);
+					;
 					break; // si el gnomo está sobre una isla detiene el ciclo
 				} else {
 					gnomo.setEnisla(false);
