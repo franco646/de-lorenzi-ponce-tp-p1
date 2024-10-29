@@ -512,7 +512,7 @@ public class Juego extends InterfaceJuego {
 			gnomo.caer();
 		}
 
-		gnomo.mover();
+		gnomo.mover(entorno);
 	}
 
 	@SuppressWarnings("unused")

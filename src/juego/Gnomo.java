@@ -9,24 +9,25 @@ public class Gnomo {
 
 	private double x;
 	private double y;
-	private Image imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run1_izq.png");
-	
-	private Image[] imagenesIzq = new Image[] { entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run1_izq.png"),
-			entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run2_izq.png"),
-			entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run3_izq.png") };
-	
-	private static final int ESCALA = 2;
-	private static final int GRAVEDAD = 3;
-	
-	
-	private double ancho = imagen.getWidth(null) * Gnomo.ESCALA;
-	private double alto = imagen.getHeight(null) * Gnomo.ESCALA;
-	
-	
 
-	
+	private static Image[] IMAGENES_IZQ = new Image[] {
+			entorno.Herramientas.cargarImagen("imagenes/gnomo/izquierda/Run1_izq.png"),
+			entorno.Herramientas.cargarImagen("imagenes/gnomo/izquierda/Run2_izq.png"),
+			entorno.Herramientas.cargarImagen("imagenes/gnomo/izquierda/Run3_izq.png") };
 
-	private int frame;
+	private static Image[] IMAGENES_DER = new Image[] {
+			entorno.Herramientas.cargarImagen("imagenes/gnomo/derecha/Run1_der.png"),
+			entorno.Herramientas.cargarImagen("imagenes/gnomo/derecha/Run2_der.png"),
+			entorno.Herramientas.cargarImagen("imagenes/gnomo/derecha/Run3_der.png") };
+
+	private Image imagen = IMAGENES_DER[0];
+
+	private static int ESCALA = 2;
+
+	private double ancho = imagen.getWidth(null) * ESCALA;
+	private double alto = imagen.getHeight(null) * ESCALA;
+
+	private int frame = 0;
 	private long tiempoAnterior;
 
 	private Boolean derecha = true;
@@ -35,17 +36,9 @@ public class Gnomo {
 
 	private Boolean enisla = false;
 
-	
-
 	public Gnomo(double x, double y) {
-
 		this.x = x;
 		this.y = y;
-
-		this.frame = 0;
-
-		this.tiempoAnterior = System.currentTimeMillis();
-
 	}
 
 	public void dibujar(Entorno entorno) {
@@ -53,63 +46,47 @@ public class Gnomo {
 
 	}
 
-	private boolean numeroAleatorio() {
+	private boolean booleanoAleatorio() {
 		int random = (int) (Math.random() * 2);
 		boolean boleano;
-		
-		if(random == 0) {
+
+		if (random == 0) {
 			boleano = false;
-		}
-		else {
+		} else {
 			boleano = true;
 		}
-		
+
 		return boleano;
-		
 
 	}
 
 	public void caer() {
-
 		if (this.habilitacionMovimiento) {
 			this.habilitacionMovimiento = false;
-			this.derecha = this.numeroAleatorio();
-
+			this.derecha = this.booleanoAleatorio();
 		}
-
-		this.imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/izquierda/Run2_izq.png");
-		this.y = this.y + Gnomo.GRAVEDAD;
-		this.enisla = false;
+		this.y = this.y + 3;
 	}
 
-	public void mover() {
-
-		if (this.x >= 1366) {
-			this.x = 0;
-		} else if (this.x <= 0) {
-			this.x = 1366;
-		}
-
+	public void mover(Entorno entorno) {
 		if (this.habilitacionMovimiento) {
 			if (this.derecha) {
-				long tiempoActual = System.currentTimeMillis();
-				if (tiempoActual - this.tiempoAnterior > 150) {
-					this.tiempoAnterior = tiempoActual;
-					this.imagen = this.imagenesIzq[frame];
-					this.frame = (frame + 1) % this.imagenesIzq.length;
-				}
+				this.animar(entorno);
 				this.x = this.x + 1;
-			} else if (this.derecha == false) {
-				long tiempoActual = System.currentTimeMillis();
-				if (tiempoActual - this.tiempoAnterior > 150) {
-					this.tiempoAnterior = tiempoActual;
-					this.imagen = this.imagenesIzq[frame];
-					this.frame = (frame + 1) % this.imagenesIzq.length;
-				}
+			} else {
+				this.animar(entorno);
 				this.x = this.x - 1;
 			}
 		}
+	}
 
+	public void animar(Entorno entorno) {
+		long tiempoActual = entorno.tiempo();
+		if (tiempoActual - this.tiempoAnterior > 150) {
+			this.tiempoAnterior = tiempoActual;
+			this.imagen = this.derecha ? IMAGENES_DER[frame] : IMAGENES_IZQ[frame];
+			this.frame = (frame + 1) % IMAGENES_IZQ.length;
+		}
 	}
 
 	public Rectangle obtenerDimensiones() {
@@ -120,8 +97,8 @@ public class Gnomo {
 
 		return new Rectangle(x, y, ancho, alto);
 	}
-	
-	//set y get
+
+	// set y get
 
 	public double getY() {
 		return y;
