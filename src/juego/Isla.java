@@ -7,32 +7,24 @@ import entorno.Entorno;
 public class Isla {
 	private double x;
 	private double y;
-	private double ancho;
-	private double alto;
 
-	private double escala;
+	private static double ESCALA = 0.12;
 
-	private Image imagen;
+	private static Image IMAGEN = entorno.Herramientas.cargarImagen("imagenes/isla/pngegg.png");
+
+	private double ancho = IMAGEN.getWidth(null) * ESCALA;
+	private double alto = IMAGEN.getHeight(null) * ESCALA;
 
 	public Isla(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.escala = 0.12;
-		this.imagen = entorno.Herramientas.cargarImagen("imagenes/isla/pngegg.png");
-		this.ancho = imagen.getWidth(null) * this.escala;
-		this.alto = imagen.getHeight(null) * this.escala;
-		
+
 	}
 
 	public void dibujar(Entorno e) {
-		e.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
-
-		// ColisionVisible.dibujar(e, this);
-		// PARA HACER VISIBLE EL TAMAÑO DE LA COLISION PARA LAS PRUEBAS
+		e.dibujarImagen(IMAGEN, this.x, this.y, 0, ESCALA);
 	}
-	
-	//set y get : 
-	
+
 	public void setX(double x) {
 		this.x = x;
 	}
@@ -40,6 +32,7 @@ public class Isla {
 	public void setY(double y) {
 		this.y = y;
 	}
+
 	public double getX() {
 		return x;
 	}
@@ -64,8 +57,4 @@ public class Isla {
 		this.alto = alto;
 	}
 
-
-	
-	
-	
 }
