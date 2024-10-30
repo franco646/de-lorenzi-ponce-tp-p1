@@ -10,36 +10,46 @@ public class TablaInterface {
 	private int eliminados;
 	
 	private String tiempototal;
-	
+
+	private final double CONSTANTE_x = 1366 / 5; 
+
 	
 	public TablaInterface(int tiempoInicial)
 	{
 		this.tiempo = tiempoInicial;
 	}
-	public void dibujar(Entorno e) {
-		
+	public void dibujar(Entorno e) 
+	{
 		this.convertirTiempo();
 		
-		e.escribirTexto(this.tiempototal, 15, 15);
+		e.cambiarFont("arial", 20, Color.orange);
 		
+		e.escribirTexto(this.tiempototal, 0, 15);
 		
 		String sal = Integer.toString(this.salvados);
 		
 		String SalvadosTotal = "Salvados :" + sal; 
 		
-		e.escribirTexto(SalvadosTotal, 160, 15);
+		e.cambiarFont("arial", 20, Color.green);
+		
+		e.escribirTexto(SalvadosTotal, this.CONSTANTE_x, 15);
 		
 		String per = Integer.toString(this.perdidos);
 		
 		String perTotal = "Perdidos :" + per; 
 		
-		e.escribirTexto(perTotal, 275, 15);
+		e.cambiarFont("arial", 20, Color.red);
+		
+		e.escribirTexto(perTotal, this.CONSTANTE_x * 3, 15);
 		
 		String eli = Integer.toString(this.eliminados);
 		
 		String eliTotal = "Eliminados :" + eli; 
 		
-		e.escribirTexto(eliTotal, 375, 15);
+		e.cambiarFont("arial", 20, Color.magenta);
+		
+		e.escribirTexto(eliTotal, this.CONSTANTE_x * 4, 15);
+	
 		
 	}
 	
