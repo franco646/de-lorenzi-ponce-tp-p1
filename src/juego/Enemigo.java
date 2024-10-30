@@ -12,9 +12,8 @@ public class Enemigo {
 
 	private Image imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/real/enemigoGeneric.png");
 
-	private static final double ESCALA = 0.1;
-	private static final double VELOCIDAD = 0.7;
-	private static final double GRAVEDAD = 2.5;
+	private static double ESCALA = 0.1;
+	private static double VELOCIDAD = 0.7;
 
 	private double ancho = imagen.getWidth(null) * Enemigo.ESCALA;
 	private double alto = imagen.getHeight(null) * Enemigo.ESCALA;
@@ -34,7 +33,7 @@ public class Enemigo {
 		this.x = x;
 		this.y = y;
 
-		this.derecha = this.numeroAleatorio();
+		this.derecha = this.booleanoAleatorio();
 
 	}
 
@@ -54,7 +53,7 @@ public class Enemigo {
 		return this.y;
 	}
 
-	private boolean numeroAleatorio() {
+	private boolean booleanoAleatorio() {
 		int random = (int) (Math.random() * 2);
 		boolean boleano;
 
@@ -69,8 +68,7 @@ public class Enemigo {
 	}
 
 	public void caer() {
-		this.imagen = entorno.Herramientas.cargarImagen("imagenes/enemigo/real/enemigoGeneric.png");
-		this.y = this.y + Enemigo.GRAVEDAD;
+		this.y = this.y + 2.5;
 
 	}
 
@@ -81,13 +79,13 @@ public class Enemigo {
 
 		if (this.derecha) {
 
-			this.x += Enemigo.VELOCIDAD;
+			this.x += VELOCIDAD;
 
 		}
 
 		else if (!this.derecha) {
 
-			this.x -= Enemigo.VELOCIDAD;
+			this.x -= VELOCIDAD;
 
 		}
 

@@ -20,7 +20,7 @@ public class Juego extends InterfaceJuego {
 	private int respawnPj_x = 100;// Spawn por defecto del personaje
 	private int respawnPj_y = 100;
 
-	private LinkedList<Gnomo> Gnomos = new LinkedList<>();// Linked de gnomos
+	private LinkedList<Gnomo> gnomos = new LinkedList<>();// Linked de gnomos
 
 	private LinkedList<Enemigo> enemigos = new LinkedList<Enemigo>();
 
@@ -28,18 +28,18 @@ public class Juego extends InterfaceJuego {
 
 	private LinkedList<Bomba> bombas = new LinkedList<Bomba>();
 
-	private static final int CANTIDAD_MAXIMA_GNOMOS = 5;
-	private static final int TIEMPO_RESPAWN_GNOMO = 2; // en segundos
-	private static final int CANTIDAD_INICIAL_ENEMIGOS = 5;
-	private static final int CANTIDAD_MAXIMA_ENEMIGOS = 10;
-	private static final int TIEMPO_RESPAWN_ENEMIGOS = 5; // en segundos
+	private static int CANTIDAD_MAXIMA_GNOMOS = 5;
+	private static int TIEMPO_RESPAWN_GNOMO = 2; // en segundos
+	private static int CANTIDAD_INICIAL_ENEMIGOS = 5;
+	private static int CANTIDAD_MAXIMA_ENEMIGOS = 10;
+	private static int TIEMPO_RESPAWN_ENEMIGOS = 5; // en segundos
 	private static int TIEMPO_RESPAWN_BOMBAS = 5 * 1000; // en milesimas
 
-	private static final int CANTIDAD_FILAS = 5;
+	private static int CANTIDAD_FILAS = 5;
 
-	private static final int CANTIDAD_DE_GNOMOS_PARA_GANAR = 10;
+	private static int CANTIDAD_DE_GNOMOS_PARA_GANAR = 10;
 
-	private static final int CANTIDAD_DE_GNOMOS_PARA_PERDER = 10;
+	private static int CANTIDAD_DE_GNOMOS_PARA_PERDER = 10;
 
 	private int tiempoDeCreacionUltimoGnomo; // guarda el tiempo del momento en el que se creó el ultimo gnomo
 	private int tiempoDeCreacionUltimoEnemigo; // guarda el tiempo del momento en el que se creó el ultimo Enemigo
@@ -48,17 +48,17 @@ public class Juego extends InterfaceJuego {
 	private boolean perdiste = false;
 	private boolean ganaste = false;
 
-	private static final int ANCHO_PANTALLA = 1366;
-	private static final int ALTO_PANTALLA = 768;
+	private static int ANCHO_PANTALLA = 1366;
+	private static int ALTO_PANTALLA = 768;
 
-	private static final int LIMITE_SALVACION_GNOMOS = (ALTO_PANTALLA / 2) - 20;// esto es para que los Gnomos solo
-																				// puedan
-																				// ser salvados en las ultimas dos filas
+	private static int LIMITE_SALVACION_GNOMOS = (ALTO_PANTALLA / 2) - 20;// esto es para que los Gnomos solo
+																			// puedan
+																			// ser salvados en las ultimas dos filas
 
-	private static final Image FONDO = Herramientas.cargarImagen("imagenes/fondo/download (1).jpeg");
-	private static final Image CASA_DE_GNOMOS = Herramientas.cargarImagen("imagenes/casa/casa de gnomos.png");
-	private static final Image GAME_OVER_IMAGEN = Herramientas.cargarImagen("imagenes/finalJuego/gameOver.png");
-	private static final Image VICTORY_IMAGEN = Herramientas.cargarImagen("imagenes/finalJuego/youWin.png");
+	private static Image FONDO = Herramientas.cargarImagen("imagenes/fondo/download (1).jpeg");
+	private static Image CASA_DE_GNOMOS = Herramientas.cargarImagen("imagenes/casa/casa de gnomos.png");
+	private static Image GAME_OVER_IMAGEN = Herramientas.cargarImagen("imagenes/finalJuego/gameOver.png");
+	private static Image VICTORY_IMAGEN = Herramientas.cargarImagen("imagenes/finalJuego/youWin.png");
 
 	private double winAndOverScale;
 	private double giroImagen;
@@ -191,9 +191,9 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 
-		for (int i = 0; i < this.Gnomos.size(); i++) {
+		for (int i = 0; i < this.gnomos.size(); i++) {
 
-			Gnomo gnomo = this.Gnomos.get(i);
+			Gnomo gnomo = this.gnomos.get(i);
 
 			for (Isla isla : islas) {
 				if (Colisiones.estaSobreIsla(gnomo.obtenerDimensiones(), isla)) {
@@ -229,11 +229,11 @@ public class Juego extends InterfaceJuego {
 
 	public void GnomoPerdidos() {
 
-		for (int i = 0; i < this.Gnomos.size(); i++) {
+		for (int i = 0; i < this.gnomos.size(); i++) {
 
-			if (this.Gnomos.get(i).getY() >= 768) {
+			if (this.gnomos.get(i).getY() >= 768) {
 
-				this.Gnomos.remove(i);
+				this.gnomos.remove(i);
 
 				this.tablainterface.sumarPerdidos();
 
@@ -272,11 +272,11 @@ public class Juego extends InterfaceJuego {
 
 	private void controlarCreacionDeGnomos() { // crea gnomos cada cierto tiempo
 		int tiempoActualEnSegundos = this.entorno.tiempo() / 1000;
-		if (this.Gnomos.isEmpty() || tiempoActualEnSegundos > this.tiempoDeCreacionUltimoGnomo + TIEMPO_RESPAWN_GNOMO
-				&& this.Gnomos.size() <= CANTIDAD_MAXIMA_GNOMOS) {
+		if (this.gnomos.isEmpty() || tiempoActualEnSegundos > this.tiempoDeCreacionUltimoGnomo + TIEMPO_RESPAWN_GNOMO
+				&& this.gnomos.size() <= CANTIDAD_MAXIMA_GNOMOS) {
 			this.tiempoDeCreacionUltimoGnomo = tiempoActualEnSegundos; // guarda tiempo en segundos
 			Gnomo gnomo = new Gnomo(ANCHO_PANTALLA / 2, 0);
-			this.Gnomos.add(gnomo);
+			this.gnomos.add(gnomo);
 		}
 	}
 
@@ -327,7 +327,7 @@ public class Juego extends InterfaceJuego {
 		if (Colisiones.colisionan(this.personaje.obtenerDimensiones(), gnomo.obtenerDimensiones())
 				&& gnomo.getY() > LIMITE_SALVACION_GNOMOS - 20) {
 
-			this.Gnomos.remove(gnomo);
+			this.gnomos.remove(gnomo);
 
 			this.tablainterface.sumarSalvados();
 
@@ -339,7 +339,7 @@ public class Juego extends InterfaceJuego {
 
 			if (Colisiones.colisionan(gnomo.obtenerDimensiones(), enemigo.obtenerDimensiones())) {
 
-				this.Gnomos.remove(gnomo);
+				this.gnomos.remove(gnomo);
 
 				this.tablainterface.sumarPerdidos();
 
@@ -377,9 +377,9 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void controlarGnomos() {
-		for (int i = 0; i < this.Gnomos.size(); i++) {
+		for (int i = 0; i < this.gnomos.size(); i++) {
 
-			Gnomo gnomo = this.Gnomos.get(i);
+			Gnomo gnomo = this.gnomos.get(i);
 
 			gnomo.dibujar(entorno);
 
@@ -414,7 +414,8 @@ public class Juego extends InterfaceJuego {
 		int tiempoDesdeLaLaUltimaBomba = tiempoActual - this.tiempoDeCreacionUltimaBomba; // el tiempo que transcurrio
 																							// desde la creacion de la
 																							// ultima bomba
-		if (tiempoDesdeLaLaUltimaBomba > TIEMPO_RESPAWN_BOMBAS && enemigo.getEnisla()) {
+		if (tiempoDesdeLaLaUltimaBomba > TIEMPO_RESPAWN_BOMBAS && enemigo.getEnisla() && !enemigo.getLanzoBomba()) {
+			enemigo.setLanzoBomba(true);
 			this.tiempoDeCreacionUltimaBomba = entorno.tiempo();
 			this.bombas.add(new Bomba(enemigo.getX(), enemigo.getY(), entorno));
 		}

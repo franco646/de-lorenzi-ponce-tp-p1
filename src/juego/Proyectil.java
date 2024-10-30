@@ -34,9 +34,9 @@ public class Proyectil {
 		this.alto = this.imagen.getHeight(null) * this.escala;
 	}
 
-	public void dibujar(Entorno e) {
+	public void dibujar(Entorno entorno) {
 		if (this.esVisible) {
-			e.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
+			entorno.dibujarImagen(this.imagen, this.x, this.y, 0, this.escala);
 		}
 	}
 
