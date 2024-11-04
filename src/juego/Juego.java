@@ -320,6 +320,18 @@ public class Juego extends InterfaceJuego {
 		if (Colisiones.colisionan(bomba.obtenerDimensiones(), this.personaje.obtenerDimensiones())) {
 			this.personaje.morir();
 		}
+
+		for (int i = 0; i < this.gnomos.size(); i++) {
+
+			Gnomo gnomo = this.gnomos.get(i);
+
+			if (Colisiones.colisionan(bomba.obtenerDimensiones(), gnomo.obtenerDimensiones())) {
+				this.gnomos.remove(gnomo);
+
+				this.tablainterface.sumarSalvados();
+			}
+
+		}
 	}
 
 	public void controlarColisionesGnomo(Gnomo gnomo) {
@@ -337,7 +349,8 @@ public class Juego extends InterfaceJuego {
 
 			Enemigo enemigo = this.enemigos.get(i);
 
-			if (Colisiones.colisionan(gnomo.obtenerDimensiones(), enemigo.obtenerDimensiones())) {
+			if (Colisiones.colisionan(gnomo.obtenerDimensiones(), enemigo.obtenerDimensiones())
+					&& enemigo.getEnisla()) {
 
 				this.gnomos.remove(gnomo);
 
